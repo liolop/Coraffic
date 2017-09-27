@@ -1,0 +1,57 @@
+{
+    "id": "test1",
+    "name": "MPS-Project",
+    "title": "MakeCode Editor MPS-Project",
+    "corepkg": "core", 
+    "cloud": { 
+        "workspace": false,
+        "packages": true
+    },
+    "bundleddirs": [ 
+        "libs/core"
+    ],
+    "runtime": { 
+      "mathBlocks": true,
+      "loopsBlocks": true,
+      "logicBlocks": true,
+      "variablesBlocks": true,
+      "textBlocks": true,
+      "functionBlocks": true,
+      "listsBlocks": true 
+    },
+    "simulator": { 
+        "autoRun": true 
+    },
+    "appTheme": {
+        "logoUrl": "https://github.com/Microsoft/pxt-sample",
+        "homeUrl": "http://microsoft.github.io/pxt-sample/",
+        "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
+        "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
+        "betaUrl": "https://makecode.com/",
+        "docMenu": [
+            {
+                "name": "About",
+                "path": "/about"
+            },
+            {
+                "name": "Docs",
+                "path": "/docs"
+            }
+        ],
+        "coloredToolbox": true,
+        "monacoToolbox": true,
+        "invertedMenu": true,
+        "useStartPage": true,
+        "blocklyOptions": { 
+            "grid": {
+                "spacing": 45,
+                "length": 7,
+                "colour": "rgba(189, 195, 199, 0.30)",
+                "snap": true
+            }
+        },
+        "simAnimationEnter": "fly right in",
+        "simAnimationExit": "fly right out",
+        "disableBlockIcons": true
+    }
+}
