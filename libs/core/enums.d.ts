@@ -6,12 +6,21 @@ declare const enum Direction {
 }
 
 declare const enum ColorDirect{
+    //% block=right green
+    Right
+}
+
+declare const enum LightPos{
+    //% block=A1
+    A1
+}
+
+declare const enum LightDir{
     //% block=left
-    Left,
-    //% block=right
-    Right,
-    //% block=stop
-    Stop,
-    //% block=forward
-    Forward
+    Left
+}
+
+declare const enum CarPos{
+    //% block=a1
+    a1
 }

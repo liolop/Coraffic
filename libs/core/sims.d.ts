@@ -1,33 +1,21 @@
 // Auto-generated from simulator. Do not edit.
-declare namespace turtle {
-    /**
-     * Moves the sprite forward
-     * @param steps number of steps to move, eg: 1
-     */
-    //% weight=90
-    //% block
-    //% shim=turtle::forwardAsync promise
-    function forward(steps: number): void;
-
-    /**
-     * Moves the sprite forward
-     * @param direction the direction to turn, eg: Direction.Left
-     * @param angle degrees to turn, eg:90
-     */
-    //% weight=85
-    //% blockId=sampleTurn block="turn %direction|by %angle degrees"
-    //% shim=turtle::turnAsync promise
-    function turn(direction: Direction, angle: number): void;
-
-}
 declare namespace actions {
     /**
      * Run the car
      */
-    //% weight=90
-    //% block
+    //% weight=55
+    //% blockId=device_run block="run the car"
     //% shim=actions::runAsync promise
     function run(): void;
+
+}
+declare namespace console {
+    /**
+     * Print out message
+     */
+    //%
+    //% shim=console::log
+    function log(msg: string): void;
 
 }
 declare namespace loops {
@@ -40,45 +28,10 @@ declare namespace loops {
     //% shim=loops::forever
     function forever(body: () => void): void;
 
-    /**
-     * Pause for the specified time in milliseconds
-     * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000
-     */
-    //% help=functions/pause weight=54
-    //% block="pause (ms) %pause" blockId=device_pause
-    //% shim=loops::pauseAsync promise
-    function pause(ms: number): void;
-
-}
-declare namespace console {
-    /**
-     * Print out message
-     */
-    //%
-    //% shim=console::log
-    function log(msg: string): void;
-
 }
     /**
-     * A ghost on the screen.
+     * A Car
      */
-    //%
-    declare class Sprite {
-        /**
-         * The X-coordiante
-         */
-        //%
-        //% shim=.x
-        public x: number;
-
-        /**
-         * The Y-coordiante
-         */
-        //%
-        //% shim=.y
-        public y: number;
-
-    }
     //%
     declare class Car {
         //%
@@ -90,12 +43,8 @@ declare namespace console {
         public y: number;
 
         //%
-        //% shim=.forwardAsync promise
-        public forward(steps: number): void;
-
-        //%
-        //% shim=.runAsync promise
-        public run(): void;
+        //% shim=.angle
+        public angle: number;
 
     }
     //%
@@ -104,27 +53,35 @@ declare namespace console {
         //% shim=.x
         public x: number;
 
+        //%
+        //% shim=.y
+        public y: number;
+
+        //%
+        //% shim=.lightNum
+        public lightNum: number;
+
+        //%
+        //% shim=.direct
+        public direct: ColorDirect;
+
     }
 declare namespace objects {
-    //% block
+    /**
+     * @param position
+     */
+    //% block="Create Car at %position" blockId=device_CarPosition
     //% shim=objects::createCar
-    function createCar(): Car;
+    function createCar(position: CarPos): void;
 
     /**
+     * @param lightPos
+     * @param lightDir
      * @param direct
      */
-    //% block="Create Traffic Light %direct" blockId=device_trafficLight
-    //% shim=objects::createTrafficLight
-    function createTrafficLight(direct: ColorDirect): void;
-
-}
-declare namespace sprites {
-    /**
-     * Creates a new sprite
-     */
-    //% block
-    //% shim=sprites::createSprite
-    function createSprite(): Sprite;
+    //% block="Create Traffic Light at %lightPos | face %lightDir | with %direct light" blockId=device_LightPos
+    //% shim=objects::createTrafficLightPos
+    function createTrafficLightPos(lightPos: LightPos, lightDir: LightDir, direct: ColorDirect): void;
 
 }
 
