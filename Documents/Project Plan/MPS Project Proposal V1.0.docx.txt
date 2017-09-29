@@ -1,0 +1,77 @@
+﻿Proposed Project Ideas 
+
+
+Idea # 1     Interactive Navigation Map 
+
+
+Objective: to stimulate non-technical users to learn and manipulate code by engaging in a dynamic and interactive traffic map navigation as a simulator. 
+
+
+Description:
+Through various combinations of code blocks commands, the users can control a transportation element (known as a trip mode) and come out with his/her unique navigation path by setting up traffic rules on the established map.
+
+
+Description:
+Simulator: Traffic map 
+* Default Elements: there would be roads, street blocks, and buildings 
+* Transportation Element: Car (compact, ambulance, police, fire truck for featuring different sound effects ), Bicycle, person
+* Action:  controlled by users to make the selected transportation element move forward, backward, or make turns on specific path or crossroad, or with specific conditions;
+* Traffic Rules: users set up the traffic rules using code block commands and verify if the executed navigation route by the transportation element will match in the simulator.  
+   * Traffic lights set up on designated crossroads
+      *  LED attributes: controls various orientations and modes of lights
+      * Control attribute: controls direction, duration, and location of the lights
+   * Pedestrians set up on designated roads 
+      *  Control attribute: controls direction, duration, and location of the person
+   * Road work set up on designated roads
+      * Control attribute: controls direction, duration, and location of the roadwork
+* Logic Categories: (Object, Color, Action, Control, LED, Sound, Condition) 
+                        
+ 
+
+
+
+
+
+
+
+
+
+
+Figure: Simulator for the traffic map
+                       
+
+
+
+
+
+
+
+
+Idea # 2     Medical Diagnostic Workflow 
+
+
+Objective: to allow medical professionals and patients to generate and visualize a medical diagnostic work flow diagram and related medical expenses by manipulations of code block commands. 
+
+
+Description:
+Through various combinations of code block commands, the targeted users can create a timeline-based diagnostic workflow diagram to map their service history and view related medical expense for each. 
+
+
+Simulator: Diagnostic Workflow Diagram 
+* The Diagram: consists of several square columns laid out next to each other indicating different rounds of diagnostic workflow for each person
+   * Default Procedure Block: consists of “on start” block plus “Visit” block access from Input attributes 
+   * Columns: each square column represents one cycle of diagnostic workflow with separate blocks within it to indicate different medical services being done in a vertical order based on time of occurrence. 
+      * Services: different types of medical services(visit, lab work, medication, treatment, CT, operation, etc.) 
+      * Order:
+      * Color: differentiates different cycles of workflow with the current cycle highlighted 
+      * Shape: differentiates different types of medical services
+Details:
+
+
+   * The user can add services into procedures, and control the service execution information by setting up durations (time input), color indicators (LED category), service information (pay, milestone, and risk index), and executing logics (loop and control category);
+   * The user can decide the conditions of whether to move from one service (or procedure) to another service (or procedure) by setting up Control attributes with boolean inputs (yes or no);
+   * The medication service could be a list of medications by adding different medications into a list;
+   * After the user finish all the set ups, the user can run this program to show the patient the medical diagnostic work flow.
+
+
+Figure: Simulator of a workflow for the one patient

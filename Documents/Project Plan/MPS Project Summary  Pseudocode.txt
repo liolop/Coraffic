@@ -1,0 +1,142 @@
+Base plan - iterative 
+1. Self design map
+   1. 1 x 1 one way street, 2 streets total
+   2. 1 crossroad
+   3. 1 traffic lights
+   4. One car
+1. Car:
+   1. Designated Size
+   2. Designated Speed
+   3. Actions: 
+      1. Forward
+      2. Back
+      3. Turn - left,right
+   1. Designated position
+      1. Locates at left most point of the horizontal road
+      3.  Traffic light:
+1. Attributes:
+   1. Red
+   2. Green
+1. Refresh: No                 // tball comment: what does refresh mean? please elaborate
+2. Communication: No           // tball comment: please elaborate - you mean no communicate between lights, correct?
+3. Designated position
+   1. Locates at the crossroad
+       4.  Rules:
+1. Set up the traffic light indicator
+2. Select the car
+3. Start to let the car run
+4. Check if the car is going in the direction which traffic light indicates
+
+
+// tball: please give more detail about the map. For example: the map is tile-based, each tile has an (x,y)
+// coordinate and multiple elements can occupy the same tile. This is just one possible representation of the
+// map. You'll need more detail on the map representation. 
+
+Pseudocode
+        car = {
+                num x;
+                num y;
+                num dir = 0;
+}
+trafficLight = {               // tball comment: I am a little confused, doesn't the traffic light need an (x,y) coordinate too?
+         add red (numeration)  // tball comment: I mean to say you needed to have the state of the traffic light, such as
+        
+        lightState : enum { Red, Yellow, Green } 
+        
+        Boolean forward;       // tball comment: I think these three boolean mean the directions that traffic light controls?
+        Boolean left;          // I am not sure what they mean,.
+        Boolean right;
+}
+        funtion boolean meetTrafficLight() {
+                tempX = car.x;
+                tempY = car.y;
+                if (car.dir == 0)
+                        tempX = car.x + 1;
+                else if (car.dir == 270)
+                        tempY = car.y + 1;
+else if (car.dir == 90)
+tempY = car.y - 1;
+                else if (car.dir == 180)
+                        tempX = car.x - 1
+If (tempX == trafficLight.xPos() && tempY == trafficLight.yPos()) 
+        return true;
+else
+        return false;
+}
+
+
+        function void moveForward() {
+                If (car.dir == 0)
+                        car.x = car.x + 1;
+                If (car.dir == 270)
+                        car.y = car.y + 1;
+                If (car.dir == 90)
+                        car.y = car.y -1;
+                If (car.dir == 180)
+                        Car.x = car.x -1;
+                return;
+        }
+                
+function boolean turnRight() {
+        If (car.dir == 0) {
+                 car.dir = 90;
+                return true;
+        }
+        Else If (car.dir == 90) {
+                car.dir = 180;
+                return true;
+}
+Else If (car.dir = 180){
+        car.dir = 270;
+        return true;
+}
+Else If (car.dir == 270){
+        car.dir = 0;
+        return true;
+}
+}        
+
+
+        function boolean turnLeft(){
+                If (car.dir == 0) {
+                 car.dir = 270;
+                return true;
+        }
+        Else If (car.dir == 90) {
+                car.dir = 0;
+                return true;
+}
+Else If (car.dir = 180){
+        car.dir = 90;
+        return true;
+}
+Else If (car.dir == 270){
+        car.dir = 180;
+        return true;
+}
+}
+
+
+        function void carRun() {
+        draw(event);
+}
+
+
+Algorithm draw
+        Input running thread of the object car, context object
+        Output void
+        
+        Check when the car thread meet the traffic light
+                If the traffic light indicates forward
+                        car.moveForward();
+                        context.drawImage(car, car.x, car.y);
+                If the traffic light indicates turn left
+                        car.turnLeft();
+                        context.rotate(-90);
+                        context.drawImage(car, car.x, car.y);
+                If the traffic light indicates turn right
+                        car.turnRight();
+                        context.rotate(90);
+                        context.drawImage(car, car.x, car.y);
+        
+End
