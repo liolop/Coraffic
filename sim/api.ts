@@ -80,7 +80,7 @@ namespace pxsim {
                 this.x = 0; 
             }
             board().updateCarPos(this.x,this.y,this.angle);
-            return Promise.delay(5)
+            return Promise.delay(400)
         }
     }
     export function initialCar(position: CarPos): Car{
