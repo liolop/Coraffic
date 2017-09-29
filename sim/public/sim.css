@@ -1,9 +1,10 @@
 svg {
-    width:100%;
+    width: auto;
+    height: auto;
 }
 
-.sprite {
+.car {
     fill:yellow;
     stroke:#ccc;
-    stroke-width: 3px;
+    stroke-width: 1px;
 }

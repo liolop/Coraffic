@@ -95,6 +95,7 @@
   "String.substr": "Return a substring of the current string.",
   "String.substr|param|length": "number of characters to extract",
   "String.substr|param|start": "first character index; can be negative from counting from the end, eg:0",
+  "actions.run": "Run the car",
   "console.log": "Print out message",
   "loops.forever": "Repeats the code forever in the background. On each iteration, allows other code to run.",
   "loops.forever|param|body": "the code to repeat",

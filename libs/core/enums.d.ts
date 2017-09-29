@@ -4,3 +4,14 @@ declare const enum Direction {
     //% block=right
     Right
 }
+
+declare const enum ColorDirect{
+    //% block=left
+    Left,
+    //% block=right
+    Right,
+    //% block=stop
+    Stop,
+    //% block=forward
+    Forward
+}

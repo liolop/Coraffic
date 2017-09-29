@@ -20,6 +20,16 @@ declare namespace turtle {
     function turn(direction: Direction, angle: number): void;
 
 }
+declare namespace actions {
+    /**
+     * Run the car
+     */
+    //% weight=90
+    //% block
+    //% shim=actions::runAsync promise
+    function run(): void;
+
+}
 declare namespace loops {
     /**
      * Repeats the code forever in the background. On each iteration, allows other code to run.
@@ -68,14 +78,46 @@ declare namespace console {
         //% shim=.y
         public y: number;
 
-        /**
-         * Move the thing forward
-         */
+    }
+    //%
+    declare class Car {
+        //%
+        //% shim=.x
+        public x: number;
+
+        //%
+        //% shim=.y
+        public y: number;
+
         //%
         //% shim=.forwardAsync promise
         public forward(steps: number): void;
 
+        //%
+        //% shim=.runAsync promise
+        public run(): void;
+
     }
+    //%
+    declare class TrafficLight {
+        //%
+        //% shim=.x
+        public x: number;
+
+    }
+declare namespace objects {
+    //% block
+    //% shim=objects::createCar
+    function createCar(): Car;
+
+    /**
+     * @param direct
+     */
+    //% block="Create Traffic Light %direct" blockId=device_trafficLight
+    //% shim=objects::createTrafficLight
+    function createTrafficLight(direct: ColorDirect): void;
+
+}
 declare namespace sprites {
     /**
      * Creates a new sprite
