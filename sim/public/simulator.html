@@ -18,22 +18,16 @@
 </head>
 
 <body>
-<<<<<<< HEAD
+    <div id="svgcanvas" style="height: 270;"></div>
+    <script src="jquery-3.2.1.min.js"></script>
+    <script>
+        $(function(){
+            $("#svgcanvas").load("test.html");
+        });
+    </script>
     <!-- <svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 270">
          <circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />
             <path d="M 0 0 L 90 0 90 90 0 90 0 0 " fill="white" stroke="black" stroke-width="1"/>
-=======
-        <div id="svgcanvas" style="height: 270;"></div>
-        <script src="jquery-3.2.1.min.js"></script>
-        <script>
-            $(function(){
-                $("#svgcanvas").load("test.html");
-            });
-        </script>
-    <!-- <svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 270"> -->
-        <!-- <circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />
-             <path d="M 0 0 L 90 0 90 90 0 90 0 0 " fill="white" stroke="black" stroke-width="1"/>
->>>>>>> origin/master
             <path id="road1" d="M 90 0 L 130 0 130 90 90 90 90 0 " fill="grey" stroke="black" stroke-width="1"/>
             <path d="M 130 0 L 220 0 220 90 130 90 130 0 " fill="white" stroke="black" stroke-width="1"/>
             <path id="road2" d="M 0 90 L 90 90 90 130 0 130 0 90" fill="grey" stroke="black" stroke-width="1"/>
@@ -43,11 +37,6 @@
             <path id="road4" d="M 90 130 L 130 130 130 220 90 220 90 130 " fill="grey" stroke="black" stroke-width="1"/>
             <path d="M 130 130 L 220 130 220 220 130 220 130 130 " fill="white" stroke="black" stroke-width="1"/>
             <polygon id="car" points="" class="car" transform="" />
-<<<<<<< HEAD
             <polygon id="lightIcon" class="trafficlight" points="" transform="" fill="">
     </svg> -->
-=======
-            <polygon id="lightIcon" class="trafficlight" points="" transform="" fill=""> -->
-    <!-- </svg> -->
->>>>>>> origin/master
 </body>
