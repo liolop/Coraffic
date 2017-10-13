@@ -1,4 +1,4 @@
-(
+var x = (
   function e(t,n,r){
     function s(o,u){
       // console.log("o: "+o);
@@ -19736,3 +19736,4 @@
       {}]
   },{},[1]
 );
+module.exports=x;

@@ -1,2 +1,2 @@
-var x = require('./main');
-console.log("x:"+x(1)); 
+var x;
+x = require('./main');
