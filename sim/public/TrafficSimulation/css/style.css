@@ -1,0 +1,61 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+canvas{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.box{
+  position: fixed;
+  width: 110px;
+  height: 80px;
+  background:rgba(0,0,0,0.3);
+  top: 0px;
+  padding: 5px;
+  left: 0px;
+  z-index: 5;
+  font-family: Arial;
+  font-size: 13px;
+  color: #333;
+  border-radius: 0 0 5px 0;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.box a{
+  font-family: Arial;
+  font-size: 13px;
+  text-decoration: none;
+  color: #4F99F7;
+}
+
+input[type="range"]{
+  -webkit-appearance:none !important;
+  -moz-appearance:none !important;
+  appearance:none !important;
+  width: 100px;
+  height: 20px;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.5);
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none !important;
+  -moz-appearance:none !important;
+  appearance:none !important;
+  width: 5px;
+  height: 25px;
+  background: #00A1F3;
+  cursor: pointer;
+}
+
+.car_no{
+  position: absolute;
+  top: 55px;
+  left: 45px;
+  color: #fff;
+}
