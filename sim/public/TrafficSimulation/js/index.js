@@ -9,7 +9,7 @@ window.requestAnimFrame = (function(){
   };
 })();
 
-var car_no = 36;
+var car_no = 10;
 var canvas = document.getElementsByTagName("canvas")[0];
 var ctx = canvas.getContext("2d");
 
@@ -156,7 +156,7 @@ if(run==true){
     }
   }
   
-  var w = 1500, h = 830;
+  var w = 370, h = 270;
   canvas.width = w;
   canvas.height = h;
   var roads = [], intersections_arr = [], cars = [];
@@ -174,11 +174,11 @@ if(run==true){
       var pos_rand = Math.random();
       if(pos_rand < 0.5){
         car.x = w+25;
-        car.y = 378;
+        car.y = 41;
         car.d = "w";
       }
       else{
-        car.x = 786;
+        car.x = 120;
         car.y = h+25;
         car.d = "n";
       }
@@ -199,45 +199,45 @@ if(run==true){
           else if(color_rand > 0.8 && color_rand < 1){
             var color = "#222";
           }
-          console.log(color);
+          // console.log(color);
       car.color = color;
       cars.push(car);	
     }
     
     //road1
     var road = new drawroad();
-    road.x = 0, road.y = ((h/2)-40), road.width = w, road.height = 80;
+    road.x = 0, road.y = ((h/4)-30), road.width = w, road.height = 40;
     roads.push(road);
     
     //road2
     var road = new drawroad();
-    road.x = ((w/2)-40), road.y = 0, road.width = 80, road.height = h;
+    road.x = ((w/2)-120), road.y = 0, road.width = 80, road.height = h;
     roads.push(road);
     
-    //road3
+    // //road3
     var road = new drawroad();
-    road.x = 0, road.y = 200, road.width = w, road.height = 40;
+    road.x = 0, road.y = (h/1.4), road.width = w, road.height = 40;
     roads.push(road);
     
     //road4
     var road = new drawroad();
-    road.x = 1050, road.y = ((h/2)-40), road.width = 40, road.height = (h - ((h/2)-40));
+    road.x = ((w/2)+80), road.y = 0, road.width = 40, road.height = h;
     roads.push(road);
     
-    //road5
-    var road = new drawroad();
-    road.x = 450, road.y = 200, road.width = 40, road.height = h - 200;
-    roads.push(road);
+    // // //road5
+    // var road = new drawroad();
+    // road.x = 450, road.y = 200, road.width = 40, road.height = h - 200;
+    // roads.push(road);
     
-    //road6
-    var road = new drawroad();
-    road.x = 120, road.y = 0, road.width = 80, road.height = h;
-    roads.push(road);
+    // //road6
+    // var road = new drawroad();
+    // road.x = 120, road.y = 0, road.width = 80, road.height = h;
+    // roads.push(road);
     
-    //road7
-    var road = new drawroad();
-    road.x = 0, road.y = ((h/2)+240), road.width = w, road.height = 40;
-    roads.push(road);
+    // //road7
+    // var road = new drawroad();
+    // road.x = 0, road.y = ((h/2)+240), road.width = w, road.height = 40;
+    // roads.push(road);
     
     intersections();
   }
