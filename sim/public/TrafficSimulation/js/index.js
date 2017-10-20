@@ -1074,7 +1074,7 @@ if(run==true){
         ctx.shadowColor = shadow_color
         ctx.shadowOffsetX = -2;
         ctx.shadowBlur = 2;
-        ctx.fillRect(this.x-3,this.y+this.height-12,1,4);
+        ctx.fillRect(this.x-3,this.y+this.height-12,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
@@ -1094,7 +1094,7 @@ if(run==true){
           ctx.shadowColor = shadow_color
           ctx.shadowOffsetX = -2;
           ctx.shadowBlur = 2;
-          ctx.fillRect(this.x-3,this.y+this.height-30,1,4);
+          ctx.fillRect(this.x-3,this.y+this.height-30,6,6);
           ctx.fill();
           ctx.restore();
           ctx.shadowOffsetX = undefined;
@@ -1119,7 +1119,7 @@ if(run==true){
         ctx.shadowColor = shadow_color
         ctx.shadowOffsetX = 2;
         ctx.shadowBlur = 2;
-        ctx.fillRect(this.x+this.width+2,this.y+12,1,4);
+        ctx.fillRect(this.x+this.width+2,this.y+12,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
@@ -1139,7 +1139,7 @@ if(run==true){
           ctx.shadowColor = shadow_color
           ctx.shadowOffsetX = 2;
           ctx.shadowBlur = 2;
-          ctx.fillRect(this.x+this.width+2,this.y+30,1,4);
+          ctx.fillRect(this.x+this.width+2,this.y+30,6,6);
           ctx.fill();
           ctx.restore();
           ctx.shadowOffsetX = undefined;
@@ -1164,7 +1164,7 @@ if(run==true){
         ctx.shadowColor = shadow_color
         ctx.shadowOffsetY = -2;
         ctx.shadowBlur = 2;
-        ctx.fillRect(this.x+4,this.y-2,4,1);
+        ctx.fillRect(this.x+4,this.y-2,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
@@ -1184,7 +1184,7 @@ if(run==true){
           ctx.shadowColor = shadow_color
           ctx.shadowOffsetY = -2;
           ctx.shadowBlur = 2;
-          ctx.fillRect(this.x+28,this.y-2,4,1);
+          ctx.fillRect(this.x+28,this.y-2,6,6);
           ctx.fill();
           ctx.restore();
           ctx.shadowOffsetX = undefined;
@@ -1209,7 +1209,7 @@ if(run==true){
         ctx.shadowColor = shadow_color
         ctx.shadowOffsetY = 2;
         ctx.shadowBlur = 2;
-        ctx.fillRect(this.x+this.width-10,this.y+this.height+2,4,1);
+        ctx.fillRect(this.x+this.width-10,this.y+this.height+2,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
@@ -1229,7 +1229,7 @@ if(run==true){
           ctx.shadowColor = shadow_color
           ctx.shadowOffsetY = 2;
           ctx.shadowBlur = 2;
-          ctx.fillRect(this.x+this.width-32,this.y+this.height+2,4,1);
+          ctx.fillRect(this.x+this.width-32,this.y+this.height+2,6,6);
           ctx.fill();
           ctx.restore();
           ctx.shadowOffsetX = undefined;
