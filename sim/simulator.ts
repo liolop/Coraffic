@@ -2,7 +2,7 @@
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 
 //declaring variable from the js library
-declare let ctx: any;
+declare let ctx: CanvasRenderingContext2D;
 declare let car_no: number;
 declare let w: number;
 declare let h: number;
@@ -10,6 +10,7 @@ declare let roads: any;
 declare let intersections_arr: any;
 declare let cars: any;
 declare let drawIntersection: any;
+
 //Test variables
 declare let testV:any;
 //
@@ -28,7 +29,7 @@ declare function drawcar(): any;
 declare function intersections(): any;
 declare function drawroad(): any;
 declare function animloop(): any;
-
+declare function requestAnimFrame(): any;
 
 /**
  * Code
@@ -55,12 +56,12 @@ namespace pxsim {
     export class Board extends pxsim.BaseBoard {
         public element : HTMLDivElement;
         public canvas: HTMLCanvasElement;
-        
+
         constructor() {
             super();
             this.element = <HTMLDivElement><any>document.getElementById('svgcanvas');
             this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName('canvas')[0];
-       }
+        }
 
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             document.body.innerHTML = ''; // clear children
@@ -70,9 +71,21 @@ namespace pxsim {
         }   
 
         setTrafficLight(){
-          drawIntersection.drawInter = function(){
-            
-          }
+          ctx.save();
+          ctx.fillStyle = 'green';
+          ctx.shadowColor = 'rgba(0,255,0,1)'
+          ctx.shadowOffsetX = -2;
+          ctx.shadowBlur = 2;
+          ctx.fillRect(65,65,6,6);
+          ctx.fill();
+          ctx.restore();
+          ctx.shadowOffsetX = undefined;
+          ctx.shadowBlur = undefined;       
+        }
+
+        putCarsIn(){
+          drawscene();
+          //Window.requestAmimFrame();
         }
 
     }

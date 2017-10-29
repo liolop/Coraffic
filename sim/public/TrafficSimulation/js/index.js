@@ -943,14 +943,9 @@ var drawIntersection = {
         ctx.shadowOffsetX = -2;
         ctx.shadowBlur = 2;
         /**
-         * Traffic Light at Left side
+         * Right Traffic Light at Left side
          */
         //ctx.fillRect(this.x-3,this.y+this.height-12,6,6);
-        
-        //Test
-        console.log("Left light coord: "+(this.x-3)+","+(this.y+this.height-12));
-        //
-
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
@@ -970,7 +965,10 @@ var drawIntersection = {
           ctx.shadowColor = shadow_color
           ctx.shadowOffsetX = -2;
           ctx.shadowBlur = 2;
-          ctx.fillRect(this.x-3,this.y+this.height-30,6,6);
+          /**
+           * Left Traffic Light at Left side
+           */
+          //ctx.fillRect(this.x-3,this.y+this.height-30,6,6);
           ctx.fill();
           ctx.restore();
           ctx.shadowOffsetX = undefined;
@@ -997,7 +995,7 @@ var drawIntersection = {
         ctx.shadowOffsetX = 2;
         ctx.shadowBlur = 2;
         /**
-         * Traffic Light at Right side
+         * Left Traffic Light at Right side
          */
         //ctx.fillRect(this.x+this.width+2,this.y+12,6,6);
         ctx.fill();
@@ -1019,7 +1017,10 @@ var drawIntersection = {
           ctx.shadowColor = shadow_color
           ctx.shadowOffsetX = 2;
           ctx.shadowBlur = 2;
-          ctx.fillRect(this.x+this.width+2,this.y+30,6,6);
+          /**
+           * Right Traffic Light at Right side
+           */
+          //ctx.fillRect(this.x+this.width+2,this.y+30,6,6);
           ctx.fill();
           ctx.restore();
           ctx.shadowOffsetX = undefined;
@@ -1123,7 +1124,7 @@ var drawIntersection = {
           /**
           * Traffic Light on the left at Bottom side
           */
-          ctx.fillRect(this.x+this.width-32,this.y+this.height+2,6,6);
+          //ctx.fillRect(this.x+this.width-32,this.y+this.height+2,6,6);
           ctx.fill();
           ctx.restore();
           ctx.shadowOffsetX = undefined;
@@ -1270,7 +1271,7 @@ function drawroad(){
 
 function animloop() {
     drawscene();
-    requestAnimFrame(animloop); 
+    //requestAnimFrame(animloop); 
 }
 init();
 animloop();

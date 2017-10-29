@@ -51,6 +51,14 @@ namespace pxsim.actions {
             b.setTrafficLight();
         }
     }
+
+    /**
+     * Put cars into the map
+     */
+    //% blockId=put_cars block
+    export function putCarsAsync(){
+        
+    }
 }
 
 namespace pxsim {
