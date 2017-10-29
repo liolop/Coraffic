@@ -45,9 +45,11 @@ namespace pxsim.actions {
      * @param location 
      */
     //% blockId=set_traffic_light block="set traffic light %location"
-    export function setTLightLocation(location: string){
+    export function setTLightLocation(location: TLPosition){
         let b = board();
-        b.setTrafficLight(location);
+        if(location == TLPosition.A1){
+            b.setTrafficLight();
+        }
     }
 }
 

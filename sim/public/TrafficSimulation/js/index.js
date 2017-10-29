@@ -813,7 +813,8 @@ function drawcar(){
   }
 }
 
-function drawinter(){
+var drawIntersection = {
+  drawinter: function(){
   this.x = 0;
   this.y = 0;
   this.width = 0;
@@ -1108,7 +1109,7 @@ function drawinter(){
     }
   }
 }
-
+}
 function intersections(){
   for(var i=0;i<roads.length;i++){
     var r1 = roads[i];
@@ -1140,7 +1141,7 @@ function intersections(){
                 var roadbottom = false;
               }
               
-              var inter = new drawinter();
+              var inter = new drawIntersection["drawinter"]();
               inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
               intersections_arr.push(inter);
               inter.draw();
@@ -1246,3 +1247,5 @@ function animloop() {
 }
 init();
 animloop();
+
+// Test

@@ -1,29 +1,34 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 
-// declaring variable from the js library
-// declare let ctx: any;
-// declare let car_no: number;
-// declare let w: number;
-// declare let h: number;
-// declare let roads: any;
-// declare let intersections_arr: any;
-// declare let cars: any;
-// declare function distance_check(c1:any, c2:any, axis: string): boolean;
-// declare function check_inter(c:any, inter:any, axis:string): boolean;
-// declare function gen_dir(c:any, inter:any): void;
+//declaring variable from the js library
+declare let ctx: any;
+declare let car_no: number;
+declare let w: number;
+declare let h: number;
+declare let roads: any;
+declare let intersections_arr: any;
+declare let cars: any;
+declare let drawinter: any;
+//Test variables
+declare let testV:any;
+//
+
+declare function distance_check(c1:any, c2:any, axis: string): boolean;
+declare function check_inter(c:any, inter:any, axis:string): boolean;
+declare function gen_dir(c:any, inter:any): void;
 //Test Functions
 declare function checkFile(): any;
 //
-// declare function init(): void;
-// declare function drawscene(): void;
-// declare function left_greenc(): void;
-// declare function drive_cars(): any;
-// declare function drawcar(): any;
-// declare function drawinter(): any;
-// declare function intersections(): any;
-// declare function drawroad(): any;
-// declare function animloop(): any;
+declare function init(): void;
+declare function drawscene(): void;
+declare function left_greenc(): void;
+declare function drive_cars(): any;
+declare function drawcar(): any;
+//declare function drawinter(): any;
+declare function intersections(): any;
+declare function drawroad(): any;
+declare function animloop(): any;
 
 
 /**
@@ -65,12 +70,9 @@ namespace pxsim {
             return Promise.resolve();
         }   
 
-        setTrafficLight(loc: string){
-          checkFile();
-          //var genDir = drawinter();
-          //console.log("genDir: "+ctx.fillstyle.toString);
+        setTrafficLight(){
+
         }
-        
 
     }
 }

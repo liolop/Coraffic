@@ -35,7 +35,7 @@ declare namespace actions {
      */
     //% blockId=set_traffic_light block="set traffic light %location"
     //% shim=actions::setTLightLocation
-    function setTLightLocation(location: string): void;
+    function setTLightLocation(location: TLPosition): void;
 
 }
 
