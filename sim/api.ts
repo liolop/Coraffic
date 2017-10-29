@@ -41,14 +41,13 @@ namespace pxsim.console {
 namespace pxsim.actions {
 
     /**
-     * Set number of cars on the map
-     * @param carNum 
+     * Set location of the traffic light on the map
+     * @param location 
      */
-    //% help=functions/carNum weight=54
-    //% blockId=car_number block="set %carNum cars"
-    export function CarNum(carNum: number){
+    //% blockId=set_traffic_light block="set traffic light %location"
+    export function setTLightLocation(location: string){
         let b = board();
-        b.setCarNum(carNum);
+        b.setTrafficLight(location);
     }
 }
 
