@@ -9,7 +9,7 @@ declare let h: number;
 declare let roads: any;
 declare let intersections_arr: any;
 declare let cars: any;
-declare let drawinter: any;
+declare let drawIntersection: any;
 //Test variables
 declare let testV:any;
 //
@@ -25,7 +25,6 @@ declare function drawscene(): void;
 declare function left_greenc(): void;
 declare function drive_cars(): any;
 declare function drawcar(): any;
-//declare function drawinter(): any;
 declare function intersections(): any;
 declare function drawroad(): any;
 declare function animloop(): any;
@@ -71,7 +70,9 @@ namespace pxsim {
         }   
 
         setTrafficLight(){
-
+          drawIntersection.drawInter = function(){
+            
+          }
         }
 
     }

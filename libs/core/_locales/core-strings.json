@@ -23,7 +23,7 @@
   "TLPosition.A2|block": "A2",
   "TLPosition.A3|block": "A3",
   "TLPosition.A4|block": "A4",
-  "actions.setTLightLocation|block": "set traffic light %location",
+  "actions.setTLightLocation|block": "set traffic light at %location",
   "actions|block": "actions",
   "console|block": "console",
   "loops.forever|block": "forever",

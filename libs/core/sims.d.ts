@@ -33,7 +33,7 @@ declare namespace actions {
      * Set location of the traffic light on the map
      * @param location 
      */
-    //% blockId=set_traffic_light block="set traffic light %location"
+    //% blockId=set_traffic_light block="set traffic light at %location"
     //% shim=actions::setTLightLocation
     function setTLightLocation(location: TLPosition): void;
 
