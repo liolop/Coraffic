@@ -9,34 +9,16 @@
             background: transparent;
             overflow: hidden;
         }
-    </style>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>                 
-
-    <!-- <script language="javascript">
-        $(document).ready(function(){
-            $("#js3").attr('src','/sim/sim.js');
-            //$("script").attr('src','TrafficSimulation/js/index.js')
-        });
-    </script>  -->
-
+    </style>              
     <script src="/cdn/bluebird.min.js"></script>
     <script src="/cdn/pxtsim.js"></script>
-    <!-- <script src="/sim/sim.js"></script>  -->
-
     <link rel="stylesheet" href="TrafficSimulation/css/style.css">    
 </head>
 
 <body>
-    <div id="svgcanvas" style="height:270">
+    <div id="svgcanvas">
         <canvas>
         </canvas>
-        <div class="box">
-            Number of Cars:<br>
-            <br>
-            <input type="range" max="100" min="10" value="36" onChange="init();">
-            <span class="car_no">10</span>
-        </div>
-        <!-- <script></script>                    -->            
     </div>
     <script id="js3" src="/sim/sim.js"></script>    
 </body>

@@ -23,35 +23,18 @@ namespace pxsim {
     export class Board extends pxsim.BaseBoard {
       public svgDiv: HTMLDivElement;
       public canvas: HTMLCanvasElement;
-      public boxDiv: HTMLDivElement;
-      public brCarNum: HTMLBRElement;
-      public brLine: HTMLBRElement;
-      public inputRange: HTMLInputElement;
-      public spanCar_no: HTMLSpanElement;
       public scriptSim: HTMLScriptElement;
 
       constructor() {
         super();
         this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
         this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
-        this.boxDiv = <HTMLDivElement><any>document.getElementsByClassName("box")[0];
-        this.brCarNum = <HTMLBRElement><any>document.getElementsByTagName("br")[0];
-        this.brLine = <HTMLBRElement><any>document.getElementsByTagName("br")[1];
-        this.inputRange = <HTMLInputElement><any>document.getElementsByTagName("input")[0];
-        this.spanCar_no = <HTMLSpanElement><any>document.getElementsByTagName("span")[0]
         this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
       }
 
       initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
         document.body.innerHTML = ''; // clear children
-        this.spanCar_no.nodeValue = "10";
-        this.boxDiv.nodeValue = "Number of Cars:";
-        this.boxDiv.appendChild(this.brCarNum);
-        this.boxDiv.appendChild(this.brLine);
-        this.boxDiv.appendChild(this.inputRange);
-        this.boxDiv.appendChild(this.spanCar_no);
         this.svgDiv.appendChild(this.canvas);        
-        this.svgDiv.appendChild(this.boxDiv);        
         document.body.appendChild(this.svgDiv);      
         document.body.appendChild(this.scriptSim);    
         return Promise.resolve();
@@ -81,14 +64,18 @@ var requestAnimFrame: (callback: () => void) => void = (function(){
   }; 
 })(); 
 
-var car_no = 10; 
-var canvas: HTMLCanvasElement = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
-var ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
+var car_no = 10;
+var b = new pxsim.Board();
+var canvas: HTMLCanvasElement =  b.canvas;
+var ctx: CanvasRenderingContext2D = b.canvas.getContext("2d");
+//var canvas: HTMLCanvasElement = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
+//var canvas: HTMLCanvasElement = <HTMLCanvasElement><any>$("canvas").eq(0);
+//var ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
 
 let w: number = 370;
 let h: number = 270;
 canvas.width = w;
-canvas.width = h; 
+canvas.height = h; 
 let roads: any[] = [];
 let intersections_arr: any[] = [];
 let cars: any[] = [];   
@@ -101,8 +88,8 @@ function init(): any{
   intersections_arr = [];
   //var car_no: any = $("input").val();
   //$(".car_no").html(car_no);
-  var car_no: any = document.getElementsByTagName('input')[0].getAttribute("value");
-  document.getElementsByClassName("car_no")[0].innerHTML=car_no;
+  //var car_no: any = document.getElementsByTagName('input')[0].getAttribute("value");
+  //document.getElementsByClassName("car_no")[0].innerHTML=car_no;
   for(var i=0;i<car_no;i++){
     var car = new drawcar();
     car.s = 5;
@@ -1349,3 +1336,5 @@ function animloop(): any{
 }
 init();
 animloop();
+
+console.log("cars: "+cars[5]);
