@@ -1,5 +1,5 @@
 {
-  "name": "mps-project",
+  "name": "traffic-simulator",
   "version": "1.0.0",
   "description": "MPS project target for PXT",
   "keywords": [
@@ -9,11 +9,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liolop/mps-project"
+    "url": "git+https://github.com/liolop/MPS-Project-Q2"
   },
   "author": "Yuanmeng Li, Xiaoxi Zhang, Shanshan Du",
   "license": "MIT",
-  "homepage": "https://github.com/liolop/mps-project#readme",
+  "homepage": "https://github.com/liolop/MPS-Project-Q2",
   "files": [
     "README.md",
     "pxtarget.json",
@@ -26,12 +26,14 @@
   "main": "built/pxtrequire.js",
   "typings": "built/pxtrequire.d.ts",
   "devDependencies": {
-    "typescript": "^1.8.7",
+    "@types/jquery": "^3.2.15",    
     "less": "^2.6.0",
-    "semantic-ui-less": "^2.2.4"
+    "semantic-ui-less": "^2.2.4",
+    "typescript": "^1.8.7"
   },
   "dependencies": {
     "@types/lodash": "^4.14.80",
+    "es": "^0.6.0",
     "pxt-core": "2.0.31"
   }
 }

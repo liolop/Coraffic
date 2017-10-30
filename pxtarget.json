@@ -1,6 +1,6 @@
 {
-    "id": "test1",
-    "name": "MPS-Project",
+    "id": "trafficSim",
+    "name": "Traffic Simulator",
     "title": "MakeCode Editor MPS-Project",
     "corepkg": "core", 
     "cloud": { 

@@ -9,8 +9,6 @@
   "Array.shift|block": "get and remove first value from %list",
   "Array.unshift|block": "%list| insert %value| at beginning",
   "Array|block": "Array",
-  "Direction.Left|block": "left",
-  "Direction.Right|block": "right",
   "Math.randomRange|block": "pick random %min|to %limit",
   "Math|block": "Math",
   "String.charAt|block": "char from %this=text|at %pos",

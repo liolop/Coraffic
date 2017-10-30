@@ -1271,7 +1271,7 @@ function drawroad(){
 
 function animloop() {
     drawscene();
-    //requestAnimFrame(animloop); 
+    requestAnimFrame(animloop); 
 }
 init();
 animloop();
