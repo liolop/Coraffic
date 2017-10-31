@@ -50,7 +50,3 @@ namespace pxsim.actions {
         board().setTrafficLight(position, location);
     }
 }
-
-namespace pxsim {
-    
-}
