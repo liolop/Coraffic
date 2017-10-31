@@ -125,7 +125,7 @@ namespace jsLib{
     
     //road2
     var road = new drawroad();
-    road.x = ((w/2)-120), road.y = 0, road.width =40, road.height = h;
+    road.x = ((w/2)-120), road.y = 0, road.width =80, road.height = h;
     roads.push(road);
     
     // //road3
