@@ -539,6 +539,7 @@ namespace jsLib{
         }
         if(c.x+26 >= canvas.width){
           //reposition car
+          console.log("reposition " + "east");
           c.x = 295;
           c.y = 46.5;
           c.d = "w";
@@ -611,6 +612,7 @@ namespace jsLib{
         }
         if(c.y+26 <= 0){
           //reposition car
+          console.log("reposition" + " north");
           c.x = 120.5;
           c.y = h+25;
           c.d = "s";
@@ -683,6 +685,7 @@ namespace jsLib{
         }
         if(c.y-26 >= h){
           //reposition car
+          console.log("reposition" + " south");
           c.y = 365;
           c.x = 120.5;
           c.d = "n";
@@ -755,7 +758,8 @@ namespace jsLib{
         }
         if(c.x+26 <= 0){
           //reposition car
-          c.y = 46.5;
+          console.log("reposition" + " west");
+          c.y = 65.5;
           c.x = -25;
           c.d = "e";
           c.y -= c.s;
