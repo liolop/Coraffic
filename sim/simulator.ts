@@ -41,12 +41,7 @@ namespace pxsim {
       }   
 
       setTrafficLight(){
-        // ctx.save()
-        // ctx.fillStyle = 'green';
-        // ctx.fillRect(10,10,50,50);
-        // ctx.fill();
-        // ctx.restore();
-        // console.log("end1");
+
       }
     }  
 }
@@ -68,9 +63,6 @@ var car_no = 10;
 var b = new pxsim.Board();
 var canvas: HTMLCanvasElement =  b.canvas;
 var ctx: CanvasRenderingContext2D = b.canvas.getContext("2d");
-//var canvas: HTMLCanvasElement = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
-//var canvas: HTMLCanvasElement = <HTMLCanvasElement><any>$("canvas").eq(0);
-//var ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
 
 let w: number = 370;
 let h: number = 270;
