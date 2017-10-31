@@ -786,15 +786,15 @@ namespace jsLib{
   }   
 
   class drawcar{
-    public x: number;
-    public y: number;
+    public x: number = 0;
+    public y: number = 0;
     //car speed
-    public s: number;
-    public l: number;
+    public s: number = 5;
+    public l: number = 25;
     //car direction
-    public d: string;
-    public dd: boolean;
-    public color: string;
+    public d: string = "e";
+    public dd: boolean = false;
+    public color: string = "#F5D600";
     public w: number;
 
     public drawCar(): void{
@@ -819,31 +819,31 @@ namespace jsLib{
         ctx.fillRect(this.x+14, this.y-2, 2 ,2);
         ctx.fillRect(this.x+14, this.y+12, 2 ,2);
       }
-      else if(this.d == "s"){
-        this.w = 12;
-        ctx.rotate(Math.PI/2);
-        ctx.fillRect(this.y, -this.x, this.l, 12);
-        ctx.fillStyle="#99B3CE";
-        ctx.fillRect(this.y+15, -this.x, 5, 12);
-        ctx.fillRect(this.y+4, -this.x, 2, 12);
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.y+14, -this.x-2, 2 ,2);
-        ctx.fillRect(this.y+14, -this.x+12, 2 ,2);
-        ctx.rotate(-Math.PI/2);
-        
-      }
-      else{
-        this.w = 12;
-        ctx.rotate(Math.PI/2);
-        ctx.fillRect(this.y, -this.x, this.l, 12);
-        ctx.fillStyle="#99B3CE";
-        ctx.fillRect(this.y+5, -this.x, 5, 12);
-        ctx.fillRect(this.y+18, -this.x, 2, 12);
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.y+6, -this.x-2, 2 ,2);
-        ctx.fillRect(this.y+6, -this.x+12, 2 ,2);
-        ctx.rotate(-Math.PI/2);
-      }
+        else if(this.d == "s"){
+          this.w = 12;
+          ctx.rotate(Math.PI/2);
+          ctx.fillRect(this.y, -this.x, this.l, 12);
+          ctx.fillStyle="#99B3CE";
+          ctx.fillRect(this.y+15, -this.x, 5, 12);
+          ctx.fillRect(this.y+4, -this.x, 2, 12);
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.y+14, -this.x-2, 2 ,2);
+          ctx.fillRect(this.y+14, -this.x+12, 2 ,2);
+          ctx.rotate(-Math.PI/2);
+          
+        }
+        else{
+          this.w = 12;
+          ctx.rotate(Math.PI/2);
+          ctx.fillRect(this.y, -this.x, this.l, 12);
+          ctx.fillStyle="#99B3CE";
+          ctx.fillRect(this.y+5, -this.x, 5, 12);
+          ctx.fillRect(this.y+18, -this.x, 2, 12);
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.y+6, -this.x-2, 2 ,2);
+          ctx.fillRect(this.y+6, -this.x+12, 2 ,2);
+          ctx.rotate(-Math.PI/2);
+        }
     }
 
   }
@@ -1243,8 +1243,8 @@ namespace jsLib{
                 var inter = new drawIntersection();
                 inter.drawInter();
                 inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
-                console.log("inter.x: "+inter.x+", inter.y: "+inter.y);
-                console.log("inter.w: "+inter.width+", inter.h: "+inter.height);
+                // console.log("inter.x: "+inter.x+", inter.y: "+inter.y);
+                // console.log("inter.w: "+inter.width+", inter.h: "+inter.height);
                 intersections_arr.push(inter);
                 inter.drawInter();
               }
