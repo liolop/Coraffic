@@ -57,18 +57,17 @@ function init(){
     else if(color_rand > 0.2 && color_rand < 0.4){
       var color = "#E22322";
     }
-      else if(color_rand > 0.4 && color_rand < 0.6){
-        var color = "#F9D111";
-      }
-      else if(color_rand > 0.6 && color_rand < 0.8){
-        var color = "#367C94";
-      }
-        else if(color_rand > 0.8 && color_rand < 1){
-          var color = "#222";
-        }
-        // console.log(color);
+    else if(color_rand > 0.4 && color_rand < 0.6){
+      var color = "#F9D111";
+    }
+    else if(color_rand > 0.6 && color_rand < 0.8){
+      var color = "#367C94";
+    }
+    else if(color_rand > 0.8 && color_rand < 1){
+      var color = "#222";
+    }
     car.color = color;
-    cars.push(car);	
+    cars.push(car);
   }
   
   //road1
@@ -90,7 +89,7 @@ function init(){
   var road = new drawroad();
   road.x = ((w/2)+80), road.y = 0, road.width = 40, road.height = h;
   roads.push(road);
-  
+
   // // //road5
   // var road = new drawroad();
   // road.x = 450, road.y = 200, road.width = 40, road.height = h - 200;
@@ -1275,4 +1274,3 @@ function animloop() {
 init();
 animloop();
 
-// Test

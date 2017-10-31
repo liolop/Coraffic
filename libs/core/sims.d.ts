@@ -31,11 +31,12 @@ declare namespace console {
 declare namespace actions {
     /**
      * Set location of the traffic light on the map
-     * @param location 
+     * @param location
+     * @param position 
      */
-    //% blockId=set_traffic_light block="set traffic light at %location"
+    //% blockId=set_traffic_light block="set %position|traffic light at %location"
     //% shim=actions::setTLightLocation
-    function setTLightLocation(location: TLPosition): void;
+    function setTLightLocation(position: TLPosition, location: TLLocation): void;
 
 }
 

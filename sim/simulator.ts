@@ -40,18 +40,20 @@ namespace pxsim {
         return Promise.resolve();
       }   
 
-      setTrafficLight(){
-        // ctx.fillStyle = "green";
-        // ctx.shadowColor = "green";
-        // ctx.shadowOffsetX = -2;
-        // ctx.shadowBlur = 2;
-        // let intersect = new drawIntersection();
-        // ctx.fillRect(65,65,6,6);
-        // ctx.fill();
-        // ctx.restore();
+      setTrafficLight(posistion: TLPosition, location: TLLocation){
+        if(location == TLLocation.A1){
+          tlCoord = location;
+        }
       }
     }  
 }
+
+var tlCoord: TLLocation;
+
+var car_no = 10;
+var b = new pxsim.Board();
+var canvas: HTMLCanvasElement =  b.canvas;
+var ctx: CanvasRenderingContext2D = b.canvas.getContext("2d");
 
 var requestAnimFrame: (callback: () => void) => void = (function(){ 
   return window.requestAnimationFrame || 
@@ -63,11 +65,6 @@ var requestAnimFrame: (callback: () => void) => void = (function(){
       window.setTimeout(callback, 1000 / 60, new Date().getTime()); 
   }; 
 })(); 
-
-var car_no = 10;
-var b = new pxsim.Board();
-var canvas: HTMLCanvasElement =  b.canvas;
-var ctx: CanvasRenderingContext2D = b.canvas.getContext("2d");
 
 let w: number = 370;
 let h: number = 270;
@@ -765,7 +762,7 @@ function drive_cars(): any{
         }
         c.x -= c.s;
       }
-        c.drawCar();
+      c.drawCar();
   }
 }
 
@@ -790,16 +787,19 @@ Object.getPrototypeOf(ctx).rounded_rect = function(x:any,y:any,w:any,h:any,r:any
 class drawcar{
   public x: number;
   public y: number;
+  //car speed
   public s: number;
   public l: number;
+  //car direction
   public d: string;
   public dd: boolean;
   public color: string;
+  public w: number;
 
   public drawCar(): void{
     ctx.fillStyle = this.color;
     if(this.d == "w"){
-      w = 25;
+      this.w = 25;
       ctx.fillRect(this.x, this.y, this.l, 12);
       ctx.fillStyle="#99B3CE";
       ctx.fillRect(this.x+5, this.y, 5, 12);
@@ -809,7 +809,7 @@ class drawcar{
       ctx.fillRect(this.x+6, this.y+12, 2 ,2);
     }
     else if(this.d == "e"){
-      w = 25;
+      this.w = 25;
       ctx.fillRect(this.x, this.y, this.l, 12);
       ctx.fillStyle="#99B3CE";
       ctx.fillRect(this.x+15, this.y, 5, 12);
@@ -819,7 +819,7 @@ class drawcar{
       ctx.fillRect(this.x+14, this.y+12, 2 ,2);
     }
     else if(this.d == "s"){
-      w = 12;
+      this.w = 12;
       ctx.rotate(Math.PI/2);
       ctx.fillRect(this.y, -this.x, this.l, 12);
       ctx.fillStyle="#99B3CE";
@@ -832,7 +832,7 @@ class drawcar{
       
     }
     else{
-      w = 12;
+      this.w = 12;
       ctx.rotate(Math.PI/2);
       ctx.fillRect(this.y, -this.x, this.l, 12);
       ctx.fillStyle="#99B3CE";
@@ -991,6 +991,9 @@ class drawIntersection{
       /**
        * Right Traffic Light at Left side
        */
+      if(tlCoord == TLLocation.A1){
+        ctx.fillRect(this.x-3,this.y+this.height-12,6,6);
+      }
       //ctx.fillRect(this.x-3,this.y+this.height-12,6,6);
       ctx.fill();
       ctx.restore();
@@ -1014,7 +1017,7 @@ class drawIntersection{
         /**
          * Left Traffic Light at Left side
          */
-        //ctx.fillRect(this.x-3,this.y+this.height-30,6,6);
+        ctx.fillRect(this.x-3,this.y+this.height-30,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
@@ -1240,6 +1243,8 @@ function intersections(): any{
               var inter = new drawIntersection();
               inter.drawInter();
               inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
+              console.log("inter.x: "+inter.x+", inter.y: "+inter.y);
+              console.log("inter.w: "+inter.width+", inter.h: "+inter.height);
               intersections_arr.push(inter);
               inter.drawInter();
             }
