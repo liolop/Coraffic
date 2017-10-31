@@ -836,7 +836,6 @@ var drawIntersection = {
       this.bottom = "rgba(0,255,0,0.4)";
     }
     
-    
     this.draw = function(){
       ctx.fillStyle = "#605A4C";
       ctx.fillRect(this.x,this.y,this.width,this.height);

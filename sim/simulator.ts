@@ -41,12 +41,17 @@ namespace pxsim {
       }   
 
       setTrafficLight(){
-
+        // ctx.fillStyle = "green";
+        // ctx.shadowColor = "green";
+        // ctx.shadowOffsetX = -2;
+        // ctx.shadowBlur = 2;
+        // let intersect = new drawIntersection();
+        // ctx.fillRect(65,65,6,6);
+        // ctx.fill();
+        // ctx.restore();
       }
     }  
 }
-
-
 
 var requestAnimFrame: (callback: () => void) => void = (function(){ 
   return window.requestAnimationFrame || 
@@ -78,10 +83,6 @@ function init(): any{
   cars = [];
   roads = [];
   intersections_arr = [];
-  //var car_no: any = $("input").val();
-  //$(".car_no").html(car_no);
-  //var car_no: any = document.getElementsByTagName('input')[0].getAttribute("value");
-  //document.getElementsByClassName("car_no")[0].innerHTML=car_no;
   for(var i=0;i<car_no;i++){
     var car = new drawcar();
     car.s = 5;
@@ -883,11 +884,7 @@ class drawIntersection{
     }
   }
   
-  public drawInter(): any{
-    ctx.fillStyle = "#605A4C";
-    ctx.fillRect(this.x,this.y,this.width,this.height);
-    
-    //zebra-crossing (left)
+  public leftZebra(){
     if(this.roadleft == true){
       ctx.fillStyle = "#605A4C";
       ctx.fillRect(this.x-20,this.y,20,this.height);
@@ -908,7 +905,8 @@ class drawIntersection{
         ctx.fillRect(this.x-52,(this.height/(4/3))+this.y-2,30,2);
       }
     }
-    //zebra-crossing (right)
+  }
+  public rightZebra(){
     if(this.roadright == true){
       ctx.fillStyle = "#605A4C";
       ctx.fillRect(this.x+this.width,this.y,22,this.height);
@@ -929,7 +927,8 @@ class drawIntersection{
         ctx.fillRect(this.x+this.width+22,(this.height/4)+this.y-2,30,2);
       }
     }
-    //zebra-crossing (top)
+  }
+  public topZebra(){
     if(this.roadtop == true){
       ctx.fillStyle = "#605A4C";
       ctx.fillRect(this.x,this.y-20,this.width,20);
@@ -950,7 +949,8 @@ class drawIntersection{
         ctx.fillRect(this.x+(this.width/4)-2,this.y-50,2,30);
       }
     }
-    //zebra-crossing (bottom)
+  }
+  public botZebra(){
     if(this.roadbottom == true){
       ctx.fillStyle = "#605A4C";
       ctx.fillRect(this.x,this.y+this.height,this.width,20);
@@ -971,8 +971,8 @@ class drawIntersection{
         ctx.fillRect(this.x+(this.width/(4/3))-2,this.y+this.height+20,2,30);
       }
     }
-    
-    //1. traffic lights (left)
+  }
+  public leftTrafficL(){
     if(this.roadleft == true){
       ctx.save();
       
@@ -1024,8 +1024,8 @@ class drawIntersection{
       ctx.fillStyle = "#ddd";
       ctx.fillRect(this.x-3,this.y+this.height-(this.height/2)+3,1,(this.height/2));						
     }
-
-    //2. traffic lights (right)
+  }
+  public rightTrafficL(){
     if(this.roadright == true){
       ctx.save();
       if(this.right == "rgba(0,255,0,0.4)"){
@@ -1076,8 +1076,8 @@ class drawIntersection{
       ctx.fillStyle = "#ddd";
       ctx.fillRect(this.x+this.width+2,this.y-3,1,(this.height/2));		
     }
-
-    //3. traffic lights (top)
+  }
+  public topTrafficL(){
     if(this.roadtop == true){
       ctx.save();
       if(this.top == "rgba(0,255,0,0.4)"){
@@ -1128,8 +1128,8 @@ class drawIntersection{
       ctx.fillStyle = "#ddd";
       ctx.fillRect(this.x-3,this.y-2,(this.width/2),1);
     }
-
-    //4. traffic lights (bottom)
+  }
+  public botTrafficL(){
     if(this.roadbottom == true){
       ctx.save();
       if(this.bottom == "rgba(0,255,0,0.4)"){
@@ -1180,6 +1180,29 @@ class drawIntersection{
       ctx.fillStyle = "#ddd";
       ctx.fillRect(this.x+(this.width/2)+3,this.y+this.height+2,(this.width/2),1);
     }
+  }
+
+  public drawInter(): any{
+    ctx.fillStyle = "#605A4C";
+    ctx.fillRect(this.x,this.y,this.width,this.height);
+    
+    //zebra-crossing (left)
+    this.leftZebra();
+    //zebra-crossing (right)
+    this.rightZebra();
+    //zebra-crossing (top)
+    this.topZebra();
+    //zebra-crossing (bottom)
+    this.botZebra();
+    
+    //1. traffic lights (left)
+    this.leftTrafficL();
+    //2. traffic lights (right)
+    this.rightTrafficL();
+    //3. traffic lights (top)
+    this.topTrafficL();
+    //4. traffic lights (bottom)
+    this.botTrafficL();
   }
 }
 
@@ -1326,7 +1349,6 @@ function animloop(): any{
     drawscene();
     requestAnimFrame(animloop); 
 }
+
 init();
 animloop();
-
-console.log("cars: "+cars[5]);
