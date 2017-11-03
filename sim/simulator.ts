@@ -21,15 +21,18 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-      public svgDiv: HTMLDivElement;
-      public canvas: HTMLCanvasElement;
-      public scriptSim: HTMLScriptElement;
+      public svgDiv: HTMLDivElement = <HTMLDivElement><any>document.getElementById("svgcanvas");;
+      public canvas: HTMLCanvasElement = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
+      public scriptSim: HTMLScriptElement = <HTMLScriptElement><any>document.getElementById("js3");
+      public car_no: number = 20;;
+      public canvas_width: number = 370;
+      public canvas_height: number = 270;
+      public roads: any[] = [];
+      public cars: any[] = [];
+      public intersections_arr: any[] = [];
 
       constructor() {
         super();
-        this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
-        this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
-        this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
       }
 
       initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
@@ -41,9 +44,7 @@ namespace pxsim {
       }   
 
       setTrafficLight(posistion: TLPosition, location: TLLocation): void{
-        if(location == TLLocation.A1){
-          jsLib.tlCoord = location;
-        }
+
       }
     }  
 }
@@ -52,8 +53,8 @@ namespace jsLib{
 
   export var tlCoord: TLLocation;
 
-  var car_no = 10;
   var b = new pxsim.Board();
+  var car_no = b.car_no;  
   var canvas: HTMLCanvasElement =  b.canvas;
   var ctx: CanvasRenderingContext2D = b.canvas.getContext("2d");
 
@@ -68,13 +69,13 @@ namespace jsLib{
     }; 
   })(); 
 
-  let w: number = 370;
-  let h: number = 270;
+  let w: number = b.canvas_width;
+  let h: number = b.canvas_height;
   canvas.width = w;
   canvas.height = h; 
-  let roads: any[] = [];
-  let intersections_arr: any[] = [];
-  let cars: any[] = [];   
+  let roads: any[] = b.cars;
+  let intersections_arr: any[] = b.roads;
+  let cars: any[] = b.intersections_arr;   
 
   //initiate the parameters
   export function init(): any{
@@ -159,7 +160,7 @@ namespace jsLib{
   var left_green: boolean = false;      
   // setInterval("left_greenc()",3000);         
 
-  function left_greenc(): void{
+  export function left_greenc(): void{
     left_green = !left_green;
   }
 

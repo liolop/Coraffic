@@ -49,4 +49,5 @@ namespace pxsim.actions {
     export function setTLightLocation(position: TLPosition, location: TLLocation){
         board().setTrafficLight(position, location);
     }
+
 }
