@@ -1,6 +1,10 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 
+declare interface  CanvasRenderingContext2D {
+     rounded_rect(x:any,y:any,w:any,h:any,r:any) : void;
+  }
+
 namespace pxsim {
     /**
      * This function gets called each time the program restarts
@@ -1304,7 +1308,7 @@ namespace jsLib{
         ctx.stroke();
         
         ctx.fillStyle = "#A09383";
-        ctx.fillRect(this.x-10,this.y,10,this.height);
+        ctx.rounded_rect(this.x-10,this.y,10,this.height,2);
         ctx.fillStyle = "#A09383";
         ctx.fillRect(this.x+this.width,this.y,10,this.height);
         
