@@ -25,25 +25,34 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-      public svgDiv: HTMLDivElement = <HTMLDivElement><any>document.getElementById("svgcanvas");;
-      public canvas: HTMLCanvasElement = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
-      public scriptSim: HTMLScriptElement = <HTMLScriptElement><any>document.getElementById("js3");
-      public car_no: number = 20;;
-      public canvas_width: number = 370;
-      public canvas_height: number = 270;
-      public roads: any[] = [];
-      public cars: any[] = [];
-      public intersections_arr: any[] = [];
-
+      public svgDiv: HTMLDivElement;
+      public canvas: HTMLCanvasElement;
+      public scriptSim: HTMLScriptElement;
+      public car_no: number;
+      public canvas_width: number;
+      public canvas_height: number;
+      public roads: any[];
+      public cars: any[];
+      public intersections_arr: any[];
+      public left_green: boolean;
+      
       constructor() {
         super();
+        this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
+        this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
+        this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
+        this.car_no = 10, this.canvas_width = 370, this.canvas_height = 270;
+        this.roads = [], this.cars = [], this.intersections_arr = [];
+        this.left_green = false; 
       }
 
       initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
         document.body.innerHTML = ''; // clear children
         this.svgDiv.appendChild(this.canvas);        
         document.body.appendChild(this.svgDiv);      
-        document.body.appendChild(this.scriptSim);    
+        document.body.appendChild(this.scriptSim); 
+        jsLib.init();
+        jsLib.animloop();
         return Promise.resolve();
       }   
 
@@ -51,8 +60,6 @@ namespace pxsim {
 }
 
 namespace jsLib{
-
-  export var tlCoord: TLLocation;
 
   var b = new pxsim.Board();
   var car_no = b.car_no;  
@@ -76,8 +83,10 @@ namespace jsLib{
   canvas.height = h; 
   let roads: any[] = b.cars;
   let intersections_arr: any[] = b.roads;
-  let cars: any[] = b.intersections_arr;   
-
+  let cars: any[] = b.intersections_arr;  
+  var left_green: boolean = b.left_green;         
+  setInterval(()=>jsLib.left_greenc(),3000);  
+  
   //initiate the parameters
   export function init(): any{
     //Launch Cars
@@ -87,17 +96,17 @@ namespace jsLib{
     for(var i=0;i<car_no;i++){
       var car = new drawcar();
       car.s = 5;
-      var pos_rand = Math.random();
-      if(pos_rand < 0.5){
-        car.x = w+25;
-        car.y = 41;
-        car.d = "w";
-      }
-      else{
-        car.x = 120;
-        car.y = h+25;
-        car.d = "n";
-      }
+      // var pos_rand = Math.random();
+      // if(pos_rand < 0.5){
+      //   car.x = w+25;
+      //   car.y = 41;
+      //   car.d = "w";
+      // }
+      // else{
+      //   car.x = 120;
+      //   car.y = h+25;
+      //   car.d = "n";
+      // }
       var color_rand = Math.random();
       var color = "";
       if(color_rand < 0.2){
@@ -106,18 +115,19 @@ namespace jsLib{
       else if(color_rand > 0.2 && color_rand < 0.4){
         var color = "#E22322";
       }
-        else if(color_rand > 0.4 && color_rand < 0.6){
-          var color = "#F9D111";
-        }
-        else if(color_rand > 0.6 && color_rand < 0.8){
-          var color = "#367C94";
-        }
-          else if(color_rand > 0.8 && color_rand < 1){
-            var color = "#222";
-          }
-          // console.log(color);
+      else if(color_rand > 0.4 && color_rand < 0.6){
+        var color = "#F9D111";
+      }
+      else if(color_rand > 0.6 && color_rand < 0.8){
+        var color = "#367C94";
+      }
+      else if(color_rand > 0.8 && color_rand < 1){
+        var color = "#222";
+      }
+      // console.log(color);
       car.color = color;
       cars.push(car);	
+      console.log("car.d: "+car.d);
     }
     
     //road1
@@ -156,13 +166,11 @@ namespace jsLib{
     }
     intersections();
     drive_cars();
-  }
-
-  var left_green: boolean = false;      
-  setInterval(()=>left_greenc(),3000);         
+  }      
 
   export function left_greenc(): void{
-    left_green = !left_green;
+    b.left_green = !b.left_green;
+    left_green = b.left_green;
   }
 
   function distance_check(c1: any, c2: any, axis: string): any{
@@ -271,7 +279,7 @@ namespace jsLib{
     }
   }      
 
-  function gen_dir(c: any, inter: any): any{
+  function gen_dir(c: drawcar, inter: any): any{
     if(c.dd == false){
       var rand_dir = Math.random()*10;
       var dir = c.d;
@@ -289,14 +297,14 @@ namespace jsLib{
         }
         if(rand_dir < rand_no1){
           if(inter.roadbottom == true){
-            var dir: any = "s";
+            var dir: string = "s";
             c.d = "s";
             c.x = inter.x + 10;
             c.y = inter.y + inter.height - 27;
           }
           else{
             if(inter.roadright == true){
-              var dir: any = c.d;
+              var dir: string = c.d;
             }
             else{
               //turn
@@ -305,14 +313,14 @@ namespace jsLib{
         }
         else if(rand_dir > 3 && rand_dir < rand_no2){
           if(inter.roadtop == true){
-            var dir: any = "n";
+            var dir: string = "n";
             c.d = "n";
             c.x = inter.x + inter.width - 9;
             c.y = inter.y + c.l + 2;
           }
           else{
             if(inter.roadright == true){
-              var dir: any = c.d;
+              var dir: string = c.d;
             }
             else{
               //turn
@@ -321,11 +329,11 @@ namespace jsLib{
         }
         else{
           if(inter.roadright == true){
-            var dir: any = c.d;
+            var dir: string = c.d;
           }
           else{
             //turn
-            var dir: any = "s";
+            var dir: string = "s";
             c.d = "s";
             c.x = inter.x + 10;
             c.y = inter.y + 2;
@@ -343,14 +351,16 @@ namespace jsLib{
         }
         if(rand_dir < rand_no1){
           if(inter.roadbottom == true){
-            var dir: any = "s";
-            c.d = "s";
-            c.x = inter.x + 20;
-            c.y = inter.y + inter.height + c.l +2;
+            var dir: string = "s";
+            //all going south
+            if((c.x -inter.width/2-50) == inter.x && (c.y-3-inter.width/2+20.5)==inter.y){
+              c.d = "s";
+              c.x = inter.x + 40;
+            }
           }
           else{
             if(inter.roadleft == true){
-              var dir: any = c.d;
+              var dir: string = c.d;
             }
             else{
               //turn
@@ -359,14 +369,14 @@ namespace jsLib{
         }
         else if(rand_dir > 3 && rand_dir < rand_no2){
           if(inter.roadtop == true){
-            var dir: any = "n";
+            var dir: string = "n";
             c.d = "n";
             c.x = inter.x + inter.width + 1;
             c.y = inter.y + c.l - 30;
           }
           else{
             if(inter.roadleft == true){
-              var dir: any = c.d;
+              var dir: string = c.d;
             }
             else{
               //turn
@@ -375,11 +385,11 @@ namespace jsLib{
         }
         else{
           if(inter.roadleft == true){
-            var dir: any = c.d;
+            var dir: string = c.d;
           }
           else{
             //turn
-            var dir: any = "n";
+            var dir: string = "n";
             c.d = "n";
             c.x = inter.x + inter.width + 1;
             c.y = inter.y + c.l + 2;
@@ -389,7 +399,7 @@ namespace jsLib{
       else if(c.d=="n"){
         if(rand_dir < 3){
           if(inter.roadright == true){
-            var dir: any = "e";
+            var dir: string = "e";
             c.d = "e";
             c.y = inter.y + inter.height - 10;
             c.x = inter.x + inter.width + 1;
@@ -399,7 +409,7 @@ namespace jsLib{
         }
         else if(rand_dir > 3 && rand_dir < 6){
           if(inter.roadleft == true){
-            var dir: any = "w";
+            var dir: string = "w";
             c.d = "w";
             c.y = inter.y + 8;
             c.x = inter.x + 5;
@@ -410,11 +420,11 @@ namespace jsLib{
         }
           else{
             if(inter.roadtop == true){
-              var dir: any = c.d;
+              var dir: string = c.d;
             }
             else{
               //turn
-              var dir: any = "w";
+              var dir: string = "w";
               c.d = "w";
               c.y = inter.y + 8;
               c.x = inter.x + 5;
@@ -424,14 +434,14 @@ namespace jsLib{
       else if(c.d=="s"){
         if(rand_dir < 3){
           if(inter.roadright == true){
-            var dir: any = "e";
+            var dir: string = "e";
             c.d = "e";
             c.y = inter.y + inter.height - 21;
             c.x = inter.x + inter.width + 1;
           }
           else{
             if(inter.roadbottom == true){
-              var dir: any = c.d;
+              var dir: string = c.d;
             }
             else{
               //turn
@@ -441,14 +451,14 @@ namespace jsLib{
         }
         else if(rand_dir > 3 && rand_dir < 6){
           if(inter.roadleft == true){
-            var dir: any = "w";
+            var dir: string = "w";
             c.d = "w";
             c.y = inter.y - 2;
             c.x = inter.x - 28;
           }
           else{
             if(inter.roadbottom == true){
-              var dir: any = c.d;
+              var dir: string = c.d;
             }
             else{
               //turn
@@ -458,7 +468,7 @@ namespace jsLib{
         }
         else{
           if(inter.roadleft == true){
-            var dir: any = "w";
+            var dir: string = "w";
             c.d = "w";
             c.y = inter.y - 2;
             c.x = inter.x - 28;
@@ -475,6 +485,8 @@ namespace jsLib{
   function drive_cars(): any{
     for(var i=0;i<cars.length;i++){
       var c = cars[i];
+      console.log("drive car.d: "+c.d);
+      
       c.s = 5;
       if(c.d == "e"){
         for(var l=0;l<cars.length;l++){
@@ -696,18 +708,25 @@ namespace jsLib{
         c.y += c.s;
       }
       else if(c.d == "w"){
+        //for loops to check for meeting collision and intersection
         for(var l=0;l<cars.length;l++){
           var c2 = cars[l];
+          //check collision between cars when facing west
           var dc = distance_check(c,c2,"-x");
+          //dc==true means collision exits
           if(dc == true){
             c.s = 0;
             for(var k=0;k<intersections_arr.length;k++){
               var inter = intersections_arr[k];
+              //if the car meets the inter
               if(inter.y + inter.height > c.y && inter.y < c.y){
-                //this is road
+                //for road with 2 lanes on x axis
                 if(inter.height == 80){
+                  // # cars waiting at top lane when meeting the inter
                   var lc = 0;
+                  // # cars waiting at bottom lane
                   var ld = 0;
+                  //for loop to check how many cars waiting at each lane when meeting the inter
                   for(var v=0;v<cars.length;v++){
                     if(cars[v].y == (inter.y + 22) && cars[v].x > inter.x && cars[v].s == 0){
                       lc++;
@@ -716,34 +735,44 @@ namespace jsLib{
                       ld++;
                     }
                   }
+                  // if #cars at bot>2+#cars at top, set driving car's position to top lane
                   if((ld-2)>lc){
                     c.y = inter.y + 22;
                     c.s = 0;
                   }
+                  //otherwise, stop because collision exits, it will stop behind the car
                   else{
                     c.s = 0;
                   }
+                  //check collision after reseting the car's position or when it stops for waiting
                   var dc = distance_check(c,c2,"-x");
+                  //if it for sure has collision, stop
                   if(dc == true){
                     c.s = 0;
                   }
                 }
+                //for road with only 1 lane on x axis, stop the car because of the collision existance
                 else{
                   c.s = 0;
                 }
               }
             }
           }
+          //if no collision
           else{
             var counter = 0;
+            //for loop to check if the car meets the inter
             for(var k=0;k<intersections_arr.length;k++){
               var inter = intersections_arr[k];
+              //true means meets
               if(check_inter(c, inter, "-x")){
                 counter++;
+                //red, stop
                 if(inter.right == "rgba(255,0,0,0.4)"){
                   //red
                   c.s = 0;
                 }
+                //green go
                 else{
                   //green
                   c.s = 5;
@@ -752,6 +781,7 @@ namespace jsLib{
                 }
               }
             }
+            //if its not at intern
             if(counter==0){
               //car past intersection reset random generator
               c.dd = false;	
@@ -760,11 +790,10 @@ namespace jsLib{
         }
         if(c.x+26 <= 0){
           //reposition car
-          //console.log("reposition" + " west");
-          c.y = 65.5;
-          c.x = -25;
-          c.d = "e";
-          c.y -= c.s;
+          c.y = 40;
+          c.x = w+25;
+          c.d = "w";
+          c.x -= c.s;
           
         }
         c.x -= c.s;
@@ -792,16 +821,17 @@ namespace jsLib{
   }   
 
   class drawcar{
-    public x: number = 0;
-    public y: number = 0;
+    public x: number = w+25;
+    public y: number = 40;
     //car speed
     public s: number = 5;
     public l: number = 25;
     //car direction
-    public d: string = "e";
+    public d: string = "w";
     public dd: boolean = false;
     public color: string = "#F5D600";
     public w: number;
+    public turningS: boolean;
 
     public drawCar(): void{
       ctx.fillStyle = this.color;
@@ -825,31 +855,31 @@ namespace jsLib{
         ctx.fillRect(this.x+14, this.y-2, 2 ,2);
         ctx.fillRect(this.x+14, this.y+12, 2 ,2);
       }
-        else if(this.d == "s"){
-          this.w = 12;
-          ctx.rotate(Math.PI/2);
-          ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
-          ctx.fillStyle="#99B3CE";
-          ctx.fillRect(this.y+15, -this.x, 5, 12);
-          ctx.fillRect(this.y+4, -this.x, 2, 12);
-          ctx.fillStyle = this.color;
-          ctx.fillRect(this.y+14, -this.x-2, 2 ,2);
-          ctx.fillRect(this.y+14, -this.x+12, 2 ,2);
-          ctx.rotate(-Math.PI/2);
-          
-        }
-        else{
-          this.w = 12;
-          ctx.rotate(Math.PI/2);
-          ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
-          ctx.fillStyle="#99B3CE";
-          ctx.fillRect(this.y+5, -this.x, 5, 12);
-          ctx.fillRect(this.y+18, -this.x, 2, 12);
-          ctx.fillStyle = this.color;
-          ctx.fillRect(this.y+6, -this.x-2, 2 ,2);
-          ctx.fillRect(this.y+6, -this.x+12, 2 ,2);
-          ctx.rotate(-Math.PI/2);
-        }
+      else if(this.d == "s"){
+        this.w = 12;
+        ctx.rotate(Math.PI/2);
+        ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
+        ctx.fillStyle="#99B3CE";
+        ctx.fillRect(this.y+15, -this.x, 5, 12);
+        ctx.fillRect(this.y+4, -this.x, 2, 12);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.y+14, -this.x-2, 2 ,2);
+        ctx.fillRect(this.y+14, -this.x+12, 2 ,2);
+        ctx.rotate(-Math.PI/2);
+        
+      }
+      else{
+        this.w = 12;
+        ctx.rotate(Math.PI/2);
+        ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
+        ctx.fillStyle="#99B3CE";
+        ctx.fillRect(this.y+5, -this.x, 5, 12);
+        ctx.fillRect(this.y+18, -this.x, 2, 12);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.y+6, -this.x-2, 2 ,2);
+        ctx.fillRect(this.y+6, -this.x+12, 2 ,2);
+        ctx.rotate(-Math.PI/2);
+      }
     }
 
   }
@@ -989,6 +1019,7 @@ namespace jsLib{
       }
       else{
         var shadow_color = 'rgba(255,0,0,1)';
+
       }
       
       ctx.fillStyle = shadow_color;
@@ -1187,30 +1218,91 @@ namespace jsLib{
       ctx.fillStyle = "#605A4C";
       ctx.fillRect(this.x,this.y,this.width,this.height);
       
-      //zebra-crossing (left)
-      this.leftZebra();
-      //zebra-crossing (right)
-      this.rightZebra();
-      //zebra-crossing (top)
-      this.topZebra();
-      //zebra-crossing (bottom)
-      this.botZebra();
-      
       //1. traffic lights (left)
-      if(this.roadleft == true){  
+      if(this.roadleft == true){ 
+        //zebra-crossing (left)
+        this.leftZebra(); 
         this.leftTrafficL();
       }
       //2. traffic lights (right)
       if(this.roadright == true){
+        //zebra-crossing (right)
+        this.rightZebra();
         this.rightTrafficL();        
       }        
       //3. traffic lights (top)
-      if(this.roadtop == true){        
+      if(this.roadtop == true){ 
+        //zebra-crossing (top)
+        this.topZebra();       
         this.topTrafficL();
       }
       //4. traffic lights (bottom)
-      if(this.roadbottom == true){        
+      if(this.roadbottom == true){
+        //zebra-crossing (bottom)
+        this.botZebra();        
         this.botTrafficL();
+      }        
+      if(this.top == "rgba(0,255,0,0.4)"){
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#000000';
+        var interMidX = this.x+this.width/2;
+        var interMidY = this.y+this.height/2;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.moveTo(interMidX, interMidY);
+        ctx.lineTo(interMidX, interMidY-this.height/4);
+        ctx.lineTo(interMidX-this.height/12, interMidY-this.height/6);
+        ctx.moveTo(interMidX, interMidY-this.height/4);
+        ctx.lineTo(interMidX+this.height/12, interMidY-this.height/6);
+        ctx.moveTo(interMidX,interMidX);
+        ctx.closePath();
+        ctx.stroke();
+      }
+      if(this.bottom == "rgba(0,255,0,0.4)"){
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#000000';
+        var interMidX = this.x+this.width/2;
+        var interMidY = this.y+this.height/2;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.moveTo(interMidX, interMidY);
+        ctx.lineTo(interMidX, interMidY+this.height/4);
+        ctx.lineTo(interMidX-this.height/12, interMidY+this.height/6);
+        ctx.moveTo(interMidX, interMidY+this.height/4);
+        ctx.lineTo(interMidX+this.height/12, interMidY+this.height/6);
+        ctx.moveTo(interMidX,interMidX);
+        ctx.closePath();
+        ctx.stroke();
+      }
+      if(this.left == "rgba(0,255,0,0.4)"){
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#000000';
+        var interMidX = this.x+this.width/2;
+        var interMidY = this.y+this.height/2;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.moveTo(interMidX, interMidY);
+        ctx.lineTo(interMidX-this.height/4, interMidY);
+        ctx.lineTo(interMidX-this.height/4+this.height/12, interMidY-this.height/12);
+        ctx.moveTo(interMidX-this.height/4, interMidY);
+        ctx.lineTo(interMidX-this.height/4+this.height/12, interMidY+this.height/12);
+        ctx.closePath();
+        ctx.stroke();
+      }
+      if(this.right == "rgba(0,255,0,0.4)"){
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#000000';
+        var interMidX = this.x+this.width/2;
+        var interMidY = this.y+this.height/2;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.moveTo(interMidX, interMidY);
+        ctx.lineTo(interMidX+this.height/4, interMidY);
+        ctx.lineTo(interMidX+this.height/4-this.height/12, interMidY-this.height/12);
+        ctx.moveTo(interMidX+this.height/4, interMidY);
+        ctx.lineTo(interMidX+this.height/4-this.height/12, interMidY+this.height/12);
+        ctx.closePath();
+        ctx.stroke();
       }
     }
   }
@@ -1361,5 +1453,5 @@ namespace jsLib{
 
 }
 
-jsLib.init();
-jsLib.animloop();
+// jsLib.init();
+// jsLib.animloop();

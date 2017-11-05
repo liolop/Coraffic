@@ -28,22 +28,21 @@ declare namespace console {
     function log(msg: string): void;
 
 }
-declare namespace actions {
+declare namespace intersection {
     /**
-     * @param loc
+     * @param loc location index of intersections
      */
-    //% blockId=set_light block="set traffic light at %loc" 
+    //% block="On intersection %loc" blockId=on_inter
     //% blockGap=8 weight=54
-    //% shim=actions::setUpLight
-    function setUpLight(loc: TLLocation, body: () => void): void;
+    //% shim=intersection::onInter
+    function onInter(loc: InterLocation, body: () => void): void;
 
     /**
-     * @param dir
-     * @param color
+     * @param dir direction of the traffic light
      */
-    //% block="set %dir|%color" blockId="set_dir_color"
-    //% shim=actions::setDirColor
-    function setDirColor(dir: TLDir, color: LightColor): void;
+    //% block="go %dir" blockId=set_TL_dir
+    //% shim=intersection::setTLDir
+    function setTLDir(dir: TLDir): void;
 
 }
 

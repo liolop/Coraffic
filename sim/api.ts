@@ -38,30 +38,21 @@ namespace pxsim.console {
     }
 }
 
-namespace pxsim.actions {
-
+namespace pxsim.intersection{
     /**
-     * @param loc
+     * @param loc location index of intersections
      */
-    //% blockId=set_light block="set traffic light at %loc" 
+    //% block="On intersection %loc" blockId=on_inter
     //% blockGap=8 weight=54
-    export function setUpLight(loc: TLLocation, body: () => void){
+    export function onInter(loc: InterLocation, body: RefAction){
 
     }
 
     /**
-     * @param dir
-     * @param color
+     * @param dir direction of the traffic light
      */
-    //% block="set %dir|%color" blockId="set_dir_color"
-    export function setDirColor(dir: TLDir, color: LightColor){
-        //
-    }
+    //% block="go %dir" blockId=set_TL_dir
+    export function setTLDir(dir: TLDir){
 
-    /**
-     * 
-     */
-    export function setInterProperties(){
-        
     }
 }

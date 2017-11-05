@@ -1,5 +1,5 @@
 
-declare const enum TLLocation{
+declare const enum InterLocation{
     //% block=A1
     A1,
     //% block=A2
@@ -13,16 +13,11 @@ declare const enum TLLocation{
 declare const enum TLDir{
     //% block=North
     North,
-    //% block=Right
+    //% block=South
     South,
-    //% block=Top
+    //% block=East
     East,
-    //% block=Bottom
+    //% block=West
     West
-}
-
-declare const enum LightColor{
-    Red,
-    Green
 }
 

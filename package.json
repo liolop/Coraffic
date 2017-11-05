@@ -33,6 +33,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.80",
     "es": "^0.6.0",
+    "konva": "^1.7.6",
     "pxt-core": "2.0.31"
   }
 }
