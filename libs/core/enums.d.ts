@@ -10,13 +10,19 @@ declare const enum TLLocation{
     A4,
 }
 
-declare const enum TLPosition{
-    //% block=Left
-    Left,
+declare const enum TLDir{
+    //% block=North
+    North,
     //% block=Right
-    Right,
+    South,
     //% block=Top
-    Top,
+    East,
     //% block=Bottom
-    Bottom
+    West
 }
+
+declare const enum LightColor{
+    Red,
+    Green
+}
+

@@ -47,9 +47,6 @@ namespace pxsim {
         return Promise.resolve();
       }   
 
-      setTrafficLight(posistion: TLPosition, location: TLLocation): void{
-
-      }
     }  
 }
 
@@ -162,7 +159,7 @@ namespace jsLib{
   }
 
   var left_green: boolean = false;      
-  // setInterval("left_greenc()",3000);         
+  setInterval(()=>left_greenc(),3000);         
 
   export function left_greenc(): void{
     left_green = !left_green;
@@ -544,7 +541,7 @@ namespace jsLib{
         }
         if(c.x+26 >= canvas.width){
           //reposition car
-          console.log("reposition " + "east");
+          //console.log("reposition " + "east");
           c.x = 295;
           c.y = 46.5;
           c.d = "w";
@@ -617,7 +614,7 @@ namespace jsLib{
         }
         if(c.y+26 <= 0){
           //reposition car
-          console.log("reposition" + " north");
+          //console.log("reposition" + " north");
           c.x = 120.5;
           c.y = h+25;
           c.d = "s";
@@ -690,7 +687,7 @@ namespace jsLib{
         }
         if(c.y-26 >= h){
           //reposition car
-          console.log("reposition" + " south");
+          //console.log("reposition" + " south");
           c.y = 365;
           c.x = 120.5;
           c.d = "n";
@@ -763,7 +760,7 @@ namespace jsLib{
         }
         if(c.x+26 <= 0){
           //reposition car
-          console.log("reposition" + " west");
+          //console.log("reposition" + " west");
           c.y = 65.5;
           c.x = -25;
           c.d = "e";
@@ -810,7 +807,7 @@ namespace jsLib{
       ctx.fillStyle = this.color;
       if(this.d == "w"){
         this.w = 25;
-        ctx.fillRect(this.x, this.y, this.l, 12);
+        ctx.rounded_rect(this.x, this.y, this.l, 12, 2);
         ctx.fillStyle="#99B3CE";
         ctx.fillRect(this.x+5, this.y, 5, 12);
         ctx.fillRect(this.x+18, this.y, 2, 12);
@@ -820,7 +817,7 @@ namespace jsLib{
       }
       else if(this.d == "e"){
         this.w = 25;
-        ctx.fillRect(this.x, this.y, this.l, 12);
+        ctx.rounded_rect(this.x, this.y, this.l, 12, 2);
         ctx.fillStyle="#99B3CE";
         ctx.fillRect(this.x+15, this.y, 5, 12);
         ctx.fillRect(this.x+4, this.y, 2, 12);
@@ -831,7 +828,7 @@ namespace jsLib{
         else if(this.d == "s"){
           this.w = 12;
           ctx.rotate(Math.PI/2);
-          ctx.fillRect(this.y, -this.x, this.l, 12);
+          ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
           ctx.fillStyle="#99B3CE";
           ctx.fillRect(this.y+15, -this.x, 5, 12);
           ctx.fillRect(this.y+4, -this.x, 2, 12);
@@ -844,7 +841,7 @@ namespace jsLib{
         else{
           this.w = 12;
           ctx.rotate(Math.PI/2);
-          ctx.fillRect(this.y, -this.x, this.l, 12);
+          ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
           ctx.fillStyle="#99B3CE";
           ctx.fillRect(this.y+5, -this.x, 5, 12);
           ctx.fillRect(this.y+18, -this.x, 2, 12);
@@ -982,10 +979,33 @@ namespace jsLib{
         }
       }
     }
+
     public leftTrafficL(){
-      if(this.roadleft == true){
+      ctx.save();
+      
+      if(this.left == "rgba(0,255,0,0.4)"){
+        //green
+        var shadow_color = 'rgba(0,255,0,1)';
+      }
+      else{
+        var shadow_color = 'rgba(255,0,0,1)';
+      }
+      
+      ctx.fillStyle = shadow_color;
+      ctx.shadowColor = shadow_color
+      ctx.shadowOffsetX = -2;
+      ctx.shadowBlur = 2;
+      /**
+       * Right Traffic Light at Left side
+       */
+      ctx.fillRect(this.x-3,this.y+this.height-12,6,6);
+      ctx.fill();
+      ctx.restore();
+      ctx.shadowOffsetX = undefined;
+      ctx.shadowBlur = undefined;
+      
+      if(this.height > 40){
         ctx.save();
-        
         if(this.left == "rgba(0,255,0,0.4)"){
           //green
           var shadow_color = 'rgba(0,255,0,1)';
@@ -999,46 +1019,43 @@ namespace jsLib{
         ctx.shadowOffsetX = -2;
         ctx.shadowBlur = 2;
         /**
-         * Right Traffic Light at Left side
+         * Left Traffic Light at Left side
          */
-        if(tlCoord == TLLocation.A1){
-          ctx.fillRect(this.x-3,this.y+this.height-12,6,6);
-        }
+        //ctx.fillRect(this.x-3,this.y+this.height-30,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
         ctx.shadowBlur = undefined;
-        
-        if(this.height > 40){
-          ctx.save();
-          if(this.left == "rgba(0,255,0,0.4)"){
-            //green
-            var shadow_color = 'rgba(0,255,0,1)';
-          }
-          else{
-            var shadow_color = 'rgba(255,0,0,1)';
-          }
-          
-          ctx.fillStyle = shadow_color;
-          ctx.shadowColor = shadow_color
-          ctx.shadowOffsetX = -2;
-          ctx.shadowBlur = 2;
-          /**
-           * Left Traffic Light at Left side
-           */
-          ctx.fillRect(this.x-3,this.y+this.height-30,6,6);
-          ctx.fill();
-          ctx.restore();
-          ctx.shadowOffsetX = undefined;
-          ctx.shadowBlur = undefined;
-        }
-        
-        ctx.fillStyle = "#ddd";
-        ctx.fillRect(this.x-3,this.y+this.height-(this.height/2)+3,1,(this.height/2));						
       }
+      
+      ctx.fillStyle = "#ddd";
+      ctx.fillRect(this.x-3,this.y+this.height-(this.height/2)+3,1,(this.height/2));						
     }
+    
     public rightTrafficL(){
-      if(this.roadright == true){
+      ctx.save();
+      if(this.right == "rgba(0,255,0,0.4)"){
+        //green
+        var shadow_color = 'rgba(0,255,0,1)';
+      }
+      else{
+        var shadow_color = 'rgba(255,0,0,1)';
+      }
+      
+      ctx.fillStyle = shadow_color;
+      ctx.shadowColor = shadow_color
+      ctx.shadowOffsetX = 2;
+      ctx.shadowBlur = 2;
+      /**
+       * Left Traffic Light at Right side
+       */
+      ctx.fillRect(this.x+this.width+2,this.y+12,6,6);
+      ctx.fill();
+      ctx.restore();
+      ctx.shadowOffsetX = undefined;
+      ctx.shadowBlur = undefined;
+      
+      if(this.height > 40){
         ctx.save();
         if(this.right == "rgba(0,255,0,0.4)"){
           //green
@@ -1053,44 +1070,42 @@ namespace jsLib{
         ctx.shadowOffsetX = 2;
         ctx.shadowBlur = 2;
         /**
-         * Left Traffic Light at Right side
+         * Right Traffic Light at Right side
          */
-        //ctx.fillRect(this.x+this.width+2,this.y+12,6,6);
+        //ctx.fillRect(this.x+this.width+2,this.y+30,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
         ctx.shadowBlur = undefined;
-        
-        if(this.height > 40){
-          ctx.save();
-          if(this.right == "rgba(0,255,0,0.4)"){
-            //green
-            var shadow_color = 'rgba(0,255,0,1)';
-          }
-          else{
-            var shadow_color = 'rgba(255,0,0,1)';
-          }
-          
-          ctx.fillStyle = shadow_color;
-          ctx.shadowColor = shadow_color
-          ctx.shadowOffsetX = 2;
-          ctx.shadowBlur = 2;
-          /**
-           * Right Traffic Light at Right side
-           */
-          //ctx.fillRect(this.x+this.width+2,this.y+30,6,6);
-          ctx.fill();
-          ctx.restore();
-          ctx.shadowOffsetX = undefined;
-          ctx.shadowBlur = undefined;
-        }
-        
-        ctx.fillStyle = "#ddd";
-        ctx.fillRect(this.x+this.width+2,this.y-3,1,(this.height/2));		
       }
+      
+      ctx.fillStyle = "#ddd";
+      ctx.fillRect(this.x+this.width+2,this.y-3,1,(this.height/2));		
     }
     public topTrafficL(){
-      if(this.roadtop == true){
+      ctx.save();
+      if(this.top == "rgba(0,255,0,0.4)"){
+        //green
+        var shadow_color = 'rgba(0,255,0,1)';
+      }
+      else{
+        var shadow_color = 'rgba(255,0,0,1)';
+      }
+      
+      ctx.fillStyle = shadow_color;
+      ctx.shadowColor = shadow_color
+      ctx.shadowOffsetY = -2;
+      ctx.shadowBlur = 2;
+      /**
+       * Right Traffic Light at Top side
+       */
+      ctx.fillRect(this.x+4,this.y-2,6,6);
+      ctx.fill();
+      ctx.restore();
+      ctx.shadowOffsetX = undefined;
+      ctx.shadowBlur = undefined;
+      
+      if(this.width > 40){
         ctx.save();
         if(this.top == "rgba(0,255,0,0.4)"){
           //green
@@ -1105,44 +1120,42 @@ namespace jsLib{
         ctx.shadowOffsetY = -2;
         ctx.shadowBlur = 2;
         /**
-         * Right Traffic Light at Top side
-         */
-        //ctx.fillRect(this.x+4,this.y-2,6,6);
+        * Left Traffic Light at Top side
+        */
+        ctx.fillRect(this.x+28,this.y-2,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
         ctx.shadowBlur = undefined;
-        
-        if(this.width > 40){
-          ctx.save();
-          if(this.top == "rgba(0,255,0,0.4)"){
-            //green
-            var shadow_color = 'rgba(0,255,0,1)';
-          }
-          else{
-            var shadow_color = 'rgba(255,0,0,1)';
-          }
-          
-          ctx.fillStyle = shadow_color;
-          ctx.shadowColor = shadow_color
-          ctx.shadowOffsetY = -2;
-          ctx.shadowBlur = 2;
-          /**
-          * Left Traffic Light at Top side
-          */
-          //ctx.fillRect(this.x+28,this.y-2,6,6);
-          ctx.fill();
-          ctx.restore();
-          ctx.shadowOffsetX = undefined;
-          ctx.shadowBlur = undefined;
-        }
-        
-        ctx.fillStyle = "#ddd";
-        ctx.fillRect(this.x-3,this.y-2,(this.width/2),1);
       }
+      
+      ctx.fillStyle = "#ddd";
+      ctx.fillRect(this.x-3,this.y-2,(this.width/2),1);
     }
     public botTrafficL(){
-      if(this.roadbottom == true){
+      ctx.save();
+      if(this.bottom == "rgba(0,255,0,0.4)"){
+        //green
+        var shadow_color = 'rgba(0,255,0,1)';
+      }
+      else{
+        var shadow_color = 'rgba(255,0,0,1)';
+      }
+      
+      ctx.fillStyle = shadow_color;
+      ctx.shadowColor = shadow_color
+      ctx.shadowOffsetY = 2;
+      ctx.shadowBlur = 2;
+      /**
+       * Traffic Light on the right at Bottom side
+       */
+      ctx.fillRect(this.x+this.width-10,this.y+this.height+2,6,6);
+      ctx.fill();
+      ctx.restore();
+      ctx.shadowOffsetX = undefined;
+      ctx.shadowBlur = undefined;
+      
+      if(this.width > 40){
         ctx.save();
         if(this.bottom == "rgba(0,255,0,0.4)"){
           //green
@@ -1157,41 +1170,17 @@ namespace jsLib{
         ctx.shadowOffsetY = 2;
         ctx.shadowBlur = 2;
         /**
-         * Traffic Light on the right at Bottom side
-         */
-        //ctx.fillRect(this.x+this.width-10,this.y+this.height+2,6,6);
+        * Traffic Light on the left at Bottom side
+        */
+        ctx.fillRect(this.x+this.width-32,this.y+this.height+2,6,6);
         ctx.fill();
         ctx.restore();
         ctx.shadowOffsetX = undefined;
         ctx.shadowBlur = undefined;
-        
-        if(this.width > 40){
-          ctx.save();
-          if(this.bottom == "rgba(0,255,0,0.4)"){
-            //green
-            var shadow_color = 'rgba(0,255,0,1)';
-          }
-          else{
-            var shadow_color = 'rgba(255,0,0,1)';
-          }
-          
-          ctx.fillStyle = shadow_color;
-          ctx.shadowColor = shadow_color
-          ctx.shadowOffsetY = 2;
-          ctx.shadowBlur = 2;
-          /**
-          * Traffic Light on the left at Bottom side
-          */
-          //ctx.fillRect(this.x+this.width-32,this.y+this.height+2,6,6);
-          ctx.fill();
-          ctx.restore();
-          ctx.shadowOffsetX = undefined;
-          ctx.shadowBlur = undefined;
-        }
-        
-        ctx.fillStyle = "#ddd";
-        ctx.fillRect(this.x+(this.width/2)+3,this.y+this.height+2,(this.width/2),1);
       }
+      
+      ctx.fillStyle = "#ddd";
+      ctx.fillRect(this.x+(this.width/2)+3,this.y+this.height+2,(this.width/2),1);
     }
 
     public drawInter(): any{
@@ -1208,13 +1197,21 @@ namespace jsLib{
       this.botZebra();
       
       //1. traffic lights (left)
-      this.leftTrafficL();
+      if(this.roadleft == true){  
+        this.leftTrafficL();
+      }
       //2. traffic lights (right)
-      this.rightTrafficL();
+      if(this.roadright == true){
+        this.rightTrafficL();        
+      }        
       //3. traffic lights (top)
-      this.topTrafficL();
+      if(this.roadtop == true){        
+        this.topTrafficL();
+      }
       //4. traffic lights (bottom)
-      this.botTrafficL();
+      if(this.roadbottom == true){        
+        this.botTrafficL();
+      }
     }
   }
 
@@ -1250,7 +1247,6 @@ namespace jsLib{
                 }
                 
                 var inter = new drawIntersection();
-                inter.drawInter();
                 inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
                 // console.log("inter.x: "+inter.x+", inter.y: "+inter.y);
                 // console.log("inter.w: "+inter.width+", inter.h: "+inter.height);
@@ -1263,7 +1259,6 @@ namespace jsLib{
       }
     }
   }
-
   class drawroad{
     public x: number;
     public y: number;
@@ -1308,9 +1303,9 @@ namespace jsLib{
         ctx.stroke();
         
         ctx.fillStyle = "#A09383";
-        ctx.rounded_rect(this.x-10,this.y,10,this.height,2);
+        ctx.rounded_rect(this.x-10,this.y,10,this.height, 2);
         ctx.fillStyle = "#A09383";
-        ctx.fillRect(this.x+this.width,this.y,10,this.height);
+        ctx.rounded_rect(this.x+this.width,this.y,10,this.height, 2);
         
       }
       else if(this.width > this.height && this.height > 40){
@@ -1337,25 +1332,25 @@ namespace jsLib{
         ctx.stroke();
         
         ctx.fillStyle = "#A09383";
+        ctx.rounded_rect(this.x,this.y-10,this.width,10, 2);
+        ctx.fillStyle = "#A09383";
+        ctx.rounded_rect(this.x,this.y+this.height,this.width,10, 2);
+        
+      }
+      else if(this.width > this.height && this.height < 41){
+        ctx.fillRect(this.x,this.y+((this.height/2)-1),this.width,2);
+        ctx.fillStyle = "#A09383";
         ctx.fillRect(this.x,this.y-10,this.width,10);
         ctx.fillStyle = "#A09383";
         ctx.fillRect(this.x,this.y+this.height,this.width,10);
-        
       }
-        else if(this.width > this.height && this.height < 41){
-          ctx.fillRect(this.x,this.y+((this.height/2)-1),this.width,2);
-          ctx.fillStyle = "#A09383";
-          ctx.fillRect(this.x,this.y-10,this.width,10);
-          ctx.fillStyle = "#A09383";
-          ctx.fillRect(this.x,this.y+this.height,this.width,10);
-        }
-        else if(this.width < this.height && this.width < 41){
-          ctx.fillRect(this.x+((this.width/2)-1),this.y,2,this.height);
-          ctx.fillStyle = "#A09383";
-          ctx.fillRect(this.x-10,this.y,10,this.height);
-          ctx.fillStyle = "#A09383";
-          ctx.fillRect(this.x+this.width,this.y,10,this.height);
-        } 
+      else if(this.width < this.height && this.width < 41){
+        ctx.fillRect(this.x+((this.width/2)-1),this.y,2,this.height);
+        ctx.fillStyle = "#A09383";
+        ctx.fillRect(this.x-10,this.y,10,this.height);
+        ctx.fillStyle = "#A09383";
+        ctx.fillRect(this.x+this.width,this.y,10,this.height);
+      } 
     }
   }
 

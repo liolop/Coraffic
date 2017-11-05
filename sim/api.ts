@@ -41,13 +41,27 @@ namespace pxsim.console {
 namespace pxsim.actions {
 
     /**
-     * Set location of the traffic light on the map
-     * @param location
-     * @param position 
+     * @param loc
      */
-    //% blockId=set_traffic_light block="set %position|traffic light at %location"
-    export function setTLightLocation(position: TLPosition, location: TLLocation){
-        board().setTrafficLight(position, location);
+    //% blockId=set_light block="set traffic light at %loc" 
+    //% blockGap=8 weight=54
+    export function setUpLight(loc: TLLocation, body: () => void){
+
     }
 
+    /**
+     * @param dir
+     * @param color
+     */
+    //% block="set %dir|%color" blockId="set_dir_color"
+    export function setDirColor(dir: TLDir, color: LightColor){
+        //
+    }
+
+    /**
+     * 
+     */
+    export function setInterProperties(){
+        
+    }
 }
