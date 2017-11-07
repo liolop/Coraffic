@@ -42,9 +42,7 @@ namespace pxsim.intersection{
     
     class parameters{
         public interLoc: InterLocation;
-        constructor(){
-
-        }
+        constructor(){}
     }
     var param = new parameters();
 
@@ -53,8 +51,7 @@ namespace pxsim.intersection{
      */
     //% block="At intersection %loc" blockId=on_inter
     export function onInter(loc: InterLocation, body: RefAction){
-        console.log("1");
-        param.interLoc = loc;
+
     }
 
     /**
@@ -62,9 +59,7 @@ namespace pxsim.intersection{
      */
     //% block="Allow %dir" blockId=set_TL_dir
     export function setTLDir(dir: TLDir){
-        if(param.interLoc == 0){
-            console.log("A1");
-        }
+
     }
 
     /**
@@ -80,7 +75,7 @@ namespace pxsim.intersection{
      */
     //% block="current state duration of %loc" blockId=get_state_duration
     export function getStateDuration(loc: InterLocation): number {
-        return 1;
+        return 0;
     }
 
     /**
@@ -89,7 +84,7 @@ namespace pxsim.intersection{
      */
     //% block="Going %dir|traffic flow at %loc" blockId=get_traffic_flow
     export function getTrafficFlow(dir: TLDir, loc: InterLocation): number{
-        return 1;
+        return 0;
     }
 
     /**

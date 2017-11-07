@@ -35,13 +35,14 @@ namespace pxsim {
       public cars: any[];
       public intersections_arr: any[];
       public left_green: boolean;
+      public tMap: jsLib.tMap;
       
       constructor() {
         super();
         this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
         this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
         this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
-        this.car_no = 10, this.canvas_width = 370, this.canvas_height = 270;
+        this.car_no = 1, this.canvas_width = 370, this.canvas_height = 270;
         this.roads = [], this.cars = [], this.intersections_arr = [];
         this.left_green = false; 
       }
@@ -50,17 +51,13 @@ namespace pxsim {
         document.body.innerHTML = ''; // clear children
         this.svgDiv.appendChild(this.canvas);        
         document.body.appendChild(this.svgDiv);      
-        document.body.appendChild(this.scriptSim); 
-        let tMap = new jsLib.tMap();
-        tMap.tMapInit();
-        tMap.tMapAnim();
-        // jsLib.init();
-        // jsLib.animloop();
+        document.body.appendChild(this.scriptSim);  
+        this.tMap = new jsLib.tMap();        
+        this.tMap.tMapInit();
+        this.tMap.tMapAnim();
+        this.tMap = null;
         return Promise.resolve();
       }   
-
-
-
     }  
 }
 
@@ -68,8 +65,29 @@ namespace jsLib{
 
   export class tMap{
     public b: pxsim.Board;
+    public car_no: number;
+    public canvas: HTMLCanvasElement;
+    public ctx : CanvasRenderingContext2D;
+    public w: number;
+    public h: number;
+    public roads: any[];
+    public intersections_arr: any[];
+    public cars: any[];
+    public left_green: boolean;
+
     constructor(){
       this.b = new pxsim.Board();
+      this.car_no = this.b.car_no;
+      this.canvas = this.b.canvas;
+      this.ctx = this.b.canvas.getContext("2d");
+      this.w = this.b.canvas_width;
+      this.h = this.b.canvas_height;
+      this.canvas.width = w;
+      this.canvas.height = h; 
+      this.roads = this.b.cars;
+      this.intersections_arr = this.b.roads;
+      this.cars = this.b.intersections_arr;  
+      this.left_green = this.b.left_green;  
     }
     tMapInit(){
       init();
@@ -80,10 +98,9 @@ namespace jsLib{
   }
 
   var map = new tMap();
-  var b: pxsim.Board = map.b;
-  var car_no = b.car_no;  
-  var canvas: HTMLCanvasElement =  b.canvas;
-  var ctx: CanvasRenderingContext2D = b.canvas.getContext("2d");
+  var car_no = map.car_no;  
+  var canvas: HTMLCanvasElement =  map.canvas;
+  var ctx: CanvasRenderingContext2D = map.canvas.getContext("2d");
 
   var requestAnimFrame: (callback: () => void) => void = (function(){ 
     return window.requestAnimationFrame || 
@@ -96,14 +113,14 @@ namespace jsLib{
     }; 
   })(); 
 
-  let w: number = b.canvas_width;
-  let h: number = b.canvas_height;
+  let w: number = map.w;
+  let h: number = map.h;
   canvas.width = w;
   canvas.height = h; 
-  let roads: any[] = b.cars;
-  let intersections_arr: any[] = b.roads;
-  let cars: any[] = b.intersections_arr;  
-  var left_green: boolean = b.left_green;         
+  let roads: any[] = map.cars;
+  let intersections_arr: any[] = map.roads;
+  let cars: any[] = map.intersections_arr;  
+  var left_green: boolean = map.left_green;         
   setInterval(()=>jsLib.left_greenc(),3000);  
   
   //initiate the parameters
@@ -114,7 +131,7 @@ namespace jsLib{
     intersections_arr = [];
     for(var i=0;i<car_no;i++){
       var car = new drawcar();
-      car.s = 5;
+      car.s = 1;
       // var pos_rand = Math.random();
       // if(pos_rand < 0.5){
       //   car.x = w+25;
@@ -188,8 +205,9 @@ namespace jsLib{
   }      
 
   export function left_greenc(): void{
-    b.left_green = !b.left_green;
-    left_green = b.left_green;
+    map.b.left_green = !map.b.left_green;
+    map.left_green = map.b.left_green;
+    left_green = map.left_green;
   }
 
   function distance_check(c1: any, c2: any, axis: string): any{
@@ -916,6 +934,7 @@ namespace jsLib{
     public left: string;
     public top: string;
     public bottom: string;
+    public interNum: number;
 
     constructor(){
       this.x = 0;
@@ -926,6 +945,7 @@ namespace jsLib{
       this.roadleft = true;
       this.roadbottom = true;
       this.roadright = true;
+      this.interNum = 0;
       if(left_green == true){
         this.right = "rgba(0,255,0,0.4)";
         this.left = "rgba(0,255,0,0.4)";
@@ -1233,7 +1253,7 @@ namespace jsLib{
       ctx.fillRect(this.x+(this.width/2)+3,this.y+this.height+2,(this.width/2),1);
     }
 
-    public drawInter(): any{
+    public drawInter(x: number): any{
       ctx.fillStyle = "#605A4C";
       ctx.fillRect(this.x,this.y,this.width,this.height);
       
@@ -1261,72 +1281,78 @@ namespace jsLib{
         this.botZebra();        
         this.botTrafficL();
       }        
-      if(this.top == "rgba(0,255,0,0.4)"){
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#000000';
-        var interMidX = this.x+this.width/2;
-        var interMidY = this.y+this.height/2;
-        ctx.setLineDash([]);
-        ctx.beginPath();
-        ctx.moveTo(interMidX, interMidY);
-        ctx.lineTo(interMidX, interMidY-this.height/4);
-        ctx.lineTo(interMidX-this.height/12, interMidY-this.height/6);
-        ctx.moveTo(interMidX, interMidY-this.height/4);
-        ctx.lineTo(interMidX+this.height/12, interMidY-this.height/6);
-        ctx.moveTo(interMidX,interMidX);
-        ctx.closePath();
-        ctx.stroke();
-      }
-      if(this.bottom == "rgba(0,255,0,0.4)"){
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#000000';
-        var interMidX = this.x+this.width/2;
-        var interMidY = this.y+this.height/2;
-        ctx.setLineDash([]);
-        ctx.beginPath();
-        ctx.moveTo(interMidX, interMidY);
-        ctx.lineTo(interMidX, interMidY+this.height/4);
-        ctx.lineTo(interMidX-this.height/12, interMidY+this.height/6);
-        ctx.moveTo(interMidX, interMidY+this.height/4);
-        ctx.lineTo(interMidX+this.height/12, interMidY+this.height/6);
-        ctx.moveTo(interMidX,interMidX);
-        ctx.closePath();
-        ctx.stroke();
-      }
-      if(this.left == "rgba(0,255,0,0.4)"){
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#000000';
-        var interMidX = this.x+this.width/2;
-        var interMidY = this.y+this.height/2;
-        ctx.setLineDash([]);
-        ctx.beginPath();
-        ctx.moveTo(interMidX, interMidY);
-        ctx.lineTo(interMidX-this.height/4, interMidY);
-        ctx.lineTo(interMidX-this.height/4+this.height/12, interMidY-this.height/12);
-        ctx.moveTo(interMidX-this.height/4, interMidY);
-        ctx.lineTo(interMidX-this.height/4+this.height/12, interMidY+this.height/12);
-        ctx.closePath();
-        ctx.stroke();
-      }
-      if(this.right == "rgba(0,255,0,0.4)"){
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#000000';
-        var interMidX = this.x+this.width/2;
-        var interMidY = this.y+this.height/2;
-        ctx.setLineDash([]);
-        ctx.beginPath();
-        ctx.moveTo(interMidX, interMidY);
-        ctx.lineTo(interMidX+this.height/4, interMidY);
-        ctx.lineTo(interMidX+this.height/4-this.height/12, interMidY-this.height/12);
-        ctx.moveTo(interMidX+this.height/4, interMidY);
-        ctx.lineTo(interMidX+this.height/4-this.height/12, interMidY+this.height/12);
-        ctx.closePath();
-        ctx.stroke();
-      }
+      ctx.fillStyle = "white";
+      ctx.font = "small-caps bold 24px/1 sans-serif";
+      var index = "A" + x;
+      ctx.fillText(index, this.x+this.width/2-15, this.y+this.height/2+10);
+      // if(this.top == "rgba(0,255,0,0.4)"){
+      //   ctx.lineWidth = 1;
+      //   ctx.strokeStyle = '#000000';
+      //   var interMidX = this.x+this.width/2;
+      //   var interMidY = this.y+this.height/2;
+      //   ctx.setLineDash([]);
+      //   ctx.beginPath();
+      //   ctx.moveTo(interMidX, interMidY);
+      //   ctx.lineTo(interMidX, interMidY-this.height/4);
+      //   ctx.lineTo(interMidX-this.height/12, interMidY-this.height/6);
+      //   ctx.moveTo(interMidX, interMidY-this.height/4);
+      //   ctx.lineTo(interMidX+this.height/12, interMidY-this.height/6);
+      //   ctx.moveTo(interMidX,interMidX);
+      //   ctx.closePath();
+      //   ctx.stroke();
+      // }
+      // if(this.bottom == "rgba(0,255,0,0.4)"){
+      //   ctx.lineWidth = 1;
+      //   ctx.strokeStyle = '#000000';
+      //   var interMidX = this.x+this.width/2;
+      //   var interMidY = this.y+this.height/2;
+      //   ctx.setLineDash([]);
+      //   ctx.beginPath();
+      //   ctx.moveTo(interMidX, interMidY);
+      //   ctx.lineTo(interMidX, interMidY+this.height/4);
+      //   ctx.lineTo(interMidX-this.height/12, interMidY+this.height/6);
+      //   ctx.moveTo(interMidX, interMidY+this.height/4);
+      //   ctx.lineTo(interMidX+this.height/12, interMidY+this.height/6);
+      //   ctx.moveTo(interMidX,interMidX);
+      //   ctx.closePath();
+      //   ctx.stroke();
+      // }
+      // if(this.left == "rgba(0,255,0,0.4)"){
+      //   ctx.lineWidth = 1;
+      //   ctx.strokeStyle = '#000000';
+      //   var interMidX = this.x+this.width/2;
+      //   var interMidY = this.y+this.height/2;
+      //   ctx.setLineDash([]);
+      //   ctx.beginPath();
+      //   ctx.moveTo(interMidX, interMidY);
+      //   ctx.lineTo(interMidX-this.height/4, interMidY);
+      //   ctx.lineTo(interMidX-this.height/4+this.height/12, interMidY-this.height/12);
+      //   ctx.moveTo(interMidX-this.height/4, interMidY);
+      //   ctx.lineTo(interMidX-this.height/4+this.height/12, interMidY+this.height/12);
+      //   ctx.closePath();
+      //   ctx.stroke();
+      // }
+      // if(this.right == "rgba(0,255,0,0.4)"){
+      //   ctx.lineWidth = 1;
+      //   ctx.strokeStyle = '#000000';
+      //   var interMidX = this.x+this.width/2;
+      //   var interMidY = this.y+this.height/2;
+      //   ctx.setLineDash([]);
+      //   ctx.beginPath();
+      //   ctx.moveTo(interMidX, interMidY);
+      //   ctx.lineTo(interMidX+this.height/4, interMidY);
+      //   ctx.lineTo(interMidX+this.height/4-this.height/12, interMidY-this.height/12);
+      //   ctx.moveTo(interMidX+this.height/4, interMidY);
+      //   ctx.lineTo(interMidX+this.height/4-this.height/12, interMidY+this.height/12);
+      //   ctx.closePath();
+      //   ctx.stroke();
+      // }
+
     }
   }
 
   function intersections(): any{
+    var interNum = 0;
     for(var i=0;i<roads.length;i++){
       var r1 = roads[i];
       for(var j=0;j<roads.length;j++){
@@ -1359,10 +1385,11 @@ namespace jsLib{
                 
                 var inter = new drawIntersection();
                 inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
+                interNum++;
                 // console.log("inter.x: "+inter.x+", inter.y: "+inter.y);
                 // console.log("inter.w: "+inter.width+", inter.h: "+inter.height);
                 intersections_arr.push(inter);
-                inter.drawInter();
+                inter.drawInter(interNum);
               }
             }
           }
