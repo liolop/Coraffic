@@ -11,13 +11,9 @@ declare const enum InterLocation{
 }
 
 declare const enum TLDir{
-    //% block=North
-    North,
-    //% block=South
-    South,
-    //% block=East
-    East,
-    //% block=West
-    West
+    //% block=North-South
+    NS,
+    //% block=East-West
+    EW,
 }
 

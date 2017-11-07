@@ -51,17 +51,36 @@ namespace pxsim {
         this.svgDiv.appendChild(this.canvas);        
         document.body.appendChild(this.svgDiv);      
         document.body.appendChild(this.scriptSim); 
-        jsLib.init();
-        jsLib.animloop();
+        let tMap = new jsLib.tMap();
+        tMap.tMapInit();
+        tMap.tMapAnim();
+        // jsLib.init();
+        // jsLib.animloop();
         return Promise.resolve();
       }   
+
+
 
     }  
 }
 
 namespace jsLib{
 
-  var b = new pxsim.Board();
+  export class tMap{
+    public b: pxsim.Board;
+    constructor(){
+      this.b = new pxsim.Board();
+    }
+    tMapInit(){
+      init();
+    }
+    tMapAnim(){
+      animloop();
+    }
+  }
+
+  var map = new tMap();
+  var b: pxsim.Board = map.b;
   var car_no = b.car_no;  
   var canvas: HTMLCanvasElement =  b.canvas;
   var ctx: CanvasRenderingContext2D = b.canvas.getContext("2d");
@@ -127,7 +146,7 @@ namespace jsLib{
       // console.log(color);
       car.color = color;
       cars.push(car);	
-      console.log("car.d: "+car.d);
+      //console.log("car.d: "+car.d);
     }
     
     //road1
@@ -485,7 +504,7 @@ namespace jsLib{
   function drive_cars(): any{
     for(var i=0;i<cars.length;i++){
       var c = cars[i];
-      console.log("drive car.d: "+c.d);
+      //console.log("drive car.d: "+c.d);
       
       c.s = 5;
       if(c.d == "e"){
@@ -1453,5 +1472,3 @@ namespace jsLib{
 
 }
 
-// jsLib.init();
-// jsLib.animloop();
