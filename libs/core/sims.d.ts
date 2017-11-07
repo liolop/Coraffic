@@ -21,46 +21,24 @@ declare namespace loops {
 }
 declare namespace intersection {
     /**
-     * @param loc location index of intersections
-     */
-    //% block="At intersection %loc" blockId=on_inter
-    //% shim=intersection::onInter
-    function onInter(loc: InterLocation, body: () => void): void;
-
-    /**
-     * @param dir direction of the traffic light
-     */
-    //% block="Allow %dir" blockId=set_TL_dir
-    //% shim=intersection::setTLDir
-    function setTLDir(dir: TLDir): void;
-
-    /**
-     * @param loc location index of intersections
-     */
-    //% block="Switch the direction at intersection %loc" blockId=switch_inter_dir
-    //% shim=intersection::switchInterDir
-    function switchInterDir(loc: InterLocation): void;
-
-    /**
      * @param loc
      */
-    //% block="current state duration of %loc" blockId=get_state_duration
+    //% block="Current direction duration of %loc" blockId=get_state_duration
     //% shim=intersection::getStateDuration
     function getStateDuration(loc: InterLocation): number;
 
     /**
-     * @param dir
      * @param loc
      */
-    //% block="Going %dir|traffic flow at %loc" blockId=get_traffic_flow
+    //% block="Number of cars waiting at %loc" blockId=get_traffic_flow
     //% shim=intersection::getTrafficFlow
-    function getTrafficFlow(dir: TLDir, loc: InterLocation): number;
+    function getTrafficFlow(loc: InterLocation): number;
 
     /**
      * @param dir
      * @param loc
      */
-    //% block="On intersection %loc|allow %dir" blockId=set_light_at_inter
+    //% block="Set intersection %loc|allow %dir" blockId=set_light_at_inter
     //% shim=intersection::setTLAtInter
     function setTLAtInter(loc: InterLocation, dir: TLDir): void;
 

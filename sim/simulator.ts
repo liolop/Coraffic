@@ -24,41 +24,43 @@ namespace pxsim {
   * Do not store state anywhere else!
   */
  export class Board extends pxsim.BaseBoard {
-   public svgDiv: HTMLDivElement;
-   public canvas: HTMLCanvasElement;
-   public scriptSim: HTMLScriptElement;
-   public car_no: number;
-   public canvas_width: number;
-   public canvas_height: number;
-   public roads: any[];
-   public cars: any[];
-   public intersections_arr: any[];
-   public left_green: boolean;
+  public svgDiv: HTMLDivElement;
+  public canvas: HTMLCanvasElement;
+  public scriptSim: HTMLScriptElement;
+  public car_no: number;
+  public canvas_width: number;
+  public canvas_height: number;
+  public roads: any[];
+  public cars: any[];
+  public intersections_arr: any[];
+  public left_green: boolean;
    
-   constructor() {
-     super();
-     this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
-     this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
-     this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
-     this.car_no = 10, this.canvas_width = 370, this.canvas_height = 270;
-     this.roads = [], this.cars = [], this.intersections_arr = [];
-     this.left_green = false; 
-   }
+  constructor() {
+    super();
+    this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
+    this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
+    this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
+    this.car_no = 10, this.canvas_width = 370, this.canvas_height = 270;
+    this.roads = [], this.cars = [], this.intersections_arr = [];
+    this.left_green = false; 
+  }
 
-   initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-     document.body.innerHTML = ''; // clear children
-     this.svgDiv.appendChild(this.canvas);        
-     document.body.appendChild(this.svgDiv);      
-     document.body.appendChild(this.scriptSim); 
-     let tMap = new jsLib.tMap();
-     tMap.tMapInit();
-     tMap.tMapAnim();
-     // jsLib.init();
-     // jsLib.animloop();
-     return Promise.resolve();
-   }   
+  initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
+    document.body.innerHTML = ''; // clear children
+    this.svgDiv.appendChild(this.canvas);        
+    document.body.appendChild(this.svgDiv);      
+    document.body.appendChild(this.scriptSim); 
+    let tMap = new jsLib.tMap();
+    tMap.tMapInit();
+    tMap.tMapAnim();
+    // jsLib.init();
+    // jsLib.animloop();
+    return Promise.resolve();
+  }   
 
+  updateView() {
 
+  }
 
  }  
 }
