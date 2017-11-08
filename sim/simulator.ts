@@ -58,6 +58,7 @@ namespace pxsim {
       this.tMap.left_green = this.left_green;
       this.tMap.init();
       this.tMap.animloop();
+      setInterval(()=>this.tMap.left_greenc(),3000);  
       return Promise.resolve();
     }   
 
@@ -81,7 +82,6 @@ namespace jsLib{
     
     constructor(b: pxsim.Board){
       this.car_no = b.car_no;
-      console.log("car_no: "+this.car_no);
       this.canvas = b.canvas;
       this.ctx = b.canvas.getContext("2d");
       this.w = b.canvas_width;
@@ -101,20 +101,14 @@ namespace jsLib{
       function(callback: any){ 
           window.setTimeout(callback, 1000 / 60, new Date().getTime()); 
       }; 
-    })(); 
+    }); 
 
-    //setInterval(()=>jsLib.left_greenc(),3000);  
-  
     //initiate the parameters
     public init(): any{
-      //Launch Cars
-      var cars: any[] = [];
-      var roads: any[] = [];
-      var intersections_arr: any[] = [];
       console.log("this.car_no: "+this.car_no);
       for(var i=0;i<this.car_no;i++){
         var car = new drawcar(this);
-        car.s = 5;
+        car.s = 1;
         // var pos_rand = Math.random();
         // if(pos_rand < 0.5){
         //   car.x = w+25;
@@ -145,29 +139,29 @@ namespace jsLib{
         }
         // console.log(color);
         car.color = color;
-        cars.push(car);	
+        this.cars.push(car);	
         //console.log("car.d: "+car.d);
       }
       
       //road1
       var road = new drawroad(this);
       road.x = 0, road.y = ((this.h/4)-30), road.width = this.w, road.height = 40;
-      roads.push(road);
+      this.roads.push(road);
       
       //road2
       var road = new drawroad(this);
       road.x = ((this.w/2)-120), road.y = 0, road.width =80, road.height = this.h;
-      roads.push(road);
+      this.roads.push(road);
       
       // //road3
       var road = new drawroad(this);
       road.x = 0, road.y = (this.h/1.4), road.width = this.w, road.height = 40;
-      roads.push(road);
+      this.roads.push(road);
       
       //road4
       var road = new drawroad(this);
       road.x = ((this.w/2)+80), road.y = 0, road.width = 40, road.height = this.h;
-      roads.push(road);
+      this.roads.push(road);
       
       this.intersections();
     }
@@ -179,17 +173,17 @@ namespace jsLib{
       this.ctx.fillRect(0,0,this.w,this.h);
       
       for(var i=0;i<this.roads.length;i++){
-        this.roads[i].drawRoad();
+        this.roads[i].drawRoad(i);
       }
       this.intersections();
       this.drive_cars();
     }      
   
-    publicleft_greenc(): void{
+    public left_greenc(): void{
       this.left_green = !this.left_green;
     }
   
-    distance_check(c1: any, c2: any, axis: string): any{
+    distance_check(c1: any, c2: any, axis: string): boolean{
       if(axis=="x"){
         var dist: number = c2.x - c1.x;
         var disty: number = c2.y - c1.y;
@@ -197,7 +191,9 @@ namespace jsLib{
           if(c2.w > 15 && c1.w > 15 && c1.y == c2.y){ //only check for collison on cars on the same axis
             return true;
           }
+          else{return false;}
         }
+        else{return false;}        
       }
       else if(axis=="-x"){
         var dist: number = c1.x - c2.x;
@@ -206,7 +202,9 @@ namespace jsLib{
           if(c2.w > 15 && c1.w > 15 && c1.y == c2.y){ //only check for collison on cars on the same axis
             return true;
           }
+          else{return false;}          
         }
+        else{return false;}        
       }
       else if(axis=="-y"){
         var dist: number = c1.x - c2.x;
@@ -215,7 +213,9 @@ namespace jsLib{
           if(c2.w < 25 && c1.w < 25 && c1.x == c2.x){ //only check for collison on cars on the same axis
             return true;
           }
+          else{return false;}          
         }
+        else{return false;}        
       }
       else if(axis=="y"){
         var dist: number= c2.x - c1.x;
@@ -224,25 +224,34 @@ namespace jsLib{
           if(c2.w < 25 && c1.w < 25 && c1.x == c2.x){ //only check for collison on cars on the same axis
             return true;
           }
+          else{return false;}          
         }
+        else{return false;}        
+      }
+      else{
+        return false;
       }
     }
   
-    check_inter(c: any, inter: any, axis: string): any{
+    check_inter(c: any, inter: any, axis: string): boolean{
       if(axis == "x"){
         if(inter.height > 40){
           if((inter.x - c.x) > (c.l+8) && (inter.x - c.x) <= (c.l+25)){
             if(c.y-80 <= inter.y && c.y+42 >= inter.y){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
         else{
           if((inter.x - c.x) > (c.l+8) && (inter.x - c.x) <= (c.l+25)){
             if(c.y-40 <= inter.y && c.y+42 >= inter.y){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
       }
       else if(axis == "-x"){
@@ -251,14 +260,18 @@ namespace jsLib{
             if(c.y-80 <= inter.y && c.y+42 >= inter.y){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
         else{
           if((c.x - inter.x) > (c.l+8) && (c.x - inter.x) <= (c.l+inter.width + 5)){
             if(c.y-40 <= inter.y && c.y+42 >= inter.y){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
       }
       else if(axis == "-y"){
@@ -267,14 +280,18 @@ namespace jsLib{
             if(c.x-80 <= inter.x && c.x+42 >= inter.x){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
         else{
           if((c.y - inter.y) > (c.l+8) && (c.y - inter.y) <= (c.l+inter.height + 5)){
             if(c.x-40 <= inter.x && c.x+42 >= inter.x){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
       }
       else if(axis == "y"){
@@ -283,19 +300,24 @@ namespace jsLib{
             if(c.x-80 <= inter.x && c.x+42 >= inter.x){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
         else{
           if((inter.y - c.y) > (c.l+8) && (inter.y - c.y) <= (c.l + 27)){
             if(c.x-40 <= inter.x && c.x+42 >= inter.x){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
       }
+      else{return false;}
     }      
   
-    gen_dir(c: drawcar, inter: any): any{
+    gen_dir(c: drawcar, inter: any): void{
       if(c.dd == false){
         var rand_dir = Math.random()*10;
         var dir = c.d;
@@ -498,16 +520,15 @@ namespace jsLib{
       }
     }
   
-    drive_cars(): any{
+    drive_cars(): void{
       for(var i=0;i<this.cars.length;i++){
         var c = this.cars[i];
-        //console.log("drive car.d: "+c.d);
-        
+        //console.log("drive car.d: "+c.d);    
         c.s = 5;
         if(c.d == "e"){
           for(var l=0;l<this.cars.length;l++){
             var c2 = this.cars[l];
-            var dc = this.distance_check(c,c2,"x");
+            var dc: boolean = this.distance_check(c,c2,"x");
             if(dc == true){
               c.s = 0;
               for(var k=0;k<this.intersections_arr.length;k++){
@@ -818,7 +839,7 @@ namespace jsLib{
       }
     }
     
-    intersections(): any{
+    intersections(): void{
       var index = 0;
       for(var i=0;i<this.roads.length;i++){
         var r1 = this.roads[i];
@@ -865,9 +886,9 @@ namespace jsLib{
       }
     }
 
-    public animloop(): any{
+    public animloop(): void{
       this.drawscene();
-      this.requestAnimFrame(this.animloop()); 
+      this.requestAnimFrame(()=>this.animloop); 
     }
 
   }
@@ -878,17 +899,21 @@ namespace jsLib{
     public height: number;
     public color: string;
     public ctx: CanvasRenderingContext2D;
+    public mapRef: tMap;
     
     constructor(map: tMap){
-      this.x = 0;
-      this.y = 0;
-      this.width = 0;
-      this.height = 0;
+      this.x = this.x;
+      this.y = this.y;
+      this.mapRef = map;
+      this.width = this.width;
+      this.height = this.height;
       this.color = "#605A4C";
       this.ctx = map.ctx;
     }
 
-    public drawRoad(){
+    public drawRoad(i: number){
+      this.x = this.mapRef.roads[i].x;
+      this.y = this.mapRef.roads[i].y
       this.ctx.fillStyle = this.color;
       this.ctx.fillRect(this.x,this.y,this.width,this.height);
       
