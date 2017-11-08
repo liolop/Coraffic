@@ -41,7 +41,7 @@ namespace pxsim {
       this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
       this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
-      this.car_no = 10, this.canvas_width = 370, this.canvas_height = 270;
+      this.car_no = 1, this.canvas_width = 370, this.canvas_height = 270;
       this.roads = [], this.cars = [], this.intersections_arr = [];
       this.left_green = false;    
     }
@@ -58,7 +58,9 @@ namespace pxsim {
       this.tMap.left_green = this.left_green;
       this.tMap.init();
       this.tMap.animloop();
-      setInterval(()=>this.tMap.left_greenc(),3000);  
+      console.log("left_green: "+this.tMap.left_green);
+      setInterval(()=>this.tMap.left_greenc(),3000); 
+      console.log("left_green1: "+this.tMap.left_green);
       return Promise.resolve();
     }   
 
@@ -69,6 +71,18 @@ namespace pxsim {
 }
 
 namespace jsLib{
+
+  var requestAnimFrame: (callback: () => void) => void = (function(){
+    console.log("dd"); 
+    return window.requestAnimationFrame || 
+    (<any>window).webkitRequestAnimationFrame || 
+    (<any>window).mozRequestAnimationFrame || 
+    (<any>window).oRequestAnimationFrame || 
+    (<any>window).msRequestAnimationFrame || 
+    function(callback: any){ 
+        window.setTimeout(callback, 1000 / 60, new Date().getTime()); 
+    }; 
+  })(); 
   export class tMap{
     public car_no: number;
     public canvas: HTMLCanvasElement;
@@ -91,17 +105,6 @@ namespace jsLib{
       this.intersections_arr = b.intersections_arr;
       this.left_green = b.left_green;
     }
-  
-    public requestAnimFrame: (callback: () => void) => void = (function(){ 
-      return window.requestAnimationFrame || 
-      (<any>window).webkitRequestAnimationFrame || 
-      (<any>window).mozRequestAnimationFrame || 
-      (<any>window).oRequestAnimationFrame || 
-      (<any>window).msRequestAnimationFrame || 
-      function(callback: any){ 
-          window.setTimeout(callback, 1000 / 60, new Date().getTime()); 
-      }; 
-    }); 
 
     //initiate the parameters
     public init(): any{
@@ -180,6 +183,8 @@ namespace jsLib{
     }      
   
     public left_greenc(): void{
+      console.log("left_greenc: "+this.left_green);
+      
       this.left_green = !this.left_green;
     }
   
@@ -887,8 +892,8 @@ namespace jsLib{
     }
 
     public animloop(): void{
-      this.drawscene();
-      this.requestAnimFrame(()=>this.animloop); 
+      this.drawscene();       
+      requestAnimFrame(()=>this.animloop); 
     }
 
   }
@@ -1095,6 +1100,7 @@ namespace jsLib{
       this.roadright = true;
       this.ctx = map.ctx;
       if(map.left_green == true){
+        console.log("left green");
         this.right = "rgba(0,255,0,0.4)";
         this.left = "rgba(0,255,0,0.4)";
         this.top = "rgba(255,0,0,0.4)";
@@ -1209,6 +1215,7 @@ namespace jsLib{
 
       }
       
+      console.log(shadow_color);
       this.ctx.fillStyle = shadow_color;
       this.ctx.shadowColor = shadow_color
       this.ctx.shadowOffsetX = -2;
