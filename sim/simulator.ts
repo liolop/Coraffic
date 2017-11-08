@@ -1,7 +1,7 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 declare interface  CanvasRenderingContext2D {
-  rounded_rect(x:any,y:any,w:any,h:any,r:any) : void;
+  fillRect(x:any,y:any,w:any,h:any) : void;
 }
 
 namespace pxsim {
@@ -28,8 +28,8 @@ namespace pxsim {
     public canvas: HTMLCanvasElement;
     public scriptSim: HTMLScriptElement;
     public car_no: number;
-    public canvas_width: number;
-    public canvas_height: number;
+    public canvas_width: number = 370;
+    public canvas_height: number = 270;
     public roads: any[];
     public cars: any[];
     public intersections_arr: any[];
@@ -41,7 +41,7 @@ namespace pxsim {
       this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
       this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
-      this.car_no = 1, this.canvas_width = 370, this.canvas_height = 270;
+      this.car_no = 10, this.canvas_width = 370, this.canvas_height = 270;
       this.roads = [], this.cars = [], this.intersections_arr = [];
       this.left_green = false;    
     }
@@ -942,9 +942,9 @@ namespace jsLib{
         this.ctx.stroke();
         
         this.ctx.fillStyle = "#A09383";
-        this.ctx.rounded_rect(this.x-10,this.y,10,this.height, 2);
+        this.ctx.fillRect(this.x-10,this.y,10,this.height);
         this.ctx.fillStyle = "#A09383";
-        this.ctx.rounded_rect(this.x+this.width,this.y,10,this.height, 2);
+        this.ctx.fillRect(this.x+this.width,this.y,10,this.height);
         
       }
       else if(this.width > this.height && this.height > 40){
@@ -971,9 +971,9 @@ namespace jsLib{
         this.ctx.stroke();
         
         this.ctx.fillStyle = "#A09383";
-        this.ctx.rounded_rect(this.x,this.y-10,this.width,10, 2);
+        this.ctx.fillRect(this.x,this.y-10,this.width,10);
         this.ctx.fillStyle = "#A09383";
-        this.ctx.rounded_rect(this.x,this.y+this.height,this.width,10, 2);
+        this.ctx.fillRect(this.x,this.y+this.height,this.width,10);
         
       }
       else if(this.width > this.height && this.height < 41){
@@ -1022,7 +1022,7 @@ namespace jsLib{
       this.ctx.fillStyle = this.color;
       if(this.d == "w"){
         this.w = 25;
-        this.ctx.rounded_rect(this.x, this.y, this.l, 12, 2);
+        this.ctx.fillRect(this.x, this.y, this.l, 12);
         this.ctx.fillStyle="#99B3CE";
         this.ctx.fillRect(this.x+5, this.y, 5, 12);
         this.ctx.fillRect(this.x+18, this.y, 2, 12);
@@ -1032,7 +1032,7 @@ namespace jsLib{
       }
       else if(this.d == "e"){
         this.w = 25;
-        this.ctx.rounded_rect(this.x, this.y, this.l, 12, 2);
+        this.ctx.fillRect(this.x, this.y, this.l, 12);
         this.ctx.fillStyle="#99B3CE";
         this.ctx.fillRect(this.x+15, this.y, 5, 12);
         this.ctx.fillRect(this.x+4, this.y, 2, 12);
@@ -1043,7 +1043,7 @@ namespace jsLib{
       else if(this.d == "s"){
         this.w = 12;
         this.ctx.rotate(Math.PI/2);
-        this.ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
+        this.ctx.fillRect(this.y, -this.x, this.l, 12);
         this.ctx.fillStyle="#99B3CE";
         this.ctx.fillRect(this.y+15, -this.x, 5, 12);
         this.ctx.fillRect(this.y+4, -this.x, 2, 12);
@@ -1056,7 +1056,7 @@ namespace jsLib{
       else{
         this.w = 12;
         this.ctx.rotate(Math.PI/2);
-        this.ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
+        this.ctx.fillRect(this.y, -this.x, this.l, 12);
         this.ctx.fillStyle="#99B3CE";
         this.ctx.fillRect(this.y+5, -this.x, 5, 12);
         this.ctx.fillRect(this.y+18, -this.x, 2, 12);
