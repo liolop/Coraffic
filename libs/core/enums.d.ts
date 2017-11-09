@@ -1,13 +1,13 @@
 
 declare const enum InterLocation{
-    //% block=A1
+    //% block=0
+    A0,
+    //% block=1
     A1,
-    //% block=A2
+    //% block=2
     A2,
-    //% block=A3
+    //% block=3
     A3,
-    //% block=A4
-    A4,
 }
 
 declare const enum TLDir{

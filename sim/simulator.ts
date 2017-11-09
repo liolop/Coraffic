@@ -1,9 +1,7 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
-/// <reference path ="../node_modules/pxt-core/typings/globals/jquery/index.d.ts"/> 
-
-declare interface CanvasRenderingContext2D {
-  rounded_rect(x:any,y:any,w:any,h:any,r:any): void;
+declare interface  CanvasRenderingContext2D {
+  fillRect(x:any,y:any,w:any,h:any) : void;
 }
 
 namespace pxsim {
@@ -11,15 +9,15 @@ namespace pxsim {
   * This function gets called each time the program restarts
   */
   initCurrentRuntime = () => {
-    runtime.board = new Board();
-  }
+      runtime.board = new Board();
+  };
 
   /**
   * Gets the current 'board', eg. program state.
   */
   export function board() : Board {
-  return runtime.board as Board;
-  }  
+      return runtime.board as Board;
+  }
 
   /**
   * Represents the entire state of the executing program.
@@ -29,31 +27,23 @@ namespace pxsim {
     public svgDiv: HTMLDivElement;
     public canvas: HTMLCanvasElement;
     public scriptSim: HTMLScriptElement;
-    public ctx: CanvasRenderingContext2D;
     public car_no: number;
-    public canvas_width: number;
-    public canvas_height: number;
+    public canvas_width: number = 370;
+    public canvas_height: number = 270;
     public roads: any[];
     public cars: any[];
     public intersections_arr: any[];
     public left_green: boolean;
-    public init:any;
-    public tMap: trafficMap; 
+    public tMap: jsLib.tMap;
 
     constructor() {
       super();
       this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
       this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
-      this.ctx = this.canvas.getContext("2d");
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
-      this.car_no = 10, this.canvas_width = 370, this.canvas_height = 270;
-      this.roads = [], this.cars = [], this.intersections_arr = [], this.left_green = false;  
-      this.tMap = new trafficMap();
-      this.tMap.car_no = this.car_no, this.tMap.canvas = this.canvas, this.tMap.ctx = this.ctx;
-      this.tMap.w = this.canvas_width, this.tMap.h = this.canvas_height;
-      this.tMap.roads = this.roads, this.tMap.cars = this.cars, this.tMap.intersections_arr = this.intersections_arr;
-      this.tMap.left_green = this.left_green;
-      setInterval(()=>this.tMap.left_greenc(),3000);            
+      this.car_no = 1, this.canvas_width = 370, this.canvas_height = 270;
+      this.roads = [], this.cars = [], this.intersections_arr = [];
+      this.left_green = false;    
     }
 
     initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
@@ -61,135 +51,144 @@ namespace pxsim {
       this.svgDiv.appendChild(this.canvas);        
       document.body.appendChild(this.svgDiv);      
       document.body.appendChild(this.scriptSim); 
+      this.tMap = new jsLib.tMap(this);
+      this.tMap.car_no = this.car_no, this.tMap.canvas = this.canvas;
+      this.tMap.w = this.canvas_width, this.tMap.h = this.canvas_height 
+      this.tMap.roads = this.roads, this.tMap.cars = this.cars, this.tMap.intersections_arr = this.intersections_arr;
+      this.tMap.left_green = this.left_green;
       this.tMap.init();
       this.tMap.animloop();
+      console.log("left_green: "+this.tMap.left_green);
+      setInterval(()=>this.tMap.left_greenc(),3000); 
+      console.log("left_green1: "+this.tMap.left_green);
       return Promise.resolve();
     }   
 
-    updateView(){
-      this.tMap.car_no = this.car_no, this.tMap.canvas = this.canvas, this.tMap.ctx = this.ctx;
-      this.tMap.w = this.canvas_width, this.tMap.h = this.canvas_height;
-      this.tMap.roads = this.roads, this.tMap.cars = this.cars, this.tMap.intersections_arr = this.intersections_arr;
-      this.tMap.left_green = this.left_green;
-    }
+    updateView() {
 
-  }     
-  export class trafficMap{
+    }
+  }  
+}
+
+namespace jsLib{
+
+  var requestAnimFrame: (callback: () => void) => void = (function(){
+    console.log("dd"); 
+    return window.requestAnimationFrame || 
+    (<any>window).webkitRequestAnimationFrame || 
+    (<any>window).mozRequestAnimationFrame || 
+    (<any>window).oRequestAnimationFrame || 
+    (<any>window).msRequestAnimationFrame || 
+    function(callback: any){ 
+        window.setTimeout(callback, 1000 / 60, new Date().getTime()); 
+    }; 
+  })(); 
+  export class tMap{
     public car_no: number;
     public canvas: HTMLCanvasElement;
     public ctx: CanvasRenderingContext2D;
-    public w:number;
-    public h:number;
+    public w: number;
+    public h: number;
     public roads: any[];
-    public intersections_arr: any[];
     public cars: any[];
-    public left_green: boolean
-
-    constructor(){
-      this.canvas = this.canvas;
-      this.ctx = this.ctx;
-      this.car_no = this.car_no, this.w = this.w, this.h = this.h;
-      this.roads = this.roads, this.intersections_arr = this.intersections_arr, this.cars = this.cars;
-      this.left_green = this.left_green;
+    public intersections_arr: any[];
+    public left_green: boolean;
+    
+    constructor(b: pxsim.Board){
+      this.car_no = b.car_no;
+      this.canvas = b.canvas;
+      this.ctx = b.canvas.getContext("2d");
+      this.w = b.canvas_width;
+      this.h = b.canvas_height;
+      this.roads = b.roads;
+      this.cars = b.cars;
+      this.intersections_arr = b.intersections_arr;
+      this.left_green = b.left_green;
     }
-
-    public requestAnimFrame: (callback: () => void) => void = (function(){ 
-      return window.requestAnimationFrame || 
-      (<any>window).webkitRequestAnimationFrame || 
-      (<any>window).mozRequestAnimationFrame || 
-      (<any>window).oRequestAnimationFrame || 
-      (<any>window).msRequestAnimationFrame || 
-      function(callback: any){ 
-          window.setTimeout(callback, 1000 / 60, new Date().getTime()); 
-      }; 
-    })();
 
     //initiate the parameters
     public init(): any{
-        //Launch Cars
-        this.cars = [];
-        this.roads = [];
-        this.intersections_arr = [];
-        for(var i=0;i<this.car_no;i++){
-          var car = new drawcar();
-          car.s = 5;
-          // var pos_rand = Math.random();
-          // if(pos_rand < 0.5){
-          //   car.x = w+25;
-          //   car.y = 41;
-          //   car.d = "w";
-          // }
-          // else{
-          //   car.x = 120;
-          //   car.y = h+25;
-          //   car.d = "n";
-          // }
-          var color_rand = Math.random();
-          var color = "";
-          if(color_rand < 0.2){
-            var color = "#fff";
-          }
-          else if(color_rand > 0.2 && color_rand < 0.4){
-            var color = "#E22322";
-          }
-          else if(color_rand > 0.4 && color_rand < 0.6){
-            var color = "#F9D111";
-          }
-          else if(color_rand > 0.6 && color_rand < 0.8){
-            var color = "#367C94";
-          }
-          else if(color_rand > 0.8 && color_rand < 1){
-            var color = "#222";
-          }
-          // console.log(color);
-          car.color = color;
-          this.cars.push(car);	
-          console.log("car.d: "+car.d);
+      console.log("this.car_no: "+this.car_no);
+      for(var i=0;i<this.car_no;i++){
+        var car = new drawcar(this);
+        car.s = 1;
+        // var pos_rand = Math.random();
+        // if(pos_rand < 0.5){
+        //   car.x = w+25;
+        //   car.y = 41;
+        //   car.d = "w";
+        // }
+        // else{
+        //   car.x = 120;
+        //   car.y = h+25;
+        //   car.d = "n";
+        // }
+        var color_rand = Math.random();
+        var color = "";
+        if(color_rand < 0.2){
+          var color = "#fff";
         }
+        else if(color_rand > 0.2 && color_rand < 0.4){
+          var color = "#E22322";
+        }
+        else if(color_rand > 0.4 && color_rand < 0.6){
+          var color = "#F9D111";
+        }
+        else if(color_rand > 0.6 && color_rand < 0.8){
+          var color = "#367C94";
+        }
+        else if(color_rand > 0.8 && color_rand < 1){
+          var color = "#222";
+        }
+        // console.log(color);
+        car.color = color;
+        this.cars.push(car);	
+        //console.log("car.d: "+car.d);
+      }
       
-        //road1
-        var road = new drawroad();
-        road.x = 0, road.y = ((this.h/4)-30), road.width = this.w, road.height = 40;
-        this.roads.push(road);
-        
-        //road2
-        var road = new drawroad();
-        road.x = ((this.w/2)-120), road.y = 0, road.width =80, road.height = this.h;
-        this.roads.push(road);
-        
-        // //road3
-        var road = new drawroad();
-        road.x = 0, road.y = (this.h/1.4), road.width = this.w, road.height = 40;
-        this.roads.push(road);
-        
-        //road4
-        var road = new drawroad();
-        road.x = ((this.w/2)+80), road.y = 0, road.width = 40, road.height = this.h;
-        this.roads.push(road);
-        
-        this.intersections();
+      //road1
+      var road = new drawroad(this);
+      road.x = 0, road.y = ((this.h/4)-30), road.width = this.w, road.height = 40;
+      this.roads.push(road);
+      
+      //road2
+      var road = new drawroad(this);
+      road.x = ((this.w/2)-120), road.y = 0, road.width =80, road.height = this.h;
+      this.roads.push(road);
+      
+      // //road3
+      var road = new drawroad(this);
+      road.x = 0, road.y = (this.h/1.4), road.width = this.w, road.height = 40;
+      this.roads.push(road);
+      
+      //road4
+      var road = new drawroad(this);
+      road.x = ((this.w/2)+80), road.y = 0, road.width = 40, road.height = this.h;
+      this.roads.push(road);
+      
+      this.intersections();
     }
-
+  
     //draw the map
-    public drawscene(): any{
-      this.intersections_arr = [];
-      //console.log("drawingscene");
+    drawscene(): any{
       
       this.ctx.fillStyle = "#4DBB4C";
       this.ctx.fillRect(0,0,this.w,this.h);
       
       for(var i=0;i<this.roads.length;i++){
-        this.roads[i].drawRoad();
+        this.roads[i].drawRoad(i);
       }
       this.intersections();
       this.drive_cars();
-    }  
-
+    }      
+  
     public left_greenc(): void{
+      console.log("left_greenc: "+this.left_green);
+      
       this.left_green = !this.left_green;
     }
-
-    public distance_check(c1: any, c2: any, axis: string): any{
+  
+    distance_check(c1: any, c2: any, axis: string): boolean{
       if(axis=="x"){
         var dist: number = c2.x - c1.x;
         var disty: number = c2.y - c1.y;
@@ -197,7 +196,9 @@ namespace pxsim {
           if(c2.w > 15 && c1.w > 15 && c1.y == c2.y){ //only check for collison on cars on the same axis
             return true;
           }
+          else{return false;}
         }
+        else{return false;}        
       }
       else if(axis=="-x"){
         var dist: number = c1.x - c2.x;
@@ -206,7 +207,9 @@ namespace pxsim {
           if(c2.w > 15 && c1.w > 15 && c1.y == c2.y){ //only check for collison on cars on the same axis
             return true;
           }
+          else{return false;}          
         }
+        else{return false;}        
       }
       else if(axis=="-y"){
         var dist: number = c1.x - c2.x;
@@ -215,7 +218,9 @@ namespace pxsim {
           if(c2.w < 25 && c1.w < 25 && c1.x == c2.x){ //only check for collison on cars on the same axis
             return true;
           }
+          else{return false;}          
         }
+        else{return false;}        
       }
       else if(axis=="y"){
         var dist: number= c2.x - c1.x;
@@ -224,25 +229,34 @@ namespace pxsim {
           if(c2.w < 25 && c1.w < 25 && c1.x == c2.x){ //only check for collison on cars on the same axis
             return true;
           }
+          else{return false;}          
         }
+        else{return false;}        
+      }
+      else{
+        return false;
       }
     }
-    
-    public check_inter(c: any, inter: any, axis: string): any{
+  
+    check_inter(c: any, inter: any, axis: string): boolean{
       if(axis == "x"){
         if(inter.height > 40){
           if((inter.x - c.x) > (c.l+8) && (inter.x - c.x) <= (c.l+25)){
             if(c.y-80 <= inter.y && c.y+42 >= inter.y){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
         else{
           if((inter.x - c.x) > (c.l+8) && (inter.x - c.x) <= (c.l+25)){
             if(c.y-40 <= inter.y && c.y+42 >= inter.y){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
       }
       else if(axis == "-x"){
@@ -251,14 +265,18 @@ namespace pxsim {
             if(c.y-80 <= inter.y && c.y+42 >= inter.y){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
         else{
           if((c.x - inter.x) > (c.l+8) && (c.x - inter.x) <= (c.l+inter.width + 5)){
             if(c.y-40 <= inter.y && c.y+42 >= inter.y){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
       }
       else if(axis == "-y"){
@@ -267,14 +285,18 @@ namespace pxsim {
             if(c.x-80 <= inter.x && c.x+42 >= inter.x){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
         else{
           if((c.y - inter.y) > (c.l+8) && (c.y - inter.y) <= (c.l+inter.height + 5)){
             if(c.x-40 <= inter.x && c.x+42 >= inter.x){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
       }
       else if(axis == "y"){
@@ -283,19 +305,24 @@ namespace pxsim {
             if(c.x-80 <= inter.x && c.x+42 >= inter.x){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
         else{
           if((inter.y - c.y) > (c.l+8) && (inter.y - c.y) <= (c.l + 27)){
             if(c.x-40 <= inter.x && c.x+42 >= inter.x){
               return true;
             }
+            else{return false;}            
           }
+          else{return false;}          
         }
       }
+      else{return false;}
     }      
-
-    public gen_dir(c: drawcar, inter: any): any{
+  
+    gen_dir(c: drawcar, inter: any): void{
       if(c.dd == false){
         var rand_dir = Math.random()*10;
         var dir = c.d;
@@ -497,18 +524,16 @@ namespace pxsim {
         }
       }
     }
-
-
-    public drive_cars(): any{
+  
+    drive_cars(): void{
       for(var i=0;i<this.cars.length;i++){
         var c = this.cars[i];
-        console.log("drive car.d: "+c.d);
-        
+        //console.log("drive car.d: "+c.d);    
         c.s = 5;
         if(c.d == "e"){
           for(var l=0;l<this.cars.length;l++){
             var c2 = this.cars[l];
-            var dc = this.distance_check(c,c2,"x");
+            var dc: boolean = this.distance_check(c,c2,"x");
             if(dc == true){
               c.s = 0;
               for(var k=0;k<this.intersections_arr.length;k++){
@@ -817,9 +842,10 @@ namespace pxsim {
         }
         c.drawCar();
       }
-    } 
-
-    public intersections(): any{
+    }
+    
+    intersections(): void{
+      var index = 0;
       for(var i=0;i<this.roads.length;i++){
         var r1 = this.roads[i];
         for(var j=0;j<this.roads.length;j++){
@@ -850,12 +876,13 @@ namespace pxsim {
                     var roadbottom = false;
                   }
                   
-                  var inter = new drawIntersection();
+                  var inter = new drawIntersection(this);
                   inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
                   // console.log("inter.x: "+inter.x+", inter.y: "+inter.y);
                   // console.log("inter.w: "+inter.width+", inter.h: "+inter.height);
                   this.intersections_arr.push(inter);
-                  inter.drawInter();
+                  index++;
+                  inter.drawInter(index);
                 }
               }
             }
@@ -864,16 +891,114 @@ namespace pxsim {
       }
     }
 
-
-    public animloop(): any{
-      this.drawscene();
-      this.requestAnimFrame(this.animloop); 
+    public animloop(): void{
+      this.drawscene();       
+      requestAnimFrame(()=>this.animloop); 
     }
 
   }
-  export class drawcar{
-    public tMap: trafficMap;  
+  export class drawroad{
+    public x: number;
+    public y: number;
+    public width: number;
+    public height: number;
+    public color: string;
     public ctx: CanvasRenderingContext2D;
+    public mapRef: tMap;
+    
+    constructor(map: tMap){
+      this.x = this.x;
+      this.y = this.y;
+      this.mapRef = map;
+      this.width = this.width;
+      this.height = this.height;
+      this.color = "#605A4C";
+      this.ctx = map.ctx;
+    }
+
+    public drawRoad(i: number){
+      this.x = this.mapRef.roads[i].x;
+      this.y = this.mapRef.roads[i].y
+      this.ctx.fillStyle = this.color;
+      this.ctx.fillRect(this.x,this.y,this.width,this.height);
+      
+      this.ctx.fillStyle = "#A68B44";
+      if(this.width < this.height && this.width > 40){
+        this.ctx.fillRect(this.x+((this.width/2)-1),this.y,2,this.height);
+        
+        this.ctx.beginPath();
+        this.ctx.setLineDash([2,5]);
+        this.ctx.moveTo(this.x+((this.width/4)-1), this.y);
+        this.ctx.lineTo(this.x+((this.width/4)-1), (this.y + this.height));
+        this.ctx.closePath();
+        this.ctx.strokeStyle = "#A09383";
+        this.ctx.lineWidth = 1;
+        this.ctx.fill();
+        this.ctx.stroke();
+        
+        this.ctx.beginPath();
+        this.ctx.setLineDash([2,5]);
+        this.ctx.moveTo(this.x+((this.width/(4/3))-1), this.y);
+        this.ctx.lineTo(this.x+((this.width/(4/3))-1), (this.y + this.height));
+        this.ctx.closePath();
+        this.ctx.strokeStyle = "#A09383";
+        this.ctx.lineWidth = 1;
+        this.ctx.fill();
+        this.ctx.stroke();
+        
+        this.ctx.fillStyle = "#A09383";
+        this.ctx.fillRect(this.x-10,this.y,10,this.height);
+        this.ctx.fillStyle = "#A09383";
+        this.ctx.fillRect(this.x+this.width,this.y,10,this.height);
+        
+      }
+      else if(this.width > this.height && this.height > 40){
+        this.ctx.fillRect(this.x,this.y+((this.height/2)-1),this.width,2);
+        
+        this.ctx.beginPath();
+        this.ctx.setLineDash([2,5]);
+        this.ctx.moveTo(this.x, this.y+((this.height/4)-1));
+        this.ctx.lineTo((this.x+this.width), this.y+((this.height/4)-1));
+        this.ctx.closePath();
+        this.ctx.strokeStyle = "#A09383";
+        this.ctx.lineWidth = 1;
+        this.ctx.fill();
+        this.ctx.stroke();
+        
+        this.ctx.beginPath();
+        this.ctx.setLineDash([2,5]);
+        this.ctx.moveTo(this.x, this.y+((this.height/(4/3))-1));
+        this.ctx.lineTo((this.x+this.width), this.y+((this.height/(4/3))-1));
+        this.ctx.closePath();
+        this.ctx.strokeStyle = "#A09383";
+        this.ctx.lineWidth = 1;
+        this.ctx.fill();
+        this.ctx.stroke();
+        
+        this.ctx.fillStyle = "#A09383";
+        this.ctx.fillRect(this.x,this.y-10,this.width,10);
+        this.ctx.fillStyle = "#A09383";
+        this.ctx.fillRect(this.x,this.y+this.height,this.width,10);
+        
+      }
+      else if(this.width > this.height && this.height < 41){
+        this.ctx.fillRect(this.x,this.y+((this.height/2)-1),this.width,2);
+        this.ctx.fillStyle = "#A09383";
+        this.ctx.fillRect(this.x,this.y-10,this.width,10);
+        this.ctx.fillStyle = "#A09383";
+        this.ctx.fillRect(this.x,this.y+this.height,this.width,10);
+      }
+      else if(this.width < this.height && this.width < 41){
+        this.ctx.fillRect(this.x+((this.width/2)-1),this.y,2,this.height);
+        this.ctx.fillStyle = "#A09383";
+        this.ctx.fillRect(this.x-10,this.y,10,this.height);
+        this.ctx.fillStyle = "#A09383";
+        this.ctx.fillRect(this.x+this.width,this.y,10,this.height);
+      } 
+    }
+  }
+
+  export class drawcar{
     public x: number;
     public y: number;
     //car speed
@@ -883,26 +1008,26 @@ namespace pxsim {
     public d: string;
     public dd: boolean;
     public color: string;
-    public w: number;
     public turningS: boolean;
+    public w: number;
+    public ctx: CanvasRenderingContext2D;
 
-    constructor(){
-      this.tMap = new trafficMap();
-      this.ctx = this.tMap.ctx;
-      this.x = this.tMap.w+25;
+    constructor(map: tMap){
+      this.x = map.w+25;
       this.y = 40;
       this.s = 1;
       this.l = 25;
       this.d = "w";
       this.dd = false;
-      this.color = "F5D600";
+      this.color = "#F5D600";
+      this.ctx = map.ctx;
     }
 
     public drawCar(): void{
       this.ctx.fillStyle = this.color;
       if(this.d == "w"){
         this.w = 25;
-        this.ctx.rounded_rect(this.x, this.y, this.l, 12, 2);
+        this.ctx.fillRect(this.x, this.y, this.l, 12);
         this.ctx.fillStyle="#99B3CE";
         this.ctx.fillRect(this.x+5, this.y, 5, 12);
         this.ctx.fillRect(this.x+18, this.y, 2, 12);
@@ -912,7 +1037,7 @@ namespace pxsim {
       }
       else if(this.d == "e"){
         this.w = 25;
-        this.ctx.rounded_rect(this.x, this.y, this.l, 12, 2);
+        this.ctx.fillRect(this.x, this.y, this.l, 12);
         this.ctx.fillStyle="#99B3CE";
         this.ctx.fillRect(this.x+15, this.y, 5, 12);
         this.ctx.fillRect(this.x+4, this.y, 2, 12);
@@ -923,7 +1048,7 @@ namespace pxsim {
       else if(this.d == "s"){
         this.w = 12;
         this.ctx.rotate(Math.PI/2);
-        this.ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
+        this.ctx.fillRect(this.y, -this.x, this.l, 12);
         this.ctx.fillStyle="#99B3CE";
         this.ctx.fillRect(this.y+15, -this.x, 5, 12);
         this.ctx.fillRect(this.y+4, -this.x, 2, 12);
@@ -936,7 +1061,7 @@ namespace pxsim {
       else{
         this.w = 12;
         this.ctx.rotate(Math.PI/2);
-        this.ctx.rounded_rect(this.y, -this.x, this.l, 12, 2);
+        this.ctx.fillRect(this.y, -this.x, this.l, 12);
         this.ctx.fillStyle="#99B3CE";
         this.ctx.fillRect(this.y+5, -this.x, 5, 12);
         this.ctx.fillRect(this.y+18, -this.x, 2, 12);
@@ -949,26 +1074,7 @@ namespace pxsim {
 
   }
 
-  // Object.getPrototypeOf(new trafficMap().ctx).rounded_rect = function(x:any,y:any,w:any,h:any,r:any){
-  //   if (typeof r === "undefined") {
-  //     r = 2;
-  //   }
-  //   this.beginPath();
-  //   this.moveTo(x + r, y);
-  //   this.lineTo(x + w - r, y);
-  //   this.quadraticCurveTo(x + w, y, x + w, y + r);
-  //   this.lineTo(x + w, y + h - r);
-  //   this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  //   this.lineTo(x + r, y + h);
-  //   this.quadraticCurveTo(x, y + h, x, y + h - r);
-  //   this.lineTo(x, y + r);
-  //   this.quadraticCurveTo(x, y, x + r, y);
-  //   this.closePath();
-  //   this.fill();
-  // }   
   export class drawIntersection{
-    public tMap: trafficMap;  
-    public ctx: CanvasRenderingContext2D;
     public x:number;
     public y:number;
     public width:number;
@@ -981,10 +1087,9 @@ namespace pxsim {
     public left: string;
     public top: string;
     public bottom: string;
+    public ctx: CanvasRenderingContext2D;
 
-    constructor(){
-      this.tMap = new trafficMap();
-      this.ctx = this.tMap.ctx;
+    constructor(map: tMap){
       this.x = 0;
       this.y = 0;
       this.width = 0;
@@ -993,7 +1098,9 @@ namespace pxsim {
       this.roadleft = true;
       this.roadbottom = true;
       this.roadright = true;
-      if(this.tMap.left_green == true){
+      this.ctx = map.ctx;
+      if(map.left_green == true){
+        console.log("left green");
         this.right = "rgba(0,255,0,0.4)";
         this.left = "rgba(0,255,0,0.4)";
         this.top = "rgba(255,0,0,0.4)";
@@ -1108,6 +1215,7 @@ namespace pxsim {
 
       }
       
+      console.log(shadow_color);
       this.ctx.fillStyle = shadow_color;
       this.ctx.shadowColor = shadow_color
       this.ctx.shadowOffsetX = -2;
@@ -1300,7 +1408,7 @@ namespace pxsim {
       this.ctx.fillRect(this.x+(this.width/2)+3,this.y+this.height+2,(this.width/2),1);
     }
 
-    public drawInter(): any{
+    public drawInter(index: number): any{
       this.ctx.fillStyle = "#605A4C";
       this.ctx.fillRect(this.x,this.y,this.width,this.height);
       
@@ -1327,7 +1435,11 @@ namespace pxsim {
         //zebra-crossing (bottom)
         this.botZebra();        
         this.botTrafficL();
-      }        
+      }    
+      var interName = <string><any>index;
+      this.ctx.fillStyle = "white"
+      this.ctx.font = "15px serif"
+      this.ctx.fillText(interName, this.x+this.width/9, this.y+this.height/3);    
       if(this.top == "rgba(0,255,0,0.4)"){
         this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = '#000000';
@@ -1392,103 +1504,4 @@ namespace pxsim {
       }
     }
   }
-
-  export class drawroad{
-    public tMap: trafficMap;  
-    public ctx: CanvasRenderingContext2D;
-    public x: number;
-    public y: number;
-    public width: number;
-    public height: number;
-    public color: string;
-    
-    constructor(){
-      this.tMap = new trafficMap();
-      this.ctx = this.tMap.ctx
-      this.x = 0;
-      this.y = 0;
-      this.width = 0;
-      this.height = 0;
-      this.color = "#605A4C";
-    }
-
-    public drawRoad(){
-      this.ctx.fillStyle = this.color;
-      this.ctx.fillRect(this.x,this.y,this.width,this.height);
-      
-      this.ctx.fillStyle = "#A68B44";
-      if(this.width < this.height && this.width > 40){
-        this.ctx.fillRect(this.x+((this.width/2)-1),this.y,2,this.height);
-        
-        this.ctx.beginPath();
-        this.ctx.setLineDash([2,5]);
-        this.ctx.moveTo(this.x+((this.width/4)-1), this.y);
-        this.ctx.lineTo(this.x+((this.width/4)-1), (this.y + this.height));
-        this.ctx.closePath();
-        this.ctx.strokeStyle = "#A09383";
-        this.ctx.lineWidth = 1;
-        this.ctx.fill();
-        this.ctx.stroke();
-        
-        this.ctx.beginPath();
-        this.ctx.setLineDash([2,5]);
-        this.ctx.moveTo(this.x+((this.width/(4/3))-1), this.y);
-        this.ctx.lineTo(this.x+((this.width/(4/3))-1), (this.y + this.height));
-        this.ctx.closePath();
-        this.ctx.strokeStyle = "#A09383";
-        this.ctx.lineWidth = 1;
-        this.ctx.fill();
-        this.ctx.stroke();
-        
-        this.ctx.fillStyle = "#A09383";
-        this.ctx.rounded_rect(this.x-10,this.y,10,this.height, 2);
-        this.ctx.fillStyle = "#A09383";
-        this.ctx.rounded_rect(this.x+this.width,this.y,10,this.height, 2);
-        
-      }
-      else if(this.width > this.height && this.height > 40){
-        this.ctx.fillRect(this.x,this.y+((this.height/2)-1),this.width,2);
-        
-        this.ctx.beginPath();
-        this.ctx.setLineDash([2,5]);
-        this.ctx.moveTo(this.x, this.y+((this.height/4)-1));
-        this.ctx.lineTo((this.x+this.width), this.y+((this.height/4)-1));
-        this.ctx.closePath();
-        this.ctx.strokeStyle = "#A09383";
-        this.ctx.lineWidth = 1;
-        this.ctx.fill();
-        this.ctx.stroke();
-        
-        this.ctx.beginPath();
-        this.ctx.setLineDash([2,5]);
-        this.ctx.moveTo(this.x, this.y+((this.height/(4/3))-1));
-        this.ctx.lineTo((this.x+this.width), this.y+((this.height/(4/3))-1));
-        this.ctx.closePath();
-        this.ctx.strokeStyle = "#A09383";
-        this.ctx.lineWidth = 1;
-        this.ctx.fill();
-        this.ctx.stroke();
-        
-        this.ctx.fillStyle = "#A09383";
-        this.ctx.rounded_rect(this.x,this.y-10,this.width,10, 2);
-        this.ctx.fillStyle = "#A09383";
-        this.ctx.rounded_rect(this.x,this.y+this.height,this.width,10, 2);
-        
-      }
-      else if(this.width > this.height && this.height < 41){
-        this.ctx.fillRect(this.x,this.y+((this.height/2)-1),this.width,2);
-        this.ctx.fillStyle = "#A09383";
-        this.ctx.fillRect(this.x,this.y-10,this.width,10);
-        this.ctx.fillStyle = "#A09383";
-        this.ctx.fillRect(this.x,this.y+this.height,this.width,10);
-      }
-      else if(this.width < this.height && this.width < 41){
-        this.ctx.fillRect(this.x+((this.width/2)-1),this.y,2,this.height);
-        this.ctx.fillStyle = "#A09383";
-        this.ctx.fillRect(this.x-10,this.y,10,this.height);
-        this.ctx.fillStyle = "#A09383";
-        this.ctx.fillRect(this.x+this.width,this.y,10,this.height);
-      } 
-    }
-  }  
 }

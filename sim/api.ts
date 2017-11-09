@@ -38,43 +38,28 @@ function logMsg(m:string) { console.log(m) }
 //     }
 // }
 
-namespace pxsim.intersection{
-    
+namespace pxsim.traffics{
     class parameters{
         public interLoc: InterLocation;
-        constructor(){}
+        constructor(){
+
+        }
     }
     var param = new parameters();
 
     /**
-     * @param loc location index of intersections
-     */
-    //% block="At intersection %loc" blockId=on_inter
-    export function onInter(loc: InterLocation, body: RefAction){
-
-    }
-
-    /**
-     * @param dir direction of the traffic light
-     */
-    //% block="Allow %dir" blockId=set_TL_dir
-    export function setTLDir(dir: TLDir){
-
-    }
-
-    /**
-     * @param loc location index of intersections
-     */
-    //% block="Switch the direction at intersection %loc" blockId=switch_inter_dir
-    export function switchInterDir(loc: InterLocation){
-
-    }
-
-    /**
      * @param loc
      */
-    //% block="current state duration of %loc" blockId=get_state_duration
+    //% block="Current direction duration of intersection %loc" blockId=get_state_duration
     export function getStateDuration(loc: InterLocation): number {
+        return 1;
+    }
+
+    /**
+     * @param loc
+     */
+    //% block="Number of cars waiting at intersection %loc" blockId=get_traffic_flow
+    export function getTrafficFlow(loc: InterLocation): number{
         return 0;
     }
 
@@ -82,17 +67,57 @@ namespace pxsim.intersection{
      * @param dir
      * @param loc
      */
-    //% block="Going %dir|traffic flow at %loc" blockId=get_traffic_flow
-    export function getTrafficFlow(dir: TLDir, loc: InterLocation): number{
+    //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
+    export function setTLAtInter(dir: TLDir, loc: InterLocation){
+
+    }
+
+    /** 
+     * @param loc
+    */
+    //% block="Cars waiting at intersection %loc" blockId=get_cars_waiting
+    export function getCarsWait(loc: InterLocation): number{
         return 0;
     }
 
-    /**
-     * @param dir
+    /** 
      * @param loc
-     */
-    //% block="On intersection %loc|allow %dir" blockId=set_light_at_inter
-    export function setTLAtInter(loc: InterLocation, dir: TLDir){
-
+    */
+    //% block="Current going North-South duration at intersection %loc" blockId=get_NS_duration
+    export function getNSDuration(loc: InterLocation): number{
+        return 0;
     }
+
+    /** 
+     * @param loc
+    */
+    //% block="Current going East-West duration at intersection %loc" blockId=get_EW_duration
+    export function getEWDuration(loc: InterLocation): number{
+        return 0;
+    }
+
+    /** 
+     * @param seconds
+    */
+    //% block="%seconds|(seconds)" blockId=input_seconds
+    export function inputSeconds(seconds: number):number{
+        return seconds;
+    }
+
+    /** 
+     * @param carNum
+    */
+    //% block="%carNum|(cars)" blockId=input_carNum
+    export function inputCarNum(carNum: number):number{
+        return carNum;
+    }
+
+    /** 
+     * @param dir
+    */
+    //% block="Allow %dir" blockId=set_dir
+    export function setDir(dir: TLDir){
+    }
+
+
 }
