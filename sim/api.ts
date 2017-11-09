@@ -48,22 +48,6 @@ namespace pxsim.traffics{
     var param = new parameters();
 
     /**
-     * @param loc
-     */
-    //% block="Current direction duration of intersection %loc" blockId=get_state_duration
-    export function getStateDuration(loc: InterLocation): number {
-        return 1;
-    }
-
-    /**
-     * @param loc
-     */
-    //% block="Number of cars waiting at intersection %loc" blockId=get_traffic_flow
-    export function getTrafficFlow(loc: InterLocation): number{
-        return 0;
-    }
-
-    /**
      * @param dir
      * @param loc
      */
@@ -82,17 +66,10 @@ namespace pxsim.traffics{
 
     /** 
      * @param loc
+     * @param dir
     */
-    //% block="Current going North-South duration at intersection %loc" blockId=get_NS_duration
-    export function getNSDuration(loc: InterLocation): number{
-        return 0;
-    }
-
-    /** 
-     * @param loc
-    */
-    //% block="Current going East-West duration at intersection %loc" blockId=get_EW_duration
-    export function getEWDuration(loc: InterLocation): number{
+    //% block="Current going %dir|duration at intersection %loc" blockId=get_NS_duration
+    export function getDirDuration(dir: TLDir, loc: InterLocation): number{
         return 0;
     }
 
@@ -117,15 +94,10 @@ namespace pxsim.traffics{
     */
     //% block="Allow %dir" blockId=set_dir
     export function setDir(dir: TLDir){
+
     }
 
-    /**
-     * @param loc 
-     */
-    //% block= "Call Traffic Flow Rate at intersection %loc" blockId=get_traffic_flow
-    export function getTrafficFlowRate(loc: InterLocation): number{
-        return 0;
-    }
-    
+
+
 
 }

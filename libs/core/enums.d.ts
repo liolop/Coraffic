@@ -15,5 +15,7 @@ declare const enum TLDir{
     NS,
     //% block=East-West
     EW,
+    //% block=All-Way
+    AW
 }
 

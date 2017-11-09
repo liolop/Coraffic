@@ -21,20 +21,6 @@ declare namespace loops {
 }
 declare namespace traffics {
     /**
-     * @param loc
-     */
-    //% block="Current direction duration of intersection %loc" blockId=get_state_duration
-    //% shim=traffics::getStateDuration
-    function getStateDuration(loc: InterLocation): number;
-
-    /**
-     * @param loc
-     */
-    //% block="Number of cars waiting at intersection %loc" blockId=get_traffic_flow
-    //% shim=traffics::getTrafficFlow
-    function getTrafficFlow(loc: InterLocation): number;
-
-    /**
      * @param dir
      * @param loc
      */
@@ -51,17 +37,11 @@ declare namespace traffics {
 
     /** 
      * @param loc
+     * @param dir
      */
-    //% block="Current going North-South duration at intersection %loc" blockId=get_NS_duration
-    //% shim=traffics::getNSDuration
-    function getNSDuration(loc: InterLocation): number;
-
-    /** 
-     * @param loc
-     */
-    //% block="Current going East-West duration at intersection %loc" blockId=get_EW_duration
-    //% shim=traffics::getEWDuration
-    function getEWDuration(loc: InterLocation): number;
+    //% block="Current going %dir|duration at intersection %loc" blockId=get_NS_duration
+    //% shim=traffics::getDirDuration
+    function getDirDuration(dir: TLDir, loc: InterLocation): number;
 
     /** 
      * @param seconds
@@ -83,13 +63,6 @@ declare namespace traffics {
     //% block="Allow %dir" blockId=set_dir
     //% shim=traffics::setDir
     function setDir(dir: TLDir): void;
-
-    /**
-     * @param loc 
-     */
-    //% block= "Call Traffic Flow Rate at intersection %loc" blockId=get_traffic_flow
-    //% shim=traffics::getTrafficFlowRate
-    function getTrafficFlowRate(loc: InterLocation): number;
 
 }
 
