@@ -23,14 +23,14 @@ declare namespace traffics {
     /**
      * @param loc
      */
-    //% block="Current direction duration of %loc" blockId=get_state_duration
+    //% block="Current direction duration of intersection %loc" blockId=get_state_duration
     //% shim=traffics::getStateDuration
     function getStateDuration(loc: InterLocation): number;
 
     /**
      * @param loc
      */
-    //% block="Number of cars waiting at %loc" blockId=get_traffic_flow
+    //% block="Number of cars waiting at intersection %loc" blockId=get_traffic_flow
     //% shim=traffics::getTrafficFlow
     function getTrafficFlow(loc: InterLocation): number;
 
@@ -66,9 +66,23 @@ declare namespace traffics {
     /** 
      * @param seconds
      */
-    //% block="%seconds| (seconds)" blockId=input_seconds
+    //% block="%seconds|(seconds)" blockId=input_seconds
     //% shim=traffics::inputSeconds
     function inputSeconds(seconds: number): number;
+
+    /** 
+     * @param carNum
+     */
+    //% block="%carNum|(cars)" blockId=input_carNum
+    //% shim=traffics::inputCarNum
+    function inputCarNum(carNum: number): number;
+
+    /** 
+     * @param dir
+     */
+    //% block="Allow %dir" blockId=set_dir
+    //% shim=traffics::setDir
+    function setDir(dir: TLDir): void;
 
 }
 

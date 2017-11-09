@@ -50,7 +50,7 @@ namespace pxsim.traffics{
     /**
      * @param loc
      */
-    //% block="Current direction duration of %loc" blockId=get_state_duration
+    //% block="Current direction duration of intersection %loc" blockId=get_state_duration
     export function getStateDuration(loc: InterLocation): number {
         return 1;
     }
@@ -58,7 +58,7 @@ namespace pxsim.traffics{
     /**
      * @param loc
      */
-    //% block="Number of cars waiting at %loc" blockId=get_traffic_flow
+    //% block="Number of cars waiting at intersection %loc" blockId=get_traffic_flow
     export function getTrafficFlow(loc: InterLocation): number{
         return 0;
     }
@@ -99,8 +99,25 @@ namespace pxsim.traffics{
     /** 
      * @param seconds
     */
-    //% block="%seconds| (seconds)" blockId=input_seconds
+    //% block="%seconds|(seconds)" blockId=input_seconds
     export function inputSeconds(seconds: number):number{
-        return 0;
+        return seconds;
     }
+
+    /** 
+     * @param carNum
+    */
+    //% block="%carNum|(cars)" blockId=input_carNum
+    export function inputCarNum(carNum: number):number{
+        return carNum;
+    }
+
+    /** 
+     * @param dir
+    */
+    //% block="Allow %dir" blockId=set_dir
+    export function setDir(dir: TLDir){
+    }
+
+
 }
