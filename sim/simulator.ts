@@ -58,9 +58,9 @@ namespace pxsim {
       this.tMap.left_green = this.left_green;
       this.tMap.init();
       this.tMap.animloop();
-      console.log("left_green: "+this.tMap.left_green);
+      console.log("b.left_green: "+this.tMap.left_green);
       setInterval(()=>this.tMap.left_greenc(),3000); 
-      console.log("left_green1: "+this.tMap.left_green);
+      console.log("b.left_green1: "+this.tMap.left_green);
       return Promise.resolve();
     }   
 
@@ -70,19 +70,21 @@ namespace pxsim {
   }  
 }
 
+var requestAnimFrame = (function(){
+  console.log("dd-"); 
+  return window.requestAnimationFrame || 
+  (<any>window).webkitRequestAnimationFrame || 
+  (<any>window).mozRequestAnimationFrame || 
+  (<any>window).oRequestAnimationFrame || 
+  (<any>window).msRequestAnimationFrame || 
+  function(callback: any){ 
+      window.setTimeout(callback, 1000 / 60); 
+  }; 
+})(); 
+
 namespace jsLib{
 
-  var requestAnimFrame: (callback: () => void) => void = (function(){
-    console.log("dd"); 
-    return window.requestAnimationFrame || 
-    (<any>window).webkitRequestAnimationFrame || 
-    (<any>window).mozRequestAnimationFrame || 
-    (<any>window).oRequestAnimationFrame || 
-    (<any>window).msRequestAnimationFrame || 
-    function(callback: any){ 
-        window.setTimeout(callback, 1000 / 60, new Date().getTime()); 
-    }; 
-  })(); 
+
   export class tMap{
     public car_no: number;
     public canvas: HTMLCanvasElement;
@@ -893,7 +895,7 @@ namespace jsLib{
 
     public animloop(): void{
       this.drawscene();       
-      requestAnimFrame(()=>this.animloop); 
+      requestAnimFrame(()=>this.animloop()); 
     }
 
   }

@@ -30,18 +30,19 @@ declare namespace traffics {
 
     /** 
      * @param loc
+     * @param dir
      */
-    //% block="Cars waiting at intersection %loc" blockId=get_cars_waiting
+    //% block="Cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
     //% shim=traffics::getCarsWait
-    function getCarsWait(loc: InterLocation): number;
+    function getCarsWait(dir: TLDir, loc: InterLocation): number;
 
     /** 
      * @param loc
      * @param dir
      */
-    //% block="Current going %dir|duration at intersection %loc" blockId=get_NS_duration
-    //% shim=traffics::getDirDuration
-    function getDirDuration(dir: TLDir, loc: InterLocation): number;
+    //% block="Current going %dir|duration at intersection %loc" blockId=get_going_duration
+    //% shim=traffics::getGoingDuration
+    function getGoingDuration(dir: TLDir, loc: InterLocation): number;
 
     /** 
      * @param seconds
@@ -63,6 +64,13 @@ declare namespace traffics {
     //% block="Allow %dir" blockId=set_dir
     //% shim=traffics::setDir
     function setDir(dir: TLDir): void;
+
+    /** 
+     * @param loc
+     */
+    //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
+    //% shim=traffics::getDirDuration
+    function getDirDuration(loc: InterLocation): number;
 
 }
 

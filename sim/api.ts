@@ -39,13 +39,6 @@ function logMsg(m:string) { console.log(m) }
 // }
 
 namespace pxsim.traffics{
-    class parameters{
-        public interLoc: InterLocation;
-        constructor(){
-
-        }
-    }
-    var param = new parameters();
 
     /**
      * @param dir
@@ -58,9 +51,10 @@ namespace pxsim.traffics{
 
     /** 
      * @param loc
+     * @param dir
     */
-    //% block="Cars waiting at intersection %loc" blockId=get_cars_waiting
-    export function getCarsWait(loc: InterLocation): number{
+    //% block="Cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
+    export function getCarsWait(dir: TLDir,loc: InterLocation): number{
         return 0;
     }
 
@@ -68,8 +62,8 @@ namespace pxsim.traffics{
      * @param loc
      * @param dir
     */
-    //% block="Current going %dir|duration at intersection %loc" blockId=get_NS_duration
-    export function getDirDuration(dir: TLDir, loc: InterLocation): number{
+    //% block="Current going %dir|duration at intersection %loc" blockId=get_going_duration
+    export function getGoingDuration(dir: TLDir, loc: InterLocation): number{
         return 0;
     }
 
@@ -97,6 +91,13 @@ namespace pxsim.traffics{
 
     }
 
+    /** 
+     * @param loc
+    */
+    //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
+    export function getDirDuration(loc: InterLocation): number{
+        return 0;
+    }
 
 
 
