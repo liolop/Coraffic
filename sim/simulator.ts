@@ -1436,7 +1436,7 @@ namespace jsLib{
         this.botZebra();        
         this.botTrafficL();
       }    
-      var interName = "A" + index;
+      var interName = <string><any>index;
       this.ctx.fillStyle = "white"
       this.ctx.font = "15px serif"
       this.ctx.fillText(interName, this.x+this.width/9, this.y+this.height/3);    

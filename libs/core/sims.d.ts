@@ -19,28 +19,56 @@ declare namespace loops {
     function pause(ms: number): void;
 
 }
-declare namespace intersection {
+declare namespace traffics {
     /**
      * @param loc
      */
     //% block="Current direction duration of %loc" blockId=get_state_duration
-    //% shim=intersection::getStateDuration
+    //% shim=traffics::getStateDuration
     function getStateDuration(loc: InterLocation): number;
 
     /**
      * @param loc
      */
     //% block="Number of cars waiting at %loc" blockId=get_traffic_flow
-    //% shim=intersection::getTrafficFlow
+    //% shim=traffics::getTrafficFlow
     function getTrafficFlow(loc: InterLocation): number;
 
     /**
      * @param dir
      * @param loc
      */
-    //% block="Set intersection %loc|allow %dir" blockId=set_light_at_inter
-    //% shim=intersection::setTLAtInter
-    function setTLAtInter(loc: InterLocation, dir: TLDir): void;
+    //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
+    //% shim=traffics::setTLAtInter
+    function setTLAtInter(dir: TLDir, loc: InterLocation): void;
+
+    /** 
+     * @param loc
+     */
+    //% block="Cars waiting at intersection %loc" blockId=get_cars_waiting
+    //% shim=traffics::getCarsWait
+    function getCarsWait(loc: InterLocation): number;
+
+    /** 
+     * @param loc
+     */
+    //% block="Current going North-South duration at intersection %loc" blockId=get_NS_duration
+    //% shim=traffics::getNSDuration
+    function getNSDuration(loc: InterLocation): number;
+
+    /** 
+     * @param loc
+     */
+    //% block="Current going East-West duration at intersection %loc" blockId=get_EW_duration
+    //% shim=traffics::getEWDuration
+    function getEWDuration(loc: InterLocation): number;
+
+    /** 
+     * @param seconds
+     */
+    //% block="%seconds| (seconds)" blockId=input_seconds
+    //% shim=traffics::inputSeconds
+    function inputSeconds(seconds: number): number;
 
 }
 
