@@ -119,5 +119,13 @@ namespace pxsim.traffics{
     export function setDir(dir: TLDir){
     }
 
+    /**
+     * @param loc 
+     */
+    //% block= "Call Traffic Flow Rate at intersection %loc" blockId=get_traffic_flow
+    export function getTrafficFlowRate(loc: InterLocation): number{
+        return 0;
+    }
+    
 
 }

@@ -84,6 +84,13 @@ declare namespace traffics {
     //% shim=traffics::setDir
     function setDir(dir: TLDir): void;
 
+    /**
+     * @param loc 
+     */
+    //% block= "Call Traffic Flow Rate at intersection %loc" blockId=get_traffic_flow
+    //% shim=traffics::getTrafficFlowRate
+    function getTrafficFlowRate(loc: InterLocation): number;
+
 }
 
 // Auto-generated. Do not edit. Really.
