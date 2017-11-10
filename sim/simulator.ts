@@ -70,20 +70,19 @@ namespace pxsim {
   }  
 }
 
-var requestAnimFrame = (function(){
-  console.log("dd-"); 
-  return window.requestAnimationFrame || 
-  (<any>window).webkitRequestAnimationFrame || 
-  (<any>window).mozRequestAnimationFrame || 
-  (<any>window).oRequestAnimationFrame || 
-  (<any>window).msRequestAnimationFrame || 
-  function(callback: any){ 
-      window.setTimeout(callback, 1000 / 60); 
-  }; 
-})(); 
-
 namespace jsLib{
 
+  var requestAnimFrame = (function(){
+    console.log("dd-"); 
+    return window.requestAnimationFrame || 
+    (<any>window).webkitRequestAnimationFrame || 
+    (<any>window).mozRequestAnimationFrame || 
+    (<any>window).oRequestAnimationFrame || 
+    (<any>window).msRequestAnimationFrame || 
+    function(callback: any){ 
+        window.setTimeout(callback, 1000 / 60); 
+    }; 
+  })(); 
 
   export class tMap{
     public car_no: number;

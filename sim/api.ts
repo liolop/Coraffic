@@ -45,7 +45,7 @@ namespace pxsim.traffics{
      * @param loc
      */
     //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
-    export function setTLAtInter(dir: TLDir, loc: InterLocation){
+    export function setTLAtInter(dir: TLDir, loc: number){
 
     }
 
@@ -54,7 +54,7 @@ namespace pxsim.traffics{
      * @param dir
     */
     //% block="Cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
-    export function getCarsWait(dir: TLDir,loc: InterLocation): number{
+    export function getCarsWait(dir: TLDir,loc: number): number{
         return 0;
     }
 
@@ -63,7 +63,7 @@ namespace pxsim.traffics{
      * @param dir
     */
     //% block="Current going %dir|duration at intersection %loc" blockId=get_going_duration
-    export function getGoingDuration(dir: TLDir, loc: InterLocation): number{
+    export function getGoingDuration(dir: TLDir, loc: number): number{
         return 0;
     }
 
@@ -95,7 +95,7 @@ namespace pxsim.traffics{
      * @param loc
     */
     //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
-    export function getDirDuration(loc: InterLocation): number{
+    export function getDirDuration(loc: number): number{
         return 0;
     }
 
