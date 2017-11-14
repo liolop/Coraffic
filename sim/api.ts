@@ -46,14 +46,14 @@ namespace pxsim.traffics{
      */
     //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
     export function setTLAtInter(dir: TLDir, loc: number){
-
+        board().setDirAtInter(dir, loc);
     }
 
     /** 
      * @param loc
      * @param dir
     */
-    //% block="Cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
+    //% block="Number of cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
     export function getCarsWait(dir: TLDir,loc: number): number{
         return 0;
     }

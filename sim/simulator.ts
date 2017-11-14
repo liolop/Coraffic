@@ -33,17 +33,20 @@ namespace pxsim {
     public roads: any[];
     public cars: any[];
     public intersections_arr: any[];
-    public left_green: boolean;
     public tMap: jsLib.tMap;
+    public ctx: CanvasRenderingContext2D;
 
     constructor() {
       super();
       this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
       this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
+      this.ctx = this.canvas.getContext("2d");
       this.car_no = 1, this.canvas_width = 370, this.canvas_height = 670;
       this.roads = [], this.cars = [], this.intersections_arr = [];
-      this.left_green = false;    
+      this.tMap = new jsLib.tMap(this); 
+      this.tMap.init(); 
+      this.tMap.animloop();
     }
 
     initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
@@ -51,21 +54,24 @@ namespace pxsim {
       this.svgDiv.appendChild(this.canvas);        
       document.body.appendChild(this.svgDiv);      
       document.body.appendChild(this.scriptSim); 
-      this.tMap = new jsLib.tMap(this);
-      this.tMap.car_no = this.car_no, this.tMap.canvas = this.canvas;
-      this.tMap.w = this.canvas_width, this.tMap.h = this.canvas_height 
-      this.tMap.roads = this.roads, this.tMap.cars = this.cars, this.tMap.intersections_arr = this.intersections_arr;
-      this.tMap.left_green = this.left_green;
-      this.tMap.init();
-      this.tMap.animloop();
-      console.log("b.left_green: "+this.tMap.left_green);
-      setInterval(()=>this.tMap.left_greenc(),3000); 
-      console.log("b.left_green1: "+this.tMap.left_green);
       return Promise.resolve();
     }   
 
     updateView() {
 
+    }
+
+    setDirAtInter(dir: TLDir, loc: number){
+      //North-South
+      if(dir == 0){
+        this.intersections_arr[loc].NS = true;
+      }
+      //East-West
+      else if(dir == 1){
+        this.intersections_arr[loc].EW = true;        
+      }
+      else if(dir == 2)
+        this.intersections_arr[loc].AW = true;              
     }
   }  
 }
@@ -93,22 +99,53 @@ namespace jsLib{
     public roads: any[];
     public cars: any[];
     public intersections_arr: any[];
-    public left_green: boolean;
+    public b: pxsim.Board;
     
     constructor(b: pxsim.Board){
+      this.b = b;
       this.car_no = b.car_no;
       this.canvas = b.canvas;
-      this.ctx = b.canvas.getContext("2d");
+      this.ctx = b.ctx;
       this.w = b.canvas_width;
       this.h = b.canvas_height;
       this.roads = b.roads;
       this.cars = b.cars;
       this.intersections_arr = b.intersections_arr;
-      this.left_green = b.left_green;
     }
 
     //initiate the parameters
     public init(): any{
+      // road0
+      var road = new drawroad(this);
+      road.x = 0, road.y = ((this.h/4)-80), road.width = this.w, road.height = 40;
+      this.roads.push(road);
+      
+      //road1
+      var road = new drawroad(this);
+      road.x = ((this.w/2)-120), road.y = 0, road.width =40, road.height = this.h;
+      this.roads.push(road);
+      
+      //road2
+      var road = new drawroad(this);
+      road.x = 0, road.y = (this.h/1.4) + 100, road.width = this.w, road.height = 40;
+      this.roads.push(road);
+      
+      //road3
+      var road = new drawroad(this);
+      road.x = ((this.w/2)+80), road.y = 0, road.width = 40, road.height = this.h;
+      this.roads.push(road);
+     
+      //road4
+      var road = new drawroad(this);
+      road.x = 0, road.y = ((this.h/3)), road.width = this.w, road.height = 40;
+      this.roads.push(road);
+
+      //road5
+      var road = new drawroad(this);
+      road.x = 65, road.y = 400, road.width = this.w, road.height = 40;
+      this.roads.push(road);
+
+      this.intersections();
       console.log("this.car_no: "+this.car_no);
       for(var i=0;i<this.car_no;i++){
         var car = new drawcar(this);
@@ -146,38 +183,6 @@ namespace jsLib{
         this.cars.push(car);	
         //console.log("car.d: "+car.d);
       }
-      
-      // road1
-      var road = new drawroad(this);
-      road.x = 0, road.y = ((this.h/4)-80), road.width = this.w, road.height = 40;
-      this.roads.push(road);
-      
-      //road2
-      var road = new drawroad(this);
-      road.x = ((this.w/2)-120), road.y = 0, road.width =40, road.height = this.h;
-      this.roads.push(road);
-      
-      //road3
-      var road = new drawroad(this);
-      road.x = 0, road.y = (this.h/1.4) + 100, road.width = this.w, road.height = 40;
-      this.roads.push(road);
-      
-      //road4
-      var road = new drawroad(this);
-      road.x = ((this.w/2)+80), road.y = 0, road.width = 40, road.height = this.h;
-      this.roads.push(road);
-     
-      //road5
-      var road = new drawroad(this);
-      road.x = 0, road.y = ((this.h/3)), road.width = this.w, road.height = 40;
-      this.roads.push(road);
-
-      //road6
-      var road = new drawroad(this);
-      road.x = 65, road.y = 400, road.width = this.w, road.height = 40;
-      this.roads.push(road);
-
-      this.intersections();
     }
   
     //draw the map
@@ -189,7 +194,9 @@ namespace jsLib{
       for(var i=0;i<this.roads.length;i++){
         this.roads[i].drawRoad(i);
       }
-      this.intersections();
+      for(var i=0;i<this.intersections_arr.length;i++){
+        this.intersections_arr[i].drawInter(i);
+      }
       this.drive_cars();
     }      
   
@@ -540,7 +547,7 @@ namespace jsLib{
       for(var i=0;i<this.cars.length;i++){
         var c = this.cars[i];
         //console.log("drive car.d: "+c.d);    
-        c.s = 5;
+        c.s = 1;
         if(c.d == "e"){
           for(var l=0;l<this.cars.length;l++){
             var c2 = this.cars[l];
@@ -592,7 +599,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 5;
+                    c.s = 1;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -665,7 +672,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 5;
+                    c.s = 1;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -738,7 +745,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 5;
+                    c.s = 1;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -828,7 +835,7 @@ namespace jsLib{
                   //green go
                   else{
                     //green
-                    c.s = 5;
+                    c.s = 1;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -856,7 +863,6 @@ namespace jsLib{
     }
     
     intersections(): void{
-      var index = 0;
       for(var i=0;i<this.roads.length;i++){
         var r1 = this.roads[i];
         for(var j=0;j<this.roads.length;j++){
@@ -865,7 +871,7 @@ namespace jsLib{
             if(r2.width < r2.height){
               if((r1.x + r1.width) > r2.x && r1.x <= r2.x){
                 if((r2.y + r2.height) >= r1.y && r2.y <= r1.y){
-                  console.log("intersection found at ("+r1.y+","+r2.x+")");
+                  //console.log("intersection found at ("+r1.y+","+r2.x+")");
                   var roadtop = true;
                   var roadbottom = true;
                   var roadleft = true;
@@ -893,11 +899,7 @@ namespace jsLib{
                   }
                   var inter = new drawIntersection(this);
                   inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
-                  // console.log("inter.x: "+inter.x+", inter.y: "+inter.y);
-                  // console.log("inter.w: "+inter.width+", inter.h: "+inter.height);
                   this.intersections_arr.push(inter);
-                  index++;
-                  inter.drawInter(index);
                 }
               }
             }
@@ -1029,7 +1031,7 @@ namespace jsLib{
 
     constructor(map: tMap){
       this.x = map.w+25;
-      this.y = 40;
+      this.y = map.roads[0].y+3;
       this.s = 1;
       this.l = 25;
       this.d = "w";
@@ -1103,30 +1105,23 @@ namespace jsLib{
     public top: string;
     public bottom: string;
     public ctx: CanvasRenderingContext2D;
+    public NS: boolean;
+    public EW: boolean;
+    public AW: boolean;
 
     constructor(map: tMap){
-      this.x = 0;
-      this.y = 0;
-      this.width = 0;
-      this.height = 0;
+      this.x = this.x;
+      this.y = this.y;
+      this.width = this.width;
+      this.height = this.height;
       this.roadtop = true;
       this.roadleft = true;
       this.roadbottom = true;
       this.roadright = true;
       this.ctx = map.ctx;
-      if(map.left_green == true){
-        console.log("left green");
-        this.right = "rgba(0,255,0,0.4)";
-        this.left = "rgba(0,255,0,0.4)";
-        this.top = "rgba(255,0,0,0.4)";
-        this.bottom = "rgba(255,0,0,0.4)";
-      }
-      else{
-        this.right = "rgba(255,0,0,0.4)";
-        this.left = "rgba(255,0,0,0.4)";
-        this.top = "rgba(0,255,0,0.4)";
-        this.bottom = "rgba(0,255,0,0.4)";
-      }
+      this.NS = this.NS;
+      this.EW = this.EW;
+      this.AW = this.AW;
     }
     
     public leftZebra(){
@@ -1230,7 +1225,7 @@ namespace jsLib{
 
       }
       
-      console.log(shadow_color);
+      //console.log(shadow_color);
       this.ctx.fillStyle = shadow_color;
       this.ctx.shadowColor = shadow_color
       this.ctx.shadowOffsetX = -2;
@@ -1332,6 +1327,7 @@ namespace jsLib{
         var shadow_color = 'rgba(255,0,0,1)';
       }
       
+      //console.log();
       this.ctx.fillStyle = shadow_color;
       this.ctx.shadowColor = shadow_color
       this.ctx.shadowOffsetY = -2;
@@ -1424,9 +1420,34 @@ namespace jsLib{
     }
 
     public drawInter(index: number): any{
+      console.log("["+index+"]: "+this.NS);
       this.ctx.fillStyle = "#605A4C";
       this.ctx.fillRect(this.x,this.y,this.width,this.height);
-      
+      //North-South, red - Left+Right, green - Top+Bot
+      if(this.NS == true){
+        this.right = "rgba(255,0,0,0.4)";
+        this.left = "rgba(255,0,0,0.4)";
+        this.top = "rgba(0,255,0,0.4)";
+        this.bottom = "rgba(0,255,0,0.4)";
+      }
+      else if(this.EW == true){
+        this.top = "rgba(255,0,0,0.4)";
+        this.bottom = "rgba(255,0,0,0.4)";
+        this.right = "rgba(0,255,0,0.4)";
+        this.left = "rgba(0,255,0,0.4)";
+      }
+      else if(this.AW == true){
+        this.top = "rgba(0,255,0,0.4)";
+        this.bottom = "rgba(0,255,0,0.4)";
+        this.right = "rgba(0,255,0,0.4)";
+        this.left = "rgba(0,255,0,0.4)";
+      }
+      else{
+        this.right = "rgba(255,0,0,0.4)";
+        this.left = "rgba(255,0,0,0.4)";
+        this.top = "rgba(255,0,0,0.4)";
+        this.bottom = "rgba(255,0,0,0.4)";
+      }
       //1. traffic lights (left)
       if(this.roadleft == true){ 
         //zebra-crossing (left)

@@ -32,7 +32,7 @@ declare namespace traffics {
      * @param loc
      * @param dir
      */
-    //% block="Cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
+    //% block="Number of cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
     //% shim=traffics::getCarsWait
     function getCarsWait(dir: TLDir, loc: number): number;
 
