@@ -83,13 +83,13 @@ namespace pxsim.traffics{
         return carNum;
     }
 
-    /** 
-     * @param dir
-    */
-    //% block="Allow %dir" blockId=set_dir
-    export function setDir(dir: TLDir){
+    // /** 
+    //  * @param dir
+    // */
+    // //% block="Allow %dir" blockId=set_dir
+    // export function setDir(dir: TLDir){
 
-    }
+    // }
 
     /** 
      * @param loc

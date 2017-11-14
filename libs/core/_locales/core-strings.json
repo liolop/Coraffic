@@ -31,10 +31,13 @@
   "loops.forever|block": "forever",
   "loops.pause|block": "pause (ms) %pause",
   "loops|block": "loops",
+  "traffics.getDirDuration|block": "Current direction duration at intersection %loc",
+  "traffics|block": "traffics",
   "{id:category}Array": "Array",
   "{id:category}Arrays": "Arrays",
   "{id:category}Loops": "Loops",
   "{id:category}Math": "Math",
   "{id:category}String": "String",
-  "{id:category}Text": "Text"
+  "{id:category}Text": "Text",
+  "{id:category}Traffics": "Traffics"
 }

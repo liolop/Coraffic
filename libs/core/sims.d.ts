@@ -58,13 +58,12 @@ declare namespace traffics {
     //% shim=traffics::inputCarNum
     function inputCarNum(carNum: number): number;
 
-    /** 
-     * @param dir
-     */
-    //% block="Allow %dir" blockId=set_dir
-    //% shim=traffics::setDir
-    function setDir(dir: TLDir): void;
-
+    // /** 
+    //  * @param dir
+    // */
+    // //% block="Allow %dir" blockId=set_dir
+    // export function setDir(dir: TLDir){
+    // }
     /** 
      * @param loc
      */

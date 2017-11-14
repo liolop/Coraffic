@@ -165,7 +165,6 @@ namespace jsLib{
       road.x = 0, road.y = (this.h/1.4) + 100, road.width = this.w, road.height = 40;
       this.roads.push(road);
         
-      this.intersections();
       console.log("this.car_no: "+this.car_no);
       for(var i=0;i<this.car_no;i++){
         var car = new drawcar(this);
@@ -222,6 +221,7 @@ namespace jsLib{
       for(var i=0;i<this.roads.length;i++){
         this.roads[i].drawRoad(i);
       }
+      console.log("inter.length: "+this.intersections_arr.length)
       for(var i=0;i<this.intersections_arr.length;i++){
         this.intersections_arr[i].drawInter(i);
       }
@@ -893,6 +893,7 @@ namespace jsLib{
     }
     
     intersections(): void{
+      console.log("roads.length: "+this.roads.length);
       for(var i=0;i<this.roads.length;i++){
         var r1 = this.roads[i];
         for(var j=0;j<this.roads.length;j++){
@@ -1062,7 +1063,7 @@ namespace jsLib{
 
     constructor(map: tMap){
       this.x = map.w+25;
-      this.y = map.roads[0].y+3;
+      this.y = map.roads[2].y+3;
       this.s = 1;
       this.l = 25;
       this.d = "w";
