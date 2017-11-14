@@ -29,7 +29,7 @@ namespace pxsim {
     public scriptSim: HTMLScriptElement;
     public car_no: number;
     public canvas_width: number = 370;
-    public canvas_height: number = 270;
+    public canvas_height: number = 670;
     public roads: any[];
     public cars: any[];
     public intersections_arr: any[];
@@ -41,7 +41,7 @@ namespace pxsim {
       this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
       this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
-      this.car_no = 1, this.canvas_width = 370, this.canvas_height = 270;
+      this.car_no = 1, this.canvas_width = 370, this.canvas_height = 670;
       this.roads = [], this.cars = [], this.intersections_arr = [];
       this.left_green = false;    
     }
@@ -58,9 +58,9 @@ namespace pxsim {
       this.tMap.left_green = this.left_green;
       this.tMap.init();
       this.tMap.animloop();
-      console.log("left_green: "+this.tMap.left_green);
+      console.log("b.left_green: "+this.tMap.left_green);
       setInterval(()=>this.tMap.left_greenc(),3000); 
-      console.log("left_green1: "+this.tMap.left_green);
+      console.log("b.left_green1: "+this.tMap.left_green);
       return Promise.resolve();
     }   
 
@@ -72,17 +72,18 @@ namespace pxsim {
 
 namespace jsLib{
 
-  var requestAnimFrame: (callback: () => void) => void = (function(){
-    console.log("dd"); 
+  var requestAnimFrame = (function(){
+    console.log("dd-"); 
     return window.requestAnimationFrame || 
     (<any>window).webkitRequestAnimationFrame || 
     (<any>window).mozRequestAnimationFrame || 
     (<any>window).oRequestAnimationFrame || 
     (<any>window).msRequestAnimationFrame || 
     function(callback: any){ 
-        window.setTimeout(callback, 1000 / 60, new Date().getTime()); 
+        window.setTimeout(callback, 1000 / 60); 
     }; 
   })(); 
+
   export class tMap{
     public car_no: number;
     public canvas: HTMLCanvasElement;
@@ -146,26 +147,36 @@ namespace jsLib{
         //console.log("car.d: "+car.d);
       }
       
-      //road1
+      // road1
       var road = new drawroad(this);
-      road.x = 0, road.y = ((this.h/4)-30), road.width = this.w, road.height = 40;
+      road.x = 0, road.y = ((this.h/4)-80), road.width = this.w, road.height = 40;
       this.roads.push(road);
       
       //road2
       var road = new drawroad(this);
-      road.x = ((this.w/2)-120), road.y = 0, road.width =80, road.height = this.h;
+      road.x = ((this.w/2)-120), road.y = 0, road.width =40, road.height = this.h;
       this.roads.push(road);
       
-      // //road3
+      //road3
       var road = new drawroad(this);
-      road.x = 0, road.y = (this.h/1.4), road.width = this.w, road.height = 40;
+      road.x = 0, road.y = (this.h/1.4) + 100, road.width = this.w, road.height = 40;
       this.roads.push(road);
       
       //road4
       var road = new drawroad(this);
       road.x = ((this.w/2)+80), road.y = 0, road.width = 40, road.height = this.h;
       this.roads.push(road);
-      
+     
+      //road5
+      var road = new drawroad(this);
+      road.x = 0, road.y = ((this.h/3)), road.width = this.w, road.height = 40;
+      this.roads.push(road);
+
+      //road6
+      var road = new drawroad(this);
+      road.x = 65, road.y = 400, road.width = this.w, road.height = 40;
+      this.roads.push(road);
+
       this.intersections();
     }
   
@@ -854,7 +865,7 @@ namespace jsLib{
             if(r2.width < r2.height){
               if((r1.x + r1.width) > r2.x && r1.x <= r2.x){
                 if((r2.y + r2.height) >= r1.y && r2.y <= r1.y){
-                  //console.log("intersection found at ("+r1.y+","+r2.x+")");
+                  console.log("intersection found at ("+r1.y+","+r2.x+")");
                   var roadtop = true;
                   var roadbottom = true;
                   var roadleft = true;
@@ -876,6 +887,10 @@ namespace jsLib{
                     var roadbottom = false;
                   }
                   
+                  if (r1.y == 400 && r2.x == 65) {
+                    var roadleft = false;
+                    // var roadbottom = false;
+                  }
                   var inter = new drawIntersection(this);
                   inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
                   // console.log("inter.x: "+inter.x+", inter.y: "+inter.y);
@@ -893,7 +908,7 @@ namespace jsLib{
 
     public animloop(): void{
       this.drawscene();       
-      requestAnimFrame(()=>this.animloop); 
+      requestAnimFrame(()=>this.animloop()); 
     }
 
   }

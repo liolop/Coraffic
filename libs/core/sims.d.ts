@@ -21,47 +21,28 @@ declare namespace loops {
 }
 declare namespace traffics {
     /**
-     * @param loc
-     */
-    //% block="Current direction duration of intersection %loc" blockId=get_state_duration
-    //% shim=traffics::getStateDuration
-    function getStateDuration(loc: InterLocation): number;
-
-    /**
-     * @param loc
-     */
-    //% block="Number of cars waiting at intersection %loc" blockId=get_traffic_flow
-    //% shim=traffics::getTrafficFlow
-    function getTrafficFlow(loc: InterLocation): number;
-
-    /**
      * @param dir
      * @param loc
      */
     //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
     //% shim=traffics::setTLAtInter
-    function setTLAtInter(dir: TLDir, loc: InterLocation): void;
+    function setTLAtInter(dir: TLDir, loc: number): void;
 
     /** 
      * @param loc
+     * @param dir
      */
-    //% block="Cars waiting at intersection %loc" blockId=get_cars_waiting
+    //% block="Cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
     //% shim=traffics::getCarsWait
-    function getCarsWait(loc: InterLocation): number;
+    function getCarsWait(dir: TLDir, loc: number): number;
 
     /** 
      * @param loc
+     * @param dir
      */
-    //% block="Current going North-South duration at intersection %loc" blockId=get_NS_duration
-    //% shim=traffics::getNSDuration
-    function getNSDuration(loc: InterLocation): number;
-
-    /** 
-     * @param loc
-     */
-    //% block="Current going East-West duration at intersection %loc" blockId=get_EW_duration
-    //% shim=traffics::getEWDuration
-    function getEWDuration(loc: InterLocation): number;
+    //% block="Current going %dir|duration at intersection %loc" blockId=get_going_duration
+    //% shim=traffics::getGoingDuration
+    function getGoingDuration(dir: TLDir, loc: number): number;
 
     /** 
      * @param seconds
@@ -83,6 +64,13 @@ declare namespace traffics {
     //% block="Allow %dir" blockId=set_dir
     //% shim=traffics::setDir
     function setDir(dir: TLDir): void;
+
+    /** 
+     * @param loc
+     */
+    //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
+    //% shim=traffics::getDirDuration
+    function getDirDuration(loc: number): number;
 
 }
 
