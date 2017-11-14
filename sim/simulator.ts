@@ -73,6 +73,22 @@ namespace pxsim {
       else if(dir == 2)
         this.intersections_arr[loc].AW = true;              
     }
+
+    getCarsWait(dir: TLDir, loc: number): number{
+      if(dir == 0){
+        return this.intersections_arr[loc].countNSCars;        
+      }
+      else if(dir == 1){
+        console.log("carsAt1: "+this.intersections_arr[loc].countEWCars);
+        return this.intersections_arr[loc].countEWCars;
+      }
+      else if(dir == 2){
+        return this.intersections_arr[loc].countAWCars;
+      }
+      else{
+        return 0;
+      }
+    }
   }  
 }
 
@@ -199,12 +215,6 @@ namespace jsLib{
       }
       this.drive_cars();
     }      
-  
-    public left_greenc(): void{
-      console.log("left_greenc: "+this.left_green);
-      
-      this.left_green = !this.left_green;
-    }
   
     distance_check(c1: any, c2: any, axis: string): boolean{
       if(axis=="x"){
@@ -402,60 +412,63 @@ namespace jsLib{
           }
         }
         else if(c.d=="w"){
-          if(inter.width < 80){
-            rand_no1 = 2;
-            rand_no2 = 5;
+          if(inter.EW == true){
+            c.d = "w";
           }
-          else{
-            rand_no1 = 3;
-            rand_no2 = 6;
-          }
-          if(rand_dir < rand_no1){
-            if(inter.roadbottom == true){
-              var dir: string = "s";
-              //all going south
-              if((c.x -inter.width/2-50) == inter.x && (c.y-3-inter.width/2+20.5)==inter.y){
-                c.d = "s";
-                c.x = inter.x + 40;
-              }
-            }
-            else{
-              if(inter.roadleft == true){
-                var dir: string = c.d;
-              }
-              else{
-                //turn
-              }
-            }
-          }
-          else if(rand_dir > 3 && rand_dir < rand_no2){
-            if(inter.roadtop == true){
-              var dir: string = "n";
-              c.d = "n";
-              c.x = inter.x + inter.width + 1;
-              c.y = inter.y + c.l - 30;
-            }
-            else{
-              if(inter.roadleft == true){
-                var dir: string = c.d;
-              }
-              else{
-                //turn
-              }
-            }
-          }
-          else{
-            if(inter.roadleft == true){
-              var dir: string = c.d;
-            }
-            else{
-              //turn
-              var dir: string = "n";
-              c.d = "n";
-              c.x = inter.x + inter.width + 1;
-              c.y = inter.y + c.l + 2;
-            }
-          }
+          // if(inter.width < 80){
+          //   rand_no1 = 2;
+          //   rand_no2 = 5;
+          // }
+          // else{
+          //   rand_no1 = 3;
+          //   rand_no2 = 6;
+          // }
+          // if(rand_dir < rand_no1){
+          //   if(inter.roadbottom == true){
+          //     var dir: string = "s";
+          //     //all going south
+          //     if((c.x -inter.width/2-50) == inter.x && (c.y-3-inter.width/2+20.5)==inter.y){
+          //       c.d = "s";
+          //       c.x = inter.x + 40;
+          //     }
+          //   }
+          //   else{
+          //     if(inter.roadleft == true){
+          //       var dir: string = c.d;
+          //     }
+          //     else{
+          //       //turn
+          //     }
+          //   }
+          // }
+          // else if(rand_dir > 3 && rand_dir < rand_no2){
+          //   if(inter.roadtop == true){
+          //     var dir: string = "n";
+          //     c.d = "n";
+          //     c.x = inter.x + inter.width + 1;
+          //     c.y = inter.y + c.l - 30;
+          //   }
+          //   else{
+          //     if(inter.roadleft == true){
+          //       var dir: string = c.d;
+          //     }
+          //     else{
+          //       //turn
+          //     }
+          //   }
+          // }
+          // else{
+          //   if(inter.roadleft == true){
+          //     var dir: string = c.d;
+          //   }
+          //   else{
+          //     //turn
+          //     var dir: string = "n";
+          //     c.d = "n";
+          //     c.x = inter.x + inter.width + 1;
+          //     c.y = inter.y + c.l + 2;
+          //   }
+          // }
         }
         else if(c.d=="n"){
           if(rand_dir < 3){
@@ -831,6 +844,9 @@ namespace jsLib{
                   if(inter.right == "rgba(255,0,0,0.4)"){
                     //red
                     c.s = 0;
+                    this.intersections_arr[k].countEWCars++;
+                    console.log("driveCar Count:"+this.intersections_arr[k].countEWCars);                    
+                    inter.countAWCars++;
                   }
                   //green go
                   else{
@@ -838,6 +854,8 @@ namespace jsLib{
                     c.s = 1;
                     //figure dir
                     this.gen_dir(c, inter);
+                    inter.countEWCars--;   
+                    inter.countAWCars--;                 
                   }
                 }
               }
@@ -850,7 +868,7 @@ namespace jsLib{
           }
           if(c.x+26 <= 0){
             //reposition car
-            c.y = 40;
+            c.y = this.roads[0].y+3;
             c.x = this.w+25;
             c.d = "w";
             c.x -= c.s;
@@ -871,7 +889,7 @@ namespace jsLib{
             if(r2.width < r2.height){
               if((r1.x + r1.width) > r2.x && r1.x <= r2.x){
                 if((r2.y + r2.height) >= r1.y && r2.y <= r1.y){
-                  //console.log("intersection found at ("+r1.y+","+r2.x+")");
+                  console.log("intersection found at ("+r1.y+","+r2.x+")");
                   var roadtop = true;
                   var roadbottom = true;
                   var roadleft = true;
@@ -899,6 +917,7 @@ namespace jsLib{
                   }
                   var inter = new drawIntersection(this);
                   inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
+                  inter.countEWCars = 0, inter.countNSCars = 0, inter.countAWCars = 0;
                   this.intersections_arr.push(inter);
                 }
               }
@@ -1108,6 +1127,9 @@ namespace jsLib{
     public NS: boolean;
     public EW: boolean;
     public AW: boolean;
+    public countNSCars: number;
+    public countEWCars: number;
+    public countAWCars: number;
 
     constructor(map: tMap){
       this.x = this.x;
@@ -1122,6 +1144,9 @@ namespace jsLib{
       this.NS = this.NS;
       this.EW = this.EW;
       this.AW = this.AW;
+      this.countEWCars = this.countEWCars;
+      this.countNSCars = this.countNSCars;
+      this.countAWCars = this.countAWCars;
     }
     
     public leftZebra(){
@@ -1420,7 +1445,7 @@ namespace jsLib{
     }
 
     public drawInter(index: number): any{
-      console.log("["+index+"]: "+this.NS);
+      //console.log("["+index+"]: "+this.NS);
       this.ctx.fillStyle = "#605A4C";
       this.ctx.fillRect(this.x,this.y,this.width,this.height);
       //North-South, red - Left+Right, green - Top+Bot
