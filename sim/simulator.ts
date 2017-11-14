@@ -147,26 +147,25 @@ namespace jsLib{
         //console.log("car.d: "+car.d);
       }
       
+
+      //road2
+      var road = new drawroad(this);
+      road.x = ((this.w/2)-120), road.y = 0, road.width =40, road.height = this.h;
+      this.roads.push(road);
+
+
+      //road4
+      var road = new drawroad(this);
+      road.x = ((this.w/2)+80), road.y = 0, road.width = 40, road.height = this.h;
+      this.roads.push(road);
+
+
       // road1
       var road = new drawroad(this);
       road.x = 0, road.y = ((this.h/4)-80), road.width = this.w, road.height = 40;
       this.roads.push(road);
       
-      //road2
-      var road = new drawroad(this);
-      road.x = ((this.w/2)-120), road.y = 0, road.width =40, road.height = this.h;
-      this.roads.push(road);
-      
-      //road3
-      var road = new drawroad(this);
-      road.x = 0, road.y = (this.h/1.4) + 100, road.width = this.w, road.height = 40;
-      this.roads.push(road);
-      
-      //road4
-      var road = new drawroad(this);
-      road.x = ((this.w/2)+80), road.y = 0, road.width = 40, road.height = this.h;
-      this.roads.push(road);
-     
+
       //road5
       var road = new drawroad(this);
       road.x = 0, road.y = ((this.h/3)), road.width = this.w, road.height = 40;
@@ -177,6 +176,16 @@ namespace jsLib{
       road.x = 65, road.y = 400, road.width = this.w, road.height = 40;
       this.roads.push(road);
 
+
+      //road3
+      var road = new drawroad(this);
+      road.x = 0, road.y = (this.h/1.4) + 100, road.width = this.w, road.height = 40;
+      this.roads.push(road);
+      
+            
+ 
+
+ 
       this.intersections();
     }
   
