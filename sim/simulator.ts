@@ -35,7 +35,8 @@ namespace pxsim {
     public intersections_arr: any[];
     public tMap: jsLib.tMap;
     public ctx: CanvasRenderingContext2D;
-
+    public intersection_waits_NS: any[][] = new Array(8);
+    public intersection_waits_EW: any[][] = new Array(8);
     constructor() {
       super();
       this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
@@ -47,6 +48,22 @@ namespace pxsim {
       this.tMap = new jsLib.tMap(this); 
       this.tMap.init(); 
       this.tMap.animloop();
+      this.intersection_waits_NS[0] = new Array(null, 2);
+      this.intersection_waits_NS[1] = new Array(null, 3);
+      this.intersection_waits_NS[2] = new Array(0, 4);
+      this.intersection_waits_NS[3] = new Array(1, 5);
+      this.intersection_waits_NS[4] = new Array(2, 6);
+      this.intersection_waits_NS[5] = new Array(3, 7);
+      this.intersection_waits_NS[6] = new Array(4, null);
+      this.intersection_waits_NS[7] = new Array(5, null);
+      this.intersection_waits_EW[0] = new Array(null, 1);
+      this.intersection_waits_EW[1] = new Array(0, null);
+      this.intersection_waits_EW[2] = new Array(null, 3);
+      this.intersection_waits_EW[3] = new Array(2, null);
+      this.intersection_waits_EW[4] = new Array(4, 5);
+      this.intersection_waits_EW[5] = new Array(4, null);
+      this.intersection_waits_EW[6] = new Array(null, 7);
+      this.intersection_waits_EW[7] = new Array(6, null);
     }
 
     initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
@@ -75,12 +92,55 @@ namespace pxsim {
     }
 
     getCarsWait(dir: TLDir, loc: number): number{
+      // this.cars.forEach(element => {
+      //   console.log(element.x + " " + element.y);
+      // });
+
       if(dir == 0){
-        return this.intersections_arr[loc].countNSCars;        
+        var fitered_cars = [];
+        for (var i = 0; i < this.cars.length; i++) {
+          if (this.cars[i].d == "n" || this.cars[i].d == "s") {
+            if (Math.abs(this.intersections_arr[loc].x - this.cars[i].x) < 20) {
+              if (this.intersection_waits_NS[loc][0] == null) {
+                if (this.cars[i].y <= this.intersections_arr[this.intersection_waits_NS[loc][1]].y) {
+                  fitered_cars.push(this.cars[i]);
+                }
+              } else if (this.intersection_waits_NS[loc][1] == null) {
+                if (this.cars[i].y >= this.intersections_arr[this.intersection_waits_NS[loc][0]].y) {
+                  fitered_cars.push(this.cars[i]);
+                }
+              } else {
+                if (this.cars[i].y >= this.intersections_arr[this.intersection_waits_NS[loc][0]].y && this.cars[i].y <= this.intersections_arr[this.intersection_waits_NS[loc][1]].y) {
+                  fitered_cars.push(this.cars[i]);
+                }
+              }
+            }
+          }
+        }
+        return fitered_cars.length;
       }
       else if(dir == 1){
-        console.log("carsAt1: "+this.intersections_arr[loc].countEWCars);
-        return this.intersections_arr[loc].countEWCars;
+        var fitered_cars = [];
+        for (var i = 0; i < this.cars.length; i++) {
+          if (this.cars[i].d == "e" || this.cars[i].d == "w") {
+            if (Math.abs(this.intersections_arr[loc].y - this.cars[i].y) < 20) {
+              if (this.intersection_waits_EW[loc][0] == null) {
+                if (this.cars[i].x <= this.intersections_arr[this.intersection_waits_EW[loc][1]].x) {
+                  fitered_cars.push(this.cars[i]);
+                }
+              } else if (this.intersection_waits_EW[loc][1] == null) {
+                if (this.cars[i].x >= this.intersections_arr[this.intersection_waits_EW[loc][0]].x) {
+                  fitered_cars.push(this.cars[i]);
+                }
+              } else {
+                if (this.cars[i].x >= this.intersections_arr[this.intersection_waits_EW[loc][0]].x && this.cars[i].x <= this.intersections_arr[this.intersection_waits_EW[loc][1]].x) {
+                  fitered_cars.push(this.cars[i]);
+                }
+              }
+            }
+          }
+        }
+        return fitered_cars.length;
       }
       else if(dir == 2){
         return this.intersections_arr[loc].countAWCars;
@@ -221,7 +281,7 @@ namespace jsLib{
       for(var i=0;i<this.roads.length;i++){
         this.roads[i].drawRoad(i);
       }
-      console.log("inter.length: "+this.intersections_arr.length)
+      //console.log("inter.length: "+this.intersections_arr.length)
       for(var i=0;i<this.intersections_arr.length;i++){
         this.intersections_arr[i].drawInter(i);
       }
@@ -857,7 +917,7 @@ namespace jsLib{
                     //red
                     c.s = 0;
                     this.intersections_arr[k].countEWCars++;
-                    console.log("driveCar Count:"+this.intersections_arr[k].countEWCars);                    
+                    //console.log("driveCar Count:"+this.intersections_arr[k].countEWCars);                    
                     inter.countAWCars++;
                   }
                   //green go

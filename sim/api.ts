@@ -55,7 +55,7 @@ namespace pxsim.traffics{
     */
     //% block="Number of cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
     export function getCarsWait(dir: TLDir,loc: number): number{
-        return 0;
+        return board().getCarsWait(dir, loc);
     }
 
     /** 
