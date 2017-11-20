@@ -28,6 +28,7 @@ namespace pxsim {
     public canvas: HTMLCanvasElement;
     public scriptSim: HTMLScriptElement;
     public car_no: number;
+    public ratio: HTMLSpanElement;
     public canvas_width: number = 370;
     public canvas_height: number = 670;
     public roads: any[];
@@ -42,6 +43,7 @@ namespace pxsim {
       this.svgDiv = <HTMLDivElement><any>document.getElementById("svgcanvas");
       this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
+      this.ratio = <HTMLSpanElement><any>document.getElementById("ratio");
       this.ctx = this.canvas.getContext("2d");
       this.car_no = 1, this.canvas_width = 370, this.canvas_height = 670;
       this.roads = [], this.cars = [], this.intersections_arr = [];
@@ -211,7 +213,7 @@ namespace jsLib{
       this.roads = b.roads;
       this.cars = b.cars;
       this.intersections_arr = b.intersections_arr;
-      this.ratio = <HTMLScriptElement><any>document.getElementById("ratio");
+      this.ratio = b.ratio;
     }
 
 
@@ -289,9 +291,8 @@ namespace jsLib{
       }
 
       this.intersections();
-    }
-  
-
+    } 
+    
     getRatio(){
       var stoppedCars = 0;
       var movingCars = 0;
@@ -302,8 +303,8 @@ namespace jsLib{
           movingCars++;
         }
       };
+      // console.log( String(stoppedCars/this.cars.length));
       this.ratio.textContent = String(stoppedCars/this.cars.length);
-      console.log("aaaa");
     }
 
     //draw the map
@@ -320,6 +321,7 @@ namespace jsLib{
         this.intersections_arr[i].drawInter(i);
       }
       this.drive_cars();
+      this.getRatio();
     }      
   
     distance_check(c1: any, c2: any, axis: string): boolean{
