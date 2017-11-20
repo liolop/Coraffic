@@ -46,8 +46,6 @@ namespace pxsim {
       this.car_no = 1, this.canvas_width = 370, this.canvas_height = 670;
       this.roads = [], this.cars = [], this.intersections_arr = [];
       this.tMap = new jsLib.tMap(this); 
-      this.tMap.init(); 
-      this.tMap.animloop();
       this.intersection_waits_NS[0] = new Array(null, 2);
       this.intersection_waits_NS[1] = new Array(null, 3);
       this.intersection_waits_NS[2] = new Array(0, 4);
@@ -70,27 +68,23 @@ namespace pxsim {
       document.body.innerHTML = ''; // clear children
       this.svgDiv.appendChild(this.canvas);        
       document.body.appendChild(this.svgDiv);      
-      document.body.appendChild(this.scriptSim); 
+      document.body.appendChild(this.scriptSim);
+      this.tMap.init();             
+      this.tMap.animloop();
       return Promise.resolve();
     }   
-
-    updateView() {
-
-    }
-
-
 
     setDirAtInter(dir: TLDir, loc: number){
       //North-South
       if(dir == 0){
         this.intersections_arr[loc].NS = true;
+        this.intersections_arr[loc].NSDuration = Number(new Date());
+        console.log("set: "+Number(new Date()));
       }
       //East-West
       else if(dir == 1){
         this.intersections_arr[loc].EW = true;        
       }
-      else if(dir == 2)
-        this.intersections_arr[loc].AW = true;              
     }
 
     getCarsWait(dir: TLDir, loc: number): number{
@@ -99,7 +93,7 @@ namespace pxsim {
       // });
 
       if(dir == 0){
-        var fitered_cars = [];
+        var fitered_cars: any[] = [];
         for (var i = 0; i < this.cars.length; i++) {
           if (this.cars[i].d == "n" || this.cars[i].d == "s") {
             if (Math.abs(this.intersections_arr[loc].x - this.cars[i].x) < 20) {
@@ -151,6 +145,33 @@ namespace pxsim {
         return 0;
       }
     }
+
+    StopDirAtInter(dir: StopDir, loc: number){
+      //North-South
+      if(dir == 0){
+        this.intersections_arr[loc].NS = false;
+      }
+      //East-West
+      else if(dir == 1){
+        this.intersections_arr[loc].EW = false;        
+      }
+      //All-way
+      else if(dir == 2){
+        this.intersections_arr[loc].NS = false;        
+        this.intersections_arr[loc].EW = false; 
+      } 
+    }
+
+    getDirDuration(dir: TLDir, loc: number): number{
+      var end = new Date();
+      if(dir == 0){
+        console.log("end: "+Number(end));
+        console.log("diff: "+(Number(end) - this.intersections_arr[loc].NSDuration));
+        var timeDiff = Math.round((Number(end) - this.intersections_arr[loc].NSDuration)/1000);
+      }
+      return timeDiff;
+    }
+
   }  
 }
 
@@ -229,8 +250,7 @@ namespace jsLib{
       var road = new drawroad(this);
       road.x = 0, road.y = (this.h/1.4) + 100, road.width = this.w, road.height = 40;
       this.roads.push(road);
-        
-      console.log("this.car_no: "+this.car_no);
+      
       for(var i=0;i<this.car_no;i++){
         var car = new drawcar(this);
         car.s = 1;
@@ -267,13 +287,7 @@ namespace jsLib{
         this.cars.push(car);	
         //console.log("car.d: "+car.d);
       }
-      
 
-    
-            
- 
-
- 
       this.intersections();
     }
   
@@ -938,16 +952,13 @@ namespace jsLib{
                     c.s = 0;
                     this.intersections_arr[k].countEWCars++;
                     //console.log("driveCar Count:"+this.intersections_arr[k].countEWCars);                    
-                    inter.countAWCars++;
                   }
                   //green go
                   else{
                     //green
                     c.s = 1;
                     //figure dir
-                    this.gen_dir(c, inter);
-                    inter.countEWCars--;   
-                    inter.countAWCars--;                 
+                    this.gen_dir(c, inter);                
                   }
                 }
               }
@@ -1010,7 +1021,6 @@ namespace jsLib{
                   }
                   var inter = new drawIntersection(this);
                   inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
-                  inter.countEWCars = 0, inter.countNSCars = 0, inter.countAWCars = 0;
                   this.intersections_arr.push(inter);
                 }
               }
@@ -1220,9 +1230,7 @@ namespace jsLib{
     public NS: boolean;
     public EW: boolean;
     public AW: boolean;
-    public countNSCars: number;
-    public countEWCars: number;
-    public countAWCars: number;
+    public NSDuration: number;
 
     constructor(map: tMap){
       this.x = this.x;
@@ -1237,9 +1245,7 @@ namespace jsLib{
       this.NS = this.NS;
       this.EW = this.EW;
       this.AW = this.AW;
-      this.countEWCars = this.countEWCars;
-      this.countNSCars = this.countNSCars;
-      this.countAWCars = this.countAWCars;
+      this.NSDuration = this.NSDuration;
     }
     
     public leftZebra(){
@@ -1357,30 +1363,6 @@ namespace jsLib{
       this.ctx.shadowOffsetX = undefined;
       this.ctx.shadowBlur = undefined;
       
-      if(this.height > 40){
-        this.ctx.save();
-        if(this.left == "rgba(0,255,0,0.4)"){
-          //green
-          var shadow_color = 'rgba(0,255,0,1)';
-        }
-        else{
-          var shadow_color = 'rgba(255,0,0,1)';
-        }
-        
-        this.ctx.fillStyle = shadow_color;
-        this.ctx.shadowColor = shadow_color
-        this.ctx.shadowOffsetX = -2;
-        this.ctx.shadowBlur = 2;
-        /**
-          * Left Traffic Light at Left side
-          */
-        //this.ctx.fillRect(this.x-3,this.y+this.height-30,6,6);
-        this.ctx.fill();
-        this.ctx.restore();
-        this.ctx.shadowOffsetX = undefined;
-        this.ctx.shadowBlur = undefined;
-      }
-      
       this.ctx.fillStyle = "#ddd";
       this.ctx.fillRect(this.x-3,this.y+this.height-(this.height/2)+3,1,(this.height/2));						
     }
@@ -1458,30 +1440,6 @@ namespace jsLib{
       this.ctx.restore();
       this.ctx.shadowOffsetX = undefined;
       this.ctx.shadowBlur = undefined;
-      
-      if(this.width > 40){
-        this.ctx.save();
-        if(this.top == "rgba(0,255,0,0.4)"){
-          //green
-          var shadow_color = 'rgba(0,255,0,1)';
-        }
-        else{
-          var shadow_color = 'rgba(255,0,0,1)';
-        }
-        
-        this.ctx.fillStyle = shadow_color;
-        this.ctx.shadowColor = shadow_color
-        this.ctx.shadowOffsetY = -2;
-        this.ctx.shadowBlur = 2;
-        /**
-         * Left Traffic Light at Top side
-         */
-        this.ctx.fillRect(this.x+28,this.y-2,6,6);
-        this.ctx.fill();
-        this.ctx.restore();
-        this.ctx.shadowOffsetX = undefined;
-        this.ctx.shadowBlur = undefined;
-      }
       
       this.ctx.fillStyle = "#ddd";
       this.ctx.fillRect(this.x-3,this.y-2,(this.width/2),1);

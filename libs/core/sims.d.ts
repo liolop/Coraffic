@@ -24,9 +24,9 @@ declare namespace traffics {
      * @param dir
      * @param loc
      */
-    //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
-    //% shim=traffics::setTLAtInter
-    function setTLAtInter(dir: TLDir, loc: number): void;
+    //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter
+    //% shim=traffics::setDirAtInter
+    function setDirAtInter(dir: TLDir, loc: number): void;
 
     /** 
      * @param loc
@@ -40,9 +40,17 @@ declare namespace traffics {
      * @param loc
      * @param dir
      */
-    //% block="Current going %dir|duration at intersection %loc" blockId=get_going_duration
+    //% block="Current allowed %dir|duration at intersection %loc" blockId=get_going_duration
     //% shim=traffics::getGoingDuration
     function getGoingDuration(dir: TLDir, loc: number): number;
+
+    /**
+     * @param dir
+     * @param loc
+     */
+    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
+    //% shim=traffics::stopDirAtInter
+    function stopDirAtInter(dir: StopDir, loc: number): void;
 
     /** 
      * @param seconds
@@ -57,19 +65,6 @@ declare namespace traffics {
     //% block="%carNum|(cars)" blockId=input_carNum
     //% shim=traffics::inputCarNum
     function inputCarNum(carNum: number): number;
-
-    // /** 
-    //  * @param dir
-    // */
-    // //% block="Allow %dir" blockId=set_dir
-    // export function setDir(dir: TLDir){
-    // }
-    /** 
-     * @param loc
-     */
-    //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
-    //% shim=traffics::getDirDuration
-    function getDirDuration(loc: number): number;
 
 }
 

@@ -44,8 +44,8 @@ namespace pxsim.traffics{
      * @param dir
      * @param loc
      */
-    //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
-    export function setTLAtInter(dir: TLDir, loc: number){
+    //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter
+    export function setDirAtInter(dir: TLDir, loc: number){
         board().setDirAtInter(dir, loc);
     }
 
@@ -62,9 +62,19 @@ namespace pxsim.traffics{
      * @param loc
      * @param dir
     */
-    //% block="Current going %dir|duration at intersection %loc" blockId=get_going_duration
+    //% block="Current allowed %dir|duration at intersection %loc" blockId=get_going_duration
     export function getGoingDuration(dir: TLDir, loc: number): number{
-        return 0;
+        console.log("time: "+board().getDirDuration(dir, loc));
+        return board().getDirDuration(dir, loc);
+    }
+
+    /**
+     * @param dir
+     * @param loc
+     */
+    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
+    export function stopDirAtInter(dir: StopDir, loc: number){
+        return board().StopDirAtInter(dir, loc);
     }
 
     /** 
@@ -91,13 +101,13 @@ namespace pxsim.traffics{
 
     // }
 
-    /** 
-     * @param loc
-    */
-    //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
-    export function getDirDuration(loc: number): number{
-        return 0;
-    }
+    // /** 
+    //  * @param loc
+    // */
+    // //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
+    // export function getDirDuration(loc: number): number{
+    //     return 0;
+    // }
 
 
 

@@ -22,6 +22,13 @@ declare const enum TLDir{
     //% block=North-South
     NS,
     //% block=East-West
+    EW
+}
+
+declare const enum StopDir{
+    //% block=North-South
+    NS,
+    //% block=East-West
     EW,
     //% block=All-Way
     AW
