@@ -78,6 +78,8 @@ namespace pxsim {
 
     }
 
+
+
     setDirAtInter(dir: TLDir, loc: number){
       //North-South
       if(dir == 0){
@@ -167,6 +169,7 @@ namespace jsLib{
   })(); 
 
   export class tMap{
+    public ratio: HTMLSpanElement;
     public car_no: number;
     public canvas: HTMLCanvasElement;
     public ctx: CanvasRenderingContext2D;
@@ -187,7 +190,9 @@ namespace jsLib{
       this.roads = b.roads;
       this.cars = b.cars;
       this.intersections_arr = b.intersections_arr;
+      this.ratio = <HTMLScriptElement><any>document.getElementById("ratio");
     }
+
 
     //initiate the parameters
     public init(): any{
@@ -272,6 +277,21 @@ namespace jsLib{
       this.intersections();
     }
   
+
+    getRatio(){
+      var stoppedCars = 0;
+      var movingCars = 0;
+      for(var i = 0; i < this.cars.length; i++) {
+        if (this.cars[i].s == 0){
+          stoppedCars++;
+        } else {
+          movingCars++;
+        }
+      };
+      this.ratio.textContent = String(stoppedCars/this.cars.length);
+      console.log("aaaa");
+    }
+
     //draw the map
     drawscene(): any{
       
