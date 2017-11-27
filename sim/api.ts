@@ -58,16 +58,6 @@ namespace pxsim.traffics{
         return board().getCarsWait(dir, loc);
     }
 
-    // /** 
-    //  * @param loc
-    //  * @param dir
-    // */
-    // //% block="Current allowed %dir|duration at intersection %loc" blockId=get_going_duration
-    // export function getGoingDuration(dir: TLDir, loc: number): number{
-    //     console.log("time: "+board().getDirDuration(dir, loc));
-    //     return board().getDirDuration(dir, loc);
-    // }
-
     /**
      * @param dir
      * @param loc
@@ -92,23 +82,5 @@ namespace pxsim.traffics{
     export function inputCarNum(carNum: number):number{
         return carNum;
     }
-
-    // /** 
-    //  * @param dir
-    // */
-    // //% block="Allow %dir" blockId=set_dir
-    // export function setDir(dir: TLDir){
-
-    // }
-
-    // /** 
-    //  * @param loc
-    // */
-    // //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
-    // export function getDirDuration(loc: number): number{
-    //     return 0;
-    // }
-
-
 
 }

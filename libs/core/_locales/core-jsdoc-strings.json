@@ -98,7 +98,5 @@
   "loops.forever": "Repeats the code forever in the background. On each iteration, allows other code to run.",
   "loops.forever|param|body": "the code to repeat",
   "loops.pause": "Pause for the specified time in milliseconds",
-  "loops.pause|param|ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
-  "traffics.stopDirAtInter": "//  * @param loc\n//  * @param dir\n//",
-  "traffics.stopDirAtInter|param|dir": "@param loc"
+  "loops.pause|param|ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000"
 }

@@ -45,7 +45,7 @@ namespace pxsim {
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
       this.ratio = <HTMLSpanElement><any>document.getElementById("ratio");
       this.ctx = this.canvas.getContext("2d");
-      this.car_no = 3, this.canvas_width = 370, this.canvas_height = 670;
+      this.car_no = 10, this.canvas_width = 370, this.canvas_height = 670;
       this.roads = [], this.cars = [], this.intersections_arr = [];
       this.tMap = new jsLib.tMap(this); 
       this.intersection_waits_NS[0] = new Array(null, 2);
@@ -80,8 +80,6 @@ namespace pxsim {
       //North-South
       if(dir == 0){
         this.intersections_arr[loc].NS = true;
-        this.intersections_arr[loc].NSDuration = Number(new Date());
-        console.log("set: "+Number(new Date()));
       }
       //East-West
       else if(dir == 1){
@@ -164,23 +162,12 @@ namespace pxsim {
       } 
     }
 
-    getDirDuration(dir: TLDir, loc: number): number{
-      var end = new Date();
-      if(dir == 0){
-        console.log("end: "+Number(end));
-        console.log("diff: "+(Number(end) - this.intersections_arr[loc].NSDuration));
-        var timeDiff = Math.round((Number(end) - this.intersections_arr[loc].NSDuration)/1000);
-      }
-      return timeDiff;
-    }
-
   }  
 }
 
 namespace jsLib{
 
   var requestAnimFrame = (function(){
-    console.log("dd-"); 
     return window.requestAnimationFrame || 
     (<any>window).webkitRequestAnimationFrame || 
     (<any>window).mozRequestAnimationFrame || 
@@ -257,16 +244,62 @@ namespace jsLib{
         var car = new drawcar(this);
         car.s = 3;
         var pos_rand = Math.random();
-        if(pos_rand < 0.5){
+        if(pos_rand < 0.1){
           car.x = this.w+25;
           car.y = this.roads[2].y+3;
           car.d = "w";
         }
-        else{
+        else if(pos_rand > 0.1 && pos_rand < 0.2){
+          car.x = this.roads[1].x+37;
+          car.y = this.h+15;
+          car.d = "n";
+        }
+        else if(pos_rand > 0.2 && pos_rand < 0.3){
+          car.x = this.roads[0].x+37;
+          car.y = this.h+15;
+          car.d = "n";
+        }
+        else if(pos_rand > 0.3 && pos_rand < 0.4){
+          car.x = this.roads[1].x+15;
+          car.y = -15;
+          car.d = "s";
+        }
+        else if(pos_rand > 0.4 && pos_rand < 0.5){
+          car.x = this.roads[0].x+15;
+          car.y = -15;
+          car.d = "s";
+        }
+        else if(pos_rand > 0.5 && pos_rand < 0.6){
           car.x = this.w+25;
           car.y = this.roads[3].y+3;
           car.d = "w";
         }
+        else if(pos_rand > 0.6 && pos_rand < 0.7){
+          car.x = this.w+25;
+          car.y = this.roads[4].y+3;
+          car.d = "w";
+        }
+        else if(pos_rand > 0.7 && pos_rand < 0.8){
+          car.x = this.w+25;
+          car.y = this.roads[5].y+3;
+          car.d = "w";
+        }
+        else if(pos_rand > 0.8 && pos_rand < 0.9){
+          car.x = -15;
+          car.y = this.roads[3].y+23;
+          car.d = "e";
+        }
+        else if(pos_rand > 0.9 && pos_rand < 1){
+          car.x = -15;
+          car.y = this.roads[2].y+23;
+          car.d = "e";
+        }
+        else{
+          car.x = -15;
+          car.y = this.roads[5].y+23;
+          car.d = "e";
+        }
+
         var color_rand = Math.random();
         var color = "";
         if(color_rand < 0.2){
@@ -321,7 +354,7 @@ namespace jsLib{
         this.intersections_arr[i].drawInter(i);
       }
       this.drive_cars();
-      this.getRatio();
+      //this.getRatio();
     }      
   
     distance_check(c1: any, c2: any, axis: string): boolean{
@@ -396,16 +429,6 @@ namespace jsLib{
         }
       }
       else if(axis == "-x"){
-        if(inter.height > 40){
-          if((c.x - inter.x) > (c.l+8) && (c.x - inter.x) <= (c.l+inter.width + 5)){
-            if(c.y-80 <= inter.y && c.y+42 >= inter.y){
-              return true;
-            }
-            else{return false;}            
-          }
-          else{return false;}          
-        }
-        else{
           if((c.x - inter.x) > (c.l+8) && (c.x - inter.x) <= (c.l+inter.width + 5)){
             if(c.y-40 <= inter.y && c.y+42 >= inter.y){
               return true;
@@ -413,7 +436,6 @@ namespace jsLib{
             else{return false;}            
           }
           else{return false;}          
-        }
       }
       else if(axis == "-y"){
         if(inter.width > 40){
@@ -466,199 +488,23 @@ namespace jsLib{
         var rand_no2: any;
         c.dd = true;
         if(c.d=="e"){
-          if(inter.width < 80){
-            rand_no1 = 2;
-            rand_no2 = 5;
-          }
-          else{
-            rand_no1 = 3;
-            rand_no2 = 6;
-          }
-          if(rand_dir < rand_no1){
-            if(inter.roadbottom == true){
-              var dir: string = "s";
-              c.d = "s";
-              c.x = inter.x + 10;
-              c.y = inter.y + inter.height - 27;
-            }
-            else{
-              if(inter.roadright == true){
-                var dir: string = c.d;
-              }
-              else{
-                //turn
-              }
-            }
-          }
-          else if(rand_dir > 3 && rand_dir < rand_no2){
-            if(inter.roadtop == true){
-              var dir: string = "n";
-              c.d = "n";
-              c.x = inter.x + inter.width - 9;
-              c.y = inter.y + c.l + 2;
-            }
-            else{
-              if(inter.roadright == true){
-                var dir: string = c.d;
-              }
-              else{
-                //turn
-              }
-            }
-          }
-          else{
-            if(inter.roadright == true){
-              var dir: string = c.d;
-            }
-            else{
-              //turn
-              var dir: string = "s";
-              c.d = "s";
-              c.x = inter.x + 10;
-              c.y = inter.y + 2;
-            }
+          if(inter.EW == true){
+            c.d = "e";
           }
         }
         else if(c.d=="w"){
           if(inter.EW == true){
             c.d = "w";
           }
-          // if(inter.width < 80){
-          //   rand_no1 = 2;
-          //   rand_no2 = 5;
-          // }
-          // else{
-          //   rand_no1 = 3;
-          //   rand_no2 = 6;
-          // }
-          // if(rand_dir < rand_no1){
-          //   if(inter.roadbottom == true){
-          //     var dir: string = "s";
-          //     //all going south
-          //     if((c.x -inter.width/2-50) == inter.x && (c.y-3-inter.width/2+20.5)==inter.y){
-          //       c.d = "s";
-          //       c.x = inter.x + 40;
-          //     }
-          //   }
-          //   else{
-          //     if(inter.roadleft == true){
-          //       var dir: string = c.d;
-          //     }
-          //     else{
-          //       //turn
-          //     }
-          //   }
-          // }
-          // else if(rand_dir > 3 && rand_dir < rand_no2){
-          //   if(inter.roadtop == true){
-          //     var dir: string = "n";
-          //     c.d = "n";
-          //     c.x = inter.x + inter.width + 1;
-          //     c.y = inter.y + c.l - 30;
-          //   }
-          //   else{
-          //     if(inter.roadleft == true){
-          //       var dir: string = c.d;
-          //     }
-          //     else{
-          //       //turn
-          //     }
-          //   }
-          // }
-          // else{
-          //   if(inter.roadleft == true){
-          //     var dir: string = c.d;
-          //   }
-          //   else{
-          //     //turn
-          //     var dir: string = "n";
-          //     c.d = "n";
-          //     c.x = inter.x + inter.width + 1;
-          //     c.y = inter.y + c.l + 2;
-          //   }
-          // }
         }
         else if(c.d=="n"){
-          if(rand_dir < 3){
-            if(inter.roadright == true){
-              var dir: string = "e";
-              c.d = "e";
-              c.y = inter.y + inter.height - 10;
-              c.x = inter.x + inter.width + 1;
-            }
-            else{
-            }
+          if(inter.NS == true){
+            c.d = "n";
           }
-          else if(rand_dir > 3 && rand_dir < 6){
-            if(inter.roadleft == true){
-              var dir: string = "w";
-              c.d = "w";
-              c.y = inter.y + 8;
-              c.x = inter.x + 5;
-            }
-            else{
-            }
-            
-          }
-            else{
-              if(inter.roadtop == true){
-                var dir: string = c.d;
-              }
-              else{
-                //turn
-                var dir: string = "w";
-                c.d = "w";
-                c.y = inter.y + 8;
-                c.x = inter.x + 5;
-              }
-            }
         }
         else if(c.d=="s"){
-          if(rand_dir < 3){
-            if(inter.roadright == true){
-              var dir: string = "e";
-              c.d = "e";
-              c.y = inter.y + inter.height - 21;
-              c.x = inter.x + inter.width + 1;
-            }
-            else{
-              if(inter.roadbottom == true){
-                var dir: string = c.d;
-              }
-              else{
-                //turn
-                c.s = 0;
-              }
-            }
-          }
-          else if(rand_dir > 3 && rand_dir < 6){
-            if(inter.roadleft == true){
-              var dir: string = "w";
-              c.d = "w";
-              c.y = inter.y - 2;
-              c.x = inter.x - 28;
-            }
-            else{
-              if(inter.roadbottom == true){
-                var dir: string = c.d;
-              }
-              else{
-                //turn
-                c.s = 0;
-              }
-            }
-          }
-          else{
-            if(inter.roadleft == true){
-              var dir: string = "w";
-              c.d = "w";
-              c.y = inter.y - 2;
-              c.x = inter.x - 28;
-            }
-            else{
-              //turn
-              c.s = 0;
-            }
+          if(inter.NS == true){
+            c.d = "s";
           }
         }
       }
@@ -720,7 +566,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 1;
+                    c.s = 3;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -734,11 +580,25 @@ namespace jsLib{
           }
           if(c.x+26 >= this.canvas.width){
             //reposition car
-            //console.log("reposition " + "east");
-            c.x = 295;
-            c.y = 46.5;
-            c.d = "w";
-            c.y -= c.s;
+            var rand: number = Math.random();
+            if(rand > 0 && rand < 0.4){
+              c.x = -15;
+              c.y = this.roads[3].y+23;
+              c.d = "e";
+              c.x += c.s;              
+            }
+            else if(rand > 0.4 && rand < 0.8){
+              c.x = -15;
+              c.y = this.roads[2].y+23;
+              c.d = "e";
+              c.x += c.s;              
+            }
+            else{
+              c.x = -15;
+              c.y = this.roads[5].y+23;
+              c.d = "e";
+              c.x += c.s;              
+            }
           }
           c.x += c.s;
         }
@@ -793,7 +653,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 1;
+                    c.s = 3;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -806,12 +666,20 @@ namespace jsLib{
             }
           }
           if(c.y+26 <= 0){
+            var rand: number = Math.random();
             //reposition car
-            //console.log("reposition" + " north");
-            c.x = 120.5;
-            c.y = this.h+25;
-            c.d = "s";
-            c.y -= c.s;
+            if(rand > 0.5){
+              c.x = this.roads[1].x+37;
+              c.y = this.h+15;
+              c.d = "n";
+              c.y -= c.s;
+            }
+            else{
+              c.x = this.roads[0].x+37;
+              c.y = this.h+15;
+              c.d = "n";
+              c.y -= c.s;
+            }
           }
           c.y -= c.s;
         }
@@ -866,7 +734,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 1;
+                    c.s = 3;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -880,11 +748,19 @@ namespace jsLib{
           }
           if(c.y-26 >= this.h){
             //reposition car
-            //console.log("reposition" + " south");
-            c.y = 365;
-            c.x = 120.5;
-            c.d = "n";
-            c.y += c.s;
+            var rand: number = Math.random();
+            if(rand > 0.5){
+              c.x = this.roads[1].x+15;
+              c.y = -15;
+              c.d = "s";
+              c.y += c.s;
+            }
+            else{
+              c.x = this.roads[0].x+15;
+              c.y = -15;
+              c.d = "s";
+              c.y += c.s;              
+            }
           }
           c.y += c.s;
         }
@@ -973,11 +849,38 @@ namespace jsLib{
           }
           if(c.x+26 <= 0){
             //reposition car
-            c.y = this.roads[2].y+3;
-            c.x = this.w+25;
-            c.d = "w";
-            c.x -= c.s;
+            var rand: number = Math.random();
+            if(rand < 0.25){
+              c.x = this.w+25;
+              c.y = this.roads[2].y+3;
+              c.d = "w";
+              c.x -= c.s;              
+            }
+            else if(rand > 0.25 && rand < 0.5){
+              c.x = this.w+25;
+              c.y = this.roads[3].y+3;
+              c.d = "w";
+              c.x -= c.s;                            
+            }
+            else if(rand > 0.5 && rand < 0.75){
+              c.x = this.w+25;
+              c.y = this.roads[4].y+3;
+              c.d = "w";
+              c.x -= c.s;                            
+            }
+            else{
+              c.x = this.w+25;
+              c.y = this.roads[5].y+3;
+              c.d = "w";
+              c.x -= c.s;                            
+            }
             
+          }
+          else if(c.x - 40 <= this.roads[4].x && c.y == this.roads[4].y+3){
+            c.x = this.roads[4].x + 40;
+            c.y = this.roads[4].y + 23;
+            c.d = "e";
+            c.x += c.s;
           }
           c.x -= c.s;
         }

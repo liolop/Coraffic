@@ -36,15 +36,6 @@ declare namespace traffics {
     //% shim=traffics::getCarsWait
     function getCarsWait(dir: TLDir, loc: number): number;
 
-    // /** 
-    //  * @param loc
-    //  * @param dir
-    // */
-    // //% block="Current allowed %dir|duration at intersection %loc" blockId=get_going_duration
-    // export function getGoingDuration(dir: TLDir, loc: number): number{
-    //     console.log("time: "+board().getDirDuration(dir, loc));
-    //     return board().getDirDuration(dir, loc);
-    // }
     /**
      * @param dir
      * @param loc
