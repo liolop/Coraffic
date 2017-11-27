@@ -45,7 +45,7 @@ namespace pxsim {
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
       this.ratio = <HTMLSpanElement><any>document.getElementById("ratio");
       this.ctx = this.canvas.getContext("2d");
-      this.car_no = 1, this.canvas_width = 370, this.canvas_height = 670;
+      this.car_no = 3, this.canvas_width = 370, this.canvas_height = 670;
       this.roads = [], this.cars = [], this.intersections_arr = [];
       this.tMap = new jsLib.tMap(this); 
       this.intersection_waits_NS[0] = new Array(null, 2);
@@ -255,18 +255,18 @@ namespace jsLib{
       
       for(var i=0;i<this.car_no;i++){
         var car = new drawcar(this);
-        car.s = 1;
-        // var pos_rand = Math.random();
-        // if(pos_rand < 0.5){
-        //   car.x = w+25;
-        //   car.y = 41;
-        //   car.d = "w";
-        // }
-        // else{
-        //   car.x = 120;
-        //   car.y = h+25;
-        //   car.d = "n";
-        // }
+        car.s = 3;
+        var pos_rand = Math.random();
+        if(pos_rand < 0.5){
+          car.x = this.w+25;
+          car.y = this.roads[2].y+3;
+          car.d = "w";
+        }
+        else{
+          car.x = this.w+25;
+          car.y = this.roads[3].y+3;
+          car.d = "w";
+        }
         var color_rand = Math.random();
         var color = "";
         if(color_rand < 0.2){
@@ -668,7 +668,7 @@ namespace jsLib{
       for(var i=0;i<this.cars.length;i++){
         var c = this.cars[i];
         //console.log("drive car.d: "+c.d);    
-        c.s = 1;
+        c.s = 3;
         if(c.d == "e"){
           for(var l=0;l<this.cars.length;l++){
             var c2 = this.cars[l];
@@ -958,7 +958,7 @@ namespace jsLib{
                   //green go
                   else{
                     //green
-                    c.s = 1;
+                    c.s = 3;
                     //figure dir
                     this.gen_dir(c, inter);                
                   }
@@ -973,7 +973,7 @@ namespace jsLib{
           }
           if(c.x+26 <= 0){
             //reposition car
-            c.y = this.roads[0].y+3;
+            c.y = this.roads[2].y+3;
             c.x = this.w+25;
             c.d = "w";
             c.x -= c.s;
