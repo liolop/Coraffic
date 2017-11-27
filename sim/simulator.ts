@@ -80,10 +80,13 @@ namespace pxsim {
       //North-South
       if(dir == 0){
         this.intersections_arr[loc].NS = true;
+        this.intersections_arr[loc].EW = false;        
+        
       }
       //East-West
       else if(dir == 1){
-        this.intersections_arr[loc].EW = true;        
+        this.intersections_arr[loc].EW = true;
+        this.intersections_arr[loc].NS = false;        
       }
     }
 
