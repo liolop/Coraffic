@@ -243,6 +243,7 @@ namespace jsLib{
       road.x = 0, road.y = (this.h/1.4) + 100, road.width = this.w, road.height = 40;
       this.roads.push(road);
       
+      //generating cars at beginning
       for(var i=0;i<this.car_no;i++){
         var car = new drawcar(this);
         car.s = 3;
@@ -339,8 +340,8 @@ namespace jsLib{
           movingCars++;
         }
       };
-      // console.log( String(stoppedCars/this.cars.length));
-      this.ratio.textContent = String(stoppedCars/this.cars.length);
+      //console.log( String(stoppedCars/this.cars.length));
+      this.ratio.textContent = String(parseFloat(String(1-stoppedCars/this.cars.length)).toFixed(2) + "%");
     }
 
     //draw the map
@@ -357,7 +358,7 @@ namespace jsLib{
         this.intersections_arr[i].drawInter(i);
       }
       this.drive_cars();
-      //this.getRatio();
+      this.getRatio();
     }      
   
     distance_check(c1: any, c2: any, axis: string): boolean{

@@ -23,12 +23,12 @@ canvas{
   
 .box{
     position: fixed;
-    width: 42px;
-    height: 80px;
+    width: 124px;
+    height: 103px;
     background:rgba(0,0,0,0.3);
-    top: 350px;
+    top: 451px;
     padding: 5px;
-    left: 0px;
+    left: 116px;
     z-index: 5;
     font-family: Arial;
     font-size: 12px;
