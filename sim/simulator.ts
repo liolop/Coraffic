@@ -27,6 +27,8 @@ namespace pxsim {
     public svgDiv: HTMLDivElement;
     public canvas: HTMLCanvasElement;
     public scriptSim: HTMLScriptElement;
+    public slow: HTMLInputElement;
+    public fast: HTMLInputElement;
     public car_no: number;
     public ratio: HTMLSpanElement;
     public canvas_width: number = 370;
@@ -44,6 +46,8 @@ namespace pxsim {
       this.canvas = <HTMLCanvasElement><any>document.getElementsByTagName("canvas")[0];
       this.scriptSim = <HTMLScriptElement><any>document.getElementById("js3");
       this.ratio = <HTMLSpanElement><any>document.getElementById("ratio");
+      this.slow = <HTMLInputElement><any>document.getElementById("slow");
+      this.fast = <HTMLInputElement><any>document.getElementById("fast");
       this.ctx = this.canvas.getContext("2d");
       this.car_no = 10, this.canvas_width = 370, this.canvas_height = 670;
       this.roads = [], this.cars = [], this.intersections_arr = [];
@@ -192,7 +196,9 @@ namespace jsLib{
     public cars: any[];
     public intersections_arr: any[];
     public b: pxsim.Board;
-    
+    public slow: HTMLInputElement;
+    public fast: HTMLInputElement;
+    public globalSpeed: number;
     constructor(b: pxsim.Board){
       this.b = b;
       this.car_no = b.car_no;
@@ -204,6 +210,11 @@ namespace jsLib{
       this.cars = b.cars;
       this.intersections_arr = b.intersections_arr;
       this.ratio = b.ratio;
+      this.slow = b.slow;
+      this.fast = b.fast;
+      this.slow.addEventListener("click", (e:Event) => this.toSlow());
+      this.fast.addEventListener("click", (e:Event) => this.toFast());
+      this.globalSpeed = 3;
     }
 
 
@@ -340,6 +351,7 @@ namespace jsLib{
           movingCars++;
         }
       };
+      // console.log(this.slow);
       //console.log( String(stoppedCars/this.cars.length));
       this.ratio.textContent = String(parseFloat(String(1-stoppedCars/this.cars.length)).toFixed(2) + "%");
     }
@@ -411,6 +423,24 @@ namespace jsLib{
       }
     }
   
+    toSlow(): any{
+      console.log("slow");
+      for(var l=0;l<this.cars.length;l++){
+        this.cars[l].s = 3;
+      }
+      this.globalSpeed = 3;
+      console.log(this.cars[0].s);
+    }
+
+    toFast(): any{
+      console.log("fast");
+      for(var l=0;l<this.cars.length;l++){
+        this.cars[l].s = 10;
+      }
+      this.globalSpeed = 10;
+      console.log(this.cars[0].s);
+    }
+    
     check_inter(c: any, inter: any, axis: string): boolean{
       if(axis == "x"){
         if(inter.height > 40){
@@ -518,7 +548,7 @@ namespace jsLib{
       for(var i=0;i<this.cars.length;i++){
         var c = this.cars[i];
         //console.log("drive car.d: "+c.d);    
-        c.s = 3;
+        // c.s = 3;
         if(c.d == "e"){
           for(var l=0;l<this.cars.length;l++){
             var c2 = this.cars[l];
@@ -570,7 +600,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 3;
+                    c.s = this.globalSpeed;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -657,7 +687,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 3;
+                    c.s = this.globalSpeed;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -738,7 +768,7 @@ namespace jsLib{
                   }
                   else{
                     //green
-                    c.s = 3;
+                    c.s = this.globalSpeed;
                     //figure dir
                     this.gen_dir(c, inter);
                   }
@@ -838,7 +868,7 @@ namespace jsLib{
                   //green go
                   else{
                     //green
-                    c.s = 3;
+                    c.s = this.globalSpeed;
                     //figure dir
                     this.gen_dir(c, inter);                
                   }

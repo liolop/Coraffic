@@ -40,6 +40,27 @@ canvas{
     border-bottom: 2px solid #fff;
 }
   
+
+.buttons{
+    position: fixed;
+    width: 124px;
+    height: 50px;
+    background:rgba(0,0,0,0.3);
+    top: 300px;
+    padding: 5px;
+    left: 116px;
+    z-index: 5;
+    font-family: Arial;
+    font-size: 12px;
+    color: #333;
+    border-radius: 0 0 5px 0;
+    border-right: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+  
+
 .box a{
     font-family: Arial;
     font-size: 13px;
