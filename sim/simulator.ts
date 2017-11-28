@@ -453,18 +453,18 @@ namespace jsLib{
     toSlow(): any{
       console.log("slow");
       for(var l=0;l<this.cars.length;l++){
-        this.cars[l].s = 3;
+        this.cars[l].s = 2;
       }
-      this.globalSpeed = 3;
+      this.globalSpeed = 2;
       console.log(this.cars[0].s);
     }
 
     toFast(): any{
       console.log("fast");
       for(var l=0;l<this.cars.length;l++){
-        this.cars[l].s = 10;
+        this.cars[l].s = 5;
       }
-      this.globalSpeed = 10;
+      this.globalSpeed = 5;
       console.log(this.cars[0].s);
     }
     
