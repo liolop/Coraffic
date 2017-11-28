@@ -53,7 +53,7 @@ namespace pxsim.traffics{
      * @param loc
      * @param dir
     */
-    //% block="Number of cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
+    //% block="Number of cars wait for %dir|at intersection %loc" blockId=get_cars_waiting
     export function getCarsWait(dir: TLDir,loc: number): number{
         return board().getCarsWait(dir, loc);
     }
@@ -83,4 +83,32 @@ namespace pxsim.traffics{
         return carNum;
     }
 
+    /**
+     * @param loc
+     */
+    //% block="Current direction at intersection %loc" blockId=get_dir
+    export function getDirection(loc: number): number{
+        return board().getDirection(loc);
+    }
+
+    /**
+     * @param loc
+     */
+    //% block="Duration of intersection %loc" blockId=get_duration
+    export function getDuration(loc: number): number{
+        return board().getDuration(loc);
+    }
+
+    /**
+     * @param loc
+     */
+    //% block="%loc" blockId=param_loc
+    export function locParam(loc: TLDir): number{
+        if(loc == 0){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
 }

@@ -84,13 +84,15 @@ namespace pxsim {
       //North-South
       if(dir == 0){
         this.intersections_arr[loc].NS = true;
-        this.intersections_arr[loc].EW = false;        
+        this.intersections_arr[loc].EW = false;
+        this.intersections_arr[loc].startTime = new Date().getTime();        
         
       }
       //East-West
       else if(dir == 1){
         this.intersections_arr[loc].EW = true;
-        this.intersections_arr[loc].NS = false;        
+        this.intersections_arr[loc].NS = false;  
+        this.intersections_arr[loc].startTime = new Date().getTime();                
       }
     }
 
@@ -157,18 +159,39 @@ namespace pxsim {
       //North-South
       if(dir == 0){
         this.intersections_arr[loc].NS = false;
+        this.intersections_arr[loc].startTime = new Date().getTime();                
       }
       //East-West
       else if(dir == 1){
-        this.intersections_arr[loc].EW = false;        
+        this.intersections_arr[loc].EW = false;
+        this.intersections_arr[loc].startTime = new Date().getTime();                
       }
       //All-way
       else if(dir == 2){
         this.intersections_arr[loc].NS = false;        
         this.intersections_arr[loc].EW = false; 
+        this.intersections_arr[loc].startTime = new Date().getTime();                
       } 
     }
 
+    getDirection(loc: number): number{
+      if(this.intersections_arr[loc].NS == true){
+        return 0;
+      }
+      else if(this.intersections_arr[loc].EW == true){
+        return 1;
+      }
+      else{
+        return null;
+      }
+    }
+
+    getDuration(loc: number): number{
+      var endTime = new Date().getTime();
+      var diff = (endTime - this.intersections_arr[loc].startTime)/1000;
+      console.log("diff: "+diff);
+      return diff;
+    }
   }  
 }
 
@@ -199,6 +222,7 @@ namespace jsLib{
     public slow: HTMLInputElement;
     public fast: HTMLInputElement;
     public globalSpeed: number;
+
     constructor(b: pxsim.Board){
       this.b = b;
       this.car_no = b.car_no;
@@ -960,6 +984,7 @@ namespace jsLib{
                   }
                   var inter = new drawIntersection(this);
                   inter.x = r2.x, inter.y = r1.y, inter.width = r2.width, inter.height = r1.height, inter.roadtop = roadtop, inter.roadleft = roadleft, inter.roadright = roadright, inter.roadbottom = roadbottom;
+                  inter.startTime = new Date().getTime();
                   this.intersections_arr.push(inter);
                 }
               }
@@ -1169,7 +1194,7 @@ namespace jsLib{
     public NS: boolean;
     public EW: boolean;
     public AW: boolean;
-    public NSDuration: number;
+    public startTime: number;
 
     constructor(map: tMap){
       this.x = this.x;
@@ -1184,7 +1209,7 @@ namespace jsLib{
       this.NS = this.NS;
       this.EW = this.EW;
       this.AW = this.AW;
-      this.NSDuration = this.NSDuration;
+      this.startTime = this.startTime;
     }
     
     public leftZebra(){
