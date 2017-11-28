@@ -105,7 +105,7 @@ namespace pxsim {
         var fitered_cars: any[] = [];
         for (var i = 0; i < this.cars.length; i++) {
           if (this.cars[i].d == "n" || this.cars[i].d == "s") {
-            if (Math.abs(this.intersections_arr[loc].x - this.cars[i].x) < 20) {
+            if (Math.abs(this.intersections_arr[loc].x - this.cars[i].x) < 40) {
               if (this.intersection_waits_NS[loc][0] == null) {
                 if (this.cars[i].y <= this.intersections_arr[this.intersection_waits_NS[loc][1]].y) {
                   fitered_cars.push(this.cars[i]);
@@ -128,8 +128,9 @@ namespace pxsim {
         var fitered_cars = [];
         for (var i = 0; i < this.cars.length; i++) {
           if (this.cars[i].d == "e" || this.cars[i].d == "w") {
-            if (Math.abs(this.intersections_arr[loc].y - this.cars[i].y) < 20) {
+            if (Math.abs(this.intersections_arr[loc].y - this.cars[i].y) < 40) {
               if (this.intersection_waits_EW[loc][0] == null) {
+
                 if (this.cars[i].x <= this.intersections_arr[this.intersection_waits_EW[loc][1]].x) {
                   fitered_cars.push(this.cars[i]);
                 }
@@ -144,7 +145,9 @@ namespace pxsim {
               }
             }
           }
+          
         }
+        
         return fitered_cars.length;
       }
       else if(dir == 2){
@@ -571,8 +574,8 @@ namespace jsLib{
     drive_cars(): void{
       for(var i=0;i<this.cars.length;i++){
         var c = this.cars[i];
-        //console.log("drive car.d: "+c.d);    
-        // c.s = 3;
+        // console.log("drive car.s: "+c.s);    
+        c.s = this.globalSpeed;
         if(c.d == "e"){
           for(var l=0;l<this.cars.length;l++){
             var c2 = this.cars[l];
