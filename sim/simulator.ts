@@ -380,7 +380,7 @@ namespace jsLib{
       };
       // console.log(this.slow);
       //console.log( String(stoppedCars/this.cars.length));
-      this.ratio.textContent = String(parseFloat(String(1-stoppedCars/this.cars.length)).toFixed(2) + "%");
+      this.ratio.textContent = String(parseFloat(String((1-stoppedCars/this.cars.length)*100)).toFixed(0) + "%");
     }
 
     //draw the map
