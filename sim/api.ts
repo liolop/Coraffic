@@ -38,7 +38,7 @@ function logMsg(m:string) { console.log(m) }
 //     }
 // }
 
-namespace pxsim.traffics{
+namespace pxsim.trafficControl{
 
     /**
      * @param dir
@@ -49,6 +49,17 @@ namespace pxsim.traffics{
         board().setDirAtInter(dir, loc);
     }
 
+    /**
+     * @param dir
+     * @param loc
+     */
+    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
+    export function stopDirAtInter(dir: StopDir, loc: number){
+        return board().StopDirAtInter(dir, loc);
+    }
+}
+
+namespace pxsim.trafficVariables{
     /** 
      * @param loc
      * @param dir
@@ -58,16 +69,7 @@ namespace pxsim.traffics{
         return board().getCarsWait(dir, loc);
     }
 
-    /**
-     * @param dir
-     * @param loc
-     */
-    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
-    export function stopDirAtInter(dir: StopDir, loc: number){
-        return board().StopDirAtInter(dir, loc);
-    }
-
-    /** 
+        /** 
      * @param seconds
     */
     //% block="%seconds|(seconds)" blockId=input_seconds

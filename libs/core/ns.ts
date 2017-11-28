@@ -1,15 +1,16 @@
 /**
- * Basic functionalities.
+ * Traffic Control
  */
-//% color=#00BCD4 weight=100
-namespace turtle {
+//% color=#21A1F9 icon="\uf018"
+namespace trafficControl {
 
 }
 
 /**
- * Control flow
+ * Traffic Variables
  */
-//% color=#FF5722 weight=90
-namespace control {
+//% color=#DA5F0F icon="\uf1b9"
+namespace trafficVariables{
 
 }
+

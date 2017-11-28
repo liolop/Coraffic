@@ -19,64 +19,66 @@ declare namespace loops {
     function pause(ms: number): void;
 
 }
-declare namespace traffics {
+declare namespace trafficControl {
     /**
      * @param dir
      * @param loc
      */
     //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter
-    //% shim=traffics::setDirAtInter
+    //% shim=trafficControl::setDirAtInter
     function setDirAtInter(dir: TLDir, loc: number): void;
-
-    /** 
-     * @param loc
-     * @param dir
-     */
-    //% block="Number of cars wait for %dir|at intersection %loc" blockId=get_cars_waiting
-    //% shim=traffics::getCarsWait
-    function getCarsWait(dir: TLDir, loc: number): number;
 
     /**
      * @param dir
      * @param loc
      */
     //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
-    //% shim=traffics::stopDirAtInter
+    //% shim=trafficControl::stopDirAtInter
     function stopDirAtInter(dir: StopDir, loc: number): void;
+
+}
+declare namespace trafficVariables {
+    /** 
+     * @param loc
+     * @param dir
+     */
+    //% block="Number of cars wait for %dir|at intersection %loc" blockId=get_cars_waiting
+    //% shim=trafficVariables::getCarsWait
+    function getCarsWait(dir: TLDir, loc: number): number;
 
     /** 
      * @param seconds
      */
     //% block="%seconds|(seconds)" blockId=input_seconds
-    //% shim=traffics::inputSeconds
+    //% shim=trafficVariables::inputSeconds
     function inputSeconds(seconds: number): number;
 
     /** 
      * @param carNum
      */
     //% block="%carNum|(cars)" blockId=input_carNum
-    //% shim=traffics::inputCarNum
+    //% shim=trafficVariables::inputCarNum
     function inputCarNum(carNum: number): number;
 
     /**
      * @param loc
      */
     //% block="Current direction at intersection %loc" blockId=get_dir
-    //% shim=traffics::getDirection
+    //% shim=trafficVariables::getDirection
     function getDirection(loc: number): number;
 
     /**
      * @param loc
      */
     //% block="Duration of intersection %loc" blockId=get_duration
-    //% shim=traffics::getDuration
+    //% shim=trafficVariables::getDuration
     function getDuration(loc: number): number;
 
     /**
      * @param loc
      */
     //% block="%loc" blockId=param_loc
-    //% shim=traffics::locParam
+    //% shim=trafficVariables::locParam
     function locParam(loc: TLDir): number;
 
 }
