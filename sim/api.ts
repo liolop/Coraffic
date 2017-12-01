@@ -38,7 +38,7 @@ function logMsg(m:string) { console.log(m) }
 //     }
 // }
 
-namespace pxsim.trafficControl{
+namespace pxsim.intersections{
 
     /**
      * @param dir
@@ -59,36 +59,20 @@ namespace pxsim.trafficControl{
     }
 }
 
-namespace pxsim.trafficVariables{
+namespace pxsim.status{
     /** 
      * @param loc
      * @param dir
     */
-    //% block="Number of cars wait for %dir|at intersection %loc" blockId=get_cars_waiting
+    //% block="Cars waiting for %dir|at intersection %loc" blockId=get_cars_waiting weight=50
     export function getCarsWait(dir: TLDir,loc: number): number{
         return board().getCarsWait(dir, loc);
-    }
-
-        /** 
-     * @param seconds
-    */
-    //% block="%seconds|(seconds)" blockId=input_seconds
-    export function inputSeconds(seconds: number):number{
-        return seconds;
-    }
-
-    /** 
-     * @param carNum
-    */
-    //% block="%carNum|(cars)" blockId=input_carNum
-    export function inputCarNum(carNum: number):number{
-        return carNum;
     }
 
     /**
      * @param loc
      */
-    //% block="Current direction at intersection %loc" blockId=get_dir
+    //% block="Direction at intersection %loc" blockId=get_dir weight=40
     export function getDirection(loc: number): number{
         return board().getDirection(loc);
     }
@@ -96,7 +80,7 @@ namespace pxsim.trafficVariables{
     /**
      * @param loc
      */
-    //% block="Duration of intersection %loc" blockId=get_duration
+    //% block="Duration at intersection %loc" blockId=get_duration weight=30
     export function getDuration(loc: number): number{
         return board().getDuration(loc);
     }
@@ -104,7 +88,7 @@ namespace pxsim.trafficVariables{
     /**
      * @param loc
      */
-    //% block="%loc" blockId=param_loc
+    //% block="%loc" blockId=param_loc weight=20
     export function locParam(loc: TLDir): number{
         if(loc == 0){
             return 0;
