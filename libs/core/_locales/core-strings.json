@@ -27,10 +27,22 @@
   "loops.forever|block": "forever",
   "loops.pause|block": "pause (ms) %pause",
   "loops|block": "loops",
+  "parseInt|block": "parse to integer %text",
+  "traffics.getCarsWait|block": "Cars going %dir|waiting at intersection %loc",
+  "traffics.getDirDuration|block": "Current direction duration at intersection %loc",
+  "traffics.getGoingDuration|block": "Current going %dir|duration at intersection %loc",
+  "traffics.inputCarNum|block": "%carNum|(cars)",
+  "traffics.inputSeconds|block": "%seconds|(seconds)",
+  "traffics.setDir|block": "Allow %dir",
+  "traffics.setTLAtInter|block": "Allow going %dir|at intersection %loc",
   "{id:category}Array": "Array",
   "{id:category}Arrays": "Arrays",
+  "{id:category}Boolean": "Boolean",
+  "{id:category}Helpers": "Helpers",
   "{id:category}Loops": "Loops",
   "{id:category}Math": "Math",
+  "{id:category}Number": "Number",
   "{id:category}String": "String",
-  "{id:category}Text": "Text"
+  "{id:category}Text": "Text",
+  "{id:category}Traffics": "Traffics"
 }

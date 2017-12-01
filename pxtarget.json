@@ -42,7 +42,8 @@
         "coloredToolbox": true,
         "monacoToolbox": true,
         "invertedMenu": true,
-        "useStartPage": true,
+        "showHomeScreen": true,
+        "homeScreenHero": "./static/hero.png",
         "blocklyOptions": { 
             "grid": {
                 "spacing": 45,
