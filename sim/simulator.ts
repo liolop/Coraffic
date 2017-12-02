@@ -479,16 +479,6 @@ namespace jsLib{
     
     check_inter(c: any, inter: any, axis: string): boolean{
       if(axis == "x"){
-        if(inter.height > 40){
-          if((inter.x - c.x) > (c.l+8) && (inter.x - c.x) <= (c.l+25)){
-            if(c.y-80 <= inter.y && c.y+42 >= inter.y){
-              return true;
-            }
-            else{return false;}            
-          }
-          else{return false;}          
-        }
-        else{
           if((inter.x - c.x) > (c.l+8) && (inter.x - c.x) <= (c.l+25)){
             if(c.y-40 <= inter.y && c.y+42 >= inter.y){
               return true;
@@ -496,7 +486,6 @@ namespace jsLib{
             else{return false;}            
           }
           else{return false;}          
-        }
       }
       else if(axis == "-x"){
           if((c.x - inter.x) > (c.l+8) && (c.x - inter.x) <= (c.l+inter.width + 5)){
@@ -508,16 +497,6 @@ namespace jsLib{
           else{return false;}          
       }
       else if(axis == "-y"){
-        if(inter.width > 40){
-          if((c.y - inter.y) > (c.l+8) && (c.y - inter.y) <= (c.l+inter.height +5)){
-            if(c.x-80 <= inter.x && c.x+42 >= inter.x){
-              return true;
-            }
-            else{return false;}            
-          }
-          else{return false;}          
-        }
-        else{
           if((c.y - inter.y) > (c.l+8) && (c.y - inter.y) <= (c.l+inter.height + 5)){
             if(c.x-40 <= inter.x && c.x+42 >= inter.x){
               return true;
@@ -525,19 +504,8 @@ namespace jsLib{
             else{return false;}            
           }
           else{return false;}          
-        }
       }
       else if(axis == "y"){
-        if(inter.width > 40){
-          if((inter.y - c.y) > (c.l+8) && (inter.y - c.y) <= (c.l + 27)){
-            if(c.x-80 <= inter.x && c.x+42 >= inter.x){
-              return true;
-            }
-            else{return false;}            
-          }
-          else{return false;}          
-        }
-        else{
           if((inter.y - c.y) > (c.l+8) && (inter.y - c.y) <= (c.l + 27)){
             if(c.x-40 <= inter.x && c.x+42 >= inter.x){
               return true;
@@ -545,7 +513,6 @@ namespace jsLib{
             else{return false;}            
           }
           else{return false;}          
-        }
       }
       else{return false;}
     }      
