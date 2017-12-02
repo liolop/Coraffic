@@ -614,24 +614,61 @@ namespace jsLib{
           }
           if(c.x+26 >= this.canvas.width){
             //reposition car
-            var rand: number = Math.random();
-            if(rand > 0 && rand < 0.4){
+            var pos_rand: number = Math.random();
+            if(pos_rand < 0.1){
+              c.x = this.w+25;
+              c.y = this.roads[2].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.1 && pos_rand < 0.2){
+              c.x = this.roads[1].x+37;
+              c.y = this.h+15;
+              c.d = "n";
+            }
+            else if(pos_rand > 0.2 && pos_rand < 0.3){
+              c.x = this.roads[0].x+37;
+              c.y = this.h+15;
+              c.d = "n";
+            }
+            else if(pos_rand > 0.3 && pos_rand < 0.4){
+              c.x = this.roads[1].x+15;
+              c.y = -15;
+              c.d = "s";
+            }
+            else if(pos_rand > 0.4 && pos_rand < 0.5){
+              c.x = this.roads[0].x+15;
+              c.y = -15;
+              c.d = "s";
+            }
+            else if(pos_rand > 0.5 && pos_rand < 0.6){
+              c.x = this.w+25;
+              c.y = this.roads[3].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.6 && pos_rand < 0.7){
+              c.x = this.w+25;
+              c.y = this.roads[4].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.7 && pos_rand < 0.8){
+              c.x = this.w+25;
+              c.y = this.roads[5].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.8 && pos_rand < 0.9){
               c.x = -15;
               c.y = this.roads[3].y+23;
               c.d = "e";
-              c.x += c.s;              
             }
-            else if(rand > 0.4 && rand < 0.8){
+            else if(pos_rand > 0.9 && pos_rand < 1){
               c.x = -15;
               c.y = this.roads[2].y+23;
               c.d = "e";
-              c.x += c.s;              
             }
             else{
               c.x = -15;
               c.y = this.roads[5].y+23;
               c.d = "e";
-              c.x += c.s;              
             }
           }
           c.x += c.s;
@@ -674,19 +711,62 @@ namespace jsLib{
             }
           }
           if(c.y+26 <= 0){
-            var rand: number = Math.random();
+            var pos_rand: number = Math.random();
             //reposition car
-            if(rand > 0.5){
+            if(pos_rand < 0.1){
+              c.x = this.w+25;
+              c.y = this.roads[2].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.1 && pos_rand < 0.2){
               c.x = this.roads[1].x+37;
               c.y = this.h+15;
               c.d = "n";
-              c.y -= c.s;
             }
-            else{
+            else if(pos_rand > 0.2 && pos_rand < 0.3){
               c.x = this.roads[0].x+37;
               c.y = this.h+15;
               c.d = "n";
-              c.y -= c.s;
+            }
+            else if(pos_rand > 0.3 && pos_rand < 0.4){
+              c.x = this.roads[1].x+15;
+              c.y = -15;
+              c.d = "s";
+            }
+            else if(pos_rand > 0.4 && pos_rand < 0.5){
+              c.x = this.roads[0].x+15;
+              c.y = -15;
+              c.d = "s";
+            }
+            else if(pos_rand > 0.5 && pos_rand < 0.6){
+              c.x = this.w+25;
+              c.y = this.roads[3].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.6 && pos_rand < 0.7){
+              c.x = this.w+25;
+              c.y = this.roads[4].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.7 && pos_rand < 0.8){
+              c.x = this.w+25;
+              c.y = this.roads[5].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.8 && pos_rand < 0.9){
+              c.x = -15;
+              c.y = this.roads[3].y+23;
+              c.d = "e";
+            }
+            else if(pos_rand > 0.9 && pos_rand < 1){
+              c.x = -15;
+              c.y = this.roads[2].y+23;
+              c.d = "e";
+            }
+            else{
+              c.x = -15;
+              c.y = this.roads[5].y+23;
+              c.d = "e";
             }
           }
           c.y -= c.s;
@@ -731,18 +811,61 @@ namespace jsLib{
           }
           if(c.y-26 >= this.h){
             //reposition car
-            var rand: number = Math.random();
-            if(rand > 0.5){
+            var pos_rand: number = Math.random();
+            if(pos_rand < 0.1){
+              c.x = this.w+25;
+              c.y = this.roads[2].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.1 && pos_rand < 0.2){
+              c.x = this.roads[1].x+37;
+              c.y = this.h+15;
+              c.d = "n";
+            }
+            else if(pos_rand > 0.2 && pos_rand < 0.3){
+              c.x = this.roads[0].x+37;
+              c.y = this.h+15;
+              c.d = "n";
+            }
+            else if(pos_rand > 0.3 && pos_rand < 0.4){
               c.x = this.roads[1].x+15;
               c.y = -15;
               c.d = "s";
-              c.y += c.s;
             }
-            else{
+            else if(pos_rand > 0.4 && pos_rand < 0.5){
               c.x = this.roads[0].x+15;
               c.y = -15;
               c.d = "s";
-              c.y += c.s;              
+            }
+            else if(pos_rand > 0.5 && pos_rand < 0.6){
+              c.x = this.w+25;
+              c.y = this.roads[3].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.6 && pos_rand < 0.7){
+              c.x = this.w+25;
+              c.y = this.roads[4].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.7 && pos_rand < 0.8){
+              c.x = this.w+25;
+              c.y = this.roads[5].y+3;
+              c.d = "w";
+            }
+            else if(pos_rand > 0.8 && pos_rand < 0.9){
+              c.x = -15;
+              c.y = this.roads[3].y+23;
+              c.d = "e";
+            }
+            else if(pos_rand > 0.9 && pos_rand < 1){
+              c.x = -15;
+              c.y = this.roads[2].y+23;
+              c.d = "e";
+            }
+            else{
+              c.x = -15;
+              c.y = this.roads[5].y+23;
+              c.d = "e";
             }
           }
           c.y += c.s;
@@ -799,31 +922,67 @@ namespace jsLib{
           if(c.x+26 <= 0){
             //reposition car
             var rand: number = Math.random();
-            if(rand < 0.25){
+            if(pos_rand < 0.1){
               c.x = this.w+25;
               c.y = this.roads[2].y+3;
               c.d = "w";
-              c.x -= c.s;              
             }
-            else if(rand > 0.25 && rand < 0.5){
+            else if(pos_rand > 0.1 && pos_rand < 0.2){
+              c.x = this.roads[1].x+37;
+              c.y = this.h+15;
+              c.d = "n";
+            }
+            else if(pos_rand > 0.2 && pos_rand < 0.3){
+              c.x = this.roads[0].x+37;
+              c.y = this.h+15;
+              c.d = "n";
+            }
+            else if(pos_rand > 0.3 && pos_rand < 0.4){
+              c.x = this.roads[1].x+15;
+              c.y = -15;
+              c.d = "s";
+            }
+            else if(pos_rand > 0.4 && pos_rand < 0.5){
+              c.x = this.roads[0].x+15;
+              c.y = -15;
+              c.d = "s";
+            }
+            else if(pos_rand > 0.5 && pos_rand < 0.6){
               c.x = this.w+25;
               c.y = this.roads[3].y+3;
               c.d = "w";
-              c.x -= c.s;                            
             }
-            else if(rand > 0.5 && rand < 0.75){
+            else if(pos_rand > 0.6 && pos_rand < 0.7){
               c.x = this.w+25;
               c.y = this.roads[4].y+3;
               c.d = "w";
-              c.x -= c.s;                            
             }
-            else{
+            else if(pos_rand > 0.7 && pos_rand < 0.8){
               c.x = this.w+25;
               c.y = this.roads[5].y+3;
               c.d = "w";
-              c.x -= c.s;                            
             }
-            
+            else if(pos_rand > 0.8 && pos_rand < 0.9){
+              c.x = -15;
+              c.y = this.roads[3].y+23;
+              c.d = "e";
+            }
+            else if(pos_rand > 0.9 && pos_rand < 1){
+              c.x = -15;
+              c.y = this.roads[2].y+23;
+              c.d = "e";
+            }
+            else{
+              c.x = -15;
+              c.y = this.roads[5].y+23;
+              c.d = "e";
+            }
+          }
+          else if(c.x - 40 <= this.roads[4].x && c.y == this.roads[4].y+3){
+            c.x = this.roads[4].x + 40;
+            c.y = this.roads[4].y + 23;
+            c.d = "e";
+            c.x += c.s;
           }
           c.x -= c.s;
         }
