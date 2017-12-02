@@ -957,8 +957,8 @@ namespace jsLib{
             else if(pos_rand > 0.1 && pos_rand < 0.2){
               c.x = this.roads[1].x+37;
               c.y = this.h+15;
-              return;
               c.d = "n";
+              return;
             }
             else if(pos_rand > 0.2 && pos_rand < 0.3){
               c.x = this.roads[0].x+37;
