@@ -414,7 +414,7 @@ namespace jsLib{
         var dist: number = c2.x - c1.x;
         var disty: number = c2.y - c1.y;
         if(dist>0 && dist<=(c1.l+15)){
-          if(c2.w > 15 && c1.w > 15 && c1.y == c2.y){ //only check for collison on cars on the same axis
+          if(c2.w > 15 && c1.w > 15 && Math.abs(c1.y - c2.y)>=0 && Math.abs(c1.y - c2.y)<2){ //only check for collison on cars on the same axis
             return true;
           }
           else{return false;}
@@ -425,7 +425,7 @@ namespace jsLib{
         var dist: number = c1.x - c2.x;
         var disty: number = c1.y - c2.y;
         if(dist>0 && dist<=(c1.l+15)){
-          if(c2.w > 15 && c1.w > 15 && c1.y == c2.y){ //only check for collison on cars on the same axis
+          if(c2.w > 15 && c1.w > 15 && Math.abs(c1.y - c2.y)>=0 && Math.abs(c1.y - c2.y)<2){ //only check for collison on cars on the same axis
             return true;
           }
           else{return false;}          
@@ -436,7 +436,7 @@ namespace jsLib{
         var dist: number = c1.x - c2.x;
         var disty: number = c1.y - c2.y;
         if(disty>0 && disty<=(c1.l+15)){
-          if(c2.w < 25 && c1.w < 25 && c1.x == c2.x){ //only check for collison on cars on the same axis
+          if(c2.w < 25 && c1.w < 25 && Math.abs(c1.x - c2.x)>=0 && Math.abs(c1.x - c2.x)<2){ //only check for collison on cars on the same axis
             return true;
           }
           else{return false;}          
@@ -447,7 +447,7 @@ namespace jsLib{
         var dist: number= c2.x - c1.x;
         var disty: number = c2.y - c1.y;
         if(disty>0 && disty<=(c1.l+15)){
-          if(c2.w < 25 && c1.w < 25 && c1.x == c2.x){ //only check for collison on cars on the same axis
+          if(c2.w < 25 && c1.w < 25 && Math.abs(c1.x - c2.x)>=0 && Math.abs(c1.x - c2.x)<2){ //only check for collison on cars on the same axis
             return true;
           }
           else{return false;}          
@@ -527,7 +527,7 @@ namespace jsLib{
               c.d = "e";
             }  
             else{
-              c.x = inter.x+12;
+              c.x = inter.x+13;
               c.d = "s";
             }
           }
