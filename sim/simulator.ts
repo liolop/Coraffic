@@ -562,6 +562,7 @@ namespace jsLib{
             else{
               if(inter.roadleft){
                 c.y = inter.y+1;
+                c.x = inter.x
                 c.d = "w";
               }
             }
