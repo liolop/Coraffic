@@ -49,7 +49,7 @@ namespace pxsim {
       this.slow = <HTMLInputElement><any>document.getElementById("slow");
       this.fast = <HTMLInputElement><any>document.getElementById("fast");
       this.ctx = this.canvas.getContext("2d");
-      this.car_no = 10, this.canvas_width = 370, this.canvas_height = 670;
+      this.car_no = 15, this.canvas_width = 370, this.canvas_height = 670;
       this.roads = [], this.cars = [], this.intersections_arr = [];
       this.tMap = new jsLib.tMap(this); 
       this.intersection_waits_NS[0] = new Array(null, 2);
@@ -552,29 +552,52 @@ namespace jsLib{
   
     gen_dir(c: drawcar, inter: any): void{
       if(c.dd == false){
-        var rand_dir = Math.random()*10;
-        var dir = c.d;
-        var rand_no1: any;
-        var rand_no2: any;
+        var rand_dir = Math.random();
         c.dd = true;
         if(c.d=="e"){
           if(inter.EW == true){
-            c.d = "e";
+            if(rand_dir>0.5){
+              c.d = "e";
+            }  
+            else{
+              c.x = inter.x+12;
+              c.d = "s";
+            }
           }
         }
         else if(c.d=="w"){
           if(inter.EW == true){
-            c.d = "w";
+            if(rand_dir>0.5){
+              c.d = "w";
+            }  
+            else{
+              c.x = inter.x+39;
+              c.d = "n";
+            }
           }
         }
         else if(c.d=="n"){
           if(inter.NS == true){
-            c.d = "n";
+            if(rand_dir>0.5){
+              c.d = "n";
+            }  
+            else{
+              c.y = inter.y+26;
+              c.d = "e";
+            }
           }
         }
         else if(c.d=="s"){
           if(inter.NS == true){
-            c.d = "s";
+            if(rand_dir>0.5){
+              c.d = "s";
+            }  
+            else{
+              if(inter.roadleft){
+                c.y = inter.y+1;
+                c.d = "w";
+              }
+            }
           }
         }
       }
@@ -594,33 +617,7 @@ namespace jsLib{
               for(var k=0;k<this.intersections_arr.length;k++){
                 var inter = this.intersections_arr[k];
                 if(inter.y + inter.height > c.y && inter.y < c.y){
-                  //this is road
-                  if(inter.height == 80){
-                    var lc = 0;
-                    var ld = 0;
-                    for(var v=0;v<this.cars.length;v++){
-                      if(this.cars[v].y == (inter.y + 44) && this.cars[v].x < inter.x && this.cars[v].s == 0){
-                        lc++;
-                      }
-                      if(this.cars[v].y == c.y && this.cars[v].x < inter.x && this.cars[v].s == 0){
-                        ld++;
-                      }
-                    }
-                    if((ld-2)>lc){
-                      c.y = inter.y + 44;
-                      c.s = 0;
-                    }
-                    else{
-                      c.s = 0;
-                    }
-                    var dc = this.distance_check(c,c2,"x");
-                    if(dc == true){
-                      c.s = 0;
-                    }
-                  }
-                  else{
                     c.s = 0;
-                  }
                 }
               }
             }
@@ -681,33 +678,7 @@ namespace jsLib{
               for(var k=0;k<this.intersections_arr.length;k++){
                 var inter = this.intersections_arr[k];
                 if(inter.x + inter.width > c.x && inter.x < c.x){
-                  //this is road
-                  if(inter.width == 80){
-                    var lc = 0;
-                    var ld = 0;
-                    for(var v=0;v<this.cars.length;v++){
-                      if(this.cars[v].x == (inter.x + 55) && this.cars[v].y < inter.y && this.cars[v].s == 0){
-                        lc++;
-                      }
-                      if(this.cars[v].x == c.x && this.cars[v].y < inter.y && this.cars[v].s == 0){
-                        ld++;
-                      }
-                    }
-                    if((ld-2)>lc){
-                      c.x = inter.x + 55;
-                      c.s = 0;
-                    }
-                    else{
-                      c.s = 0;
-                    }
-                    var dc = this.distance_check(c,c2,"-y");
-                    if(dc == true){
-                      c.s = 0;
-                    }
-                  }
-                  else{
                     c.s = 0;
-                  }
                 }
               }
             }
@@ -763,32 +734,7 @@ namespace jsLib{
                 var inter = this.intersections_arr[k];
                 if(inter.x + inter.width > c.x && inter.x < c.x){
                   //this is road
-                  if(inter.width == 80){
-                    var lc = 0;
-                    var ld = 0;
-                    for(var v=0;v<this.cars.length;v++){
-                      if(this.cars[v].x == (inter.x + 36) && this.cars[v].y < inter.y && this.cars[v].s == 0){
-                        lc++;
-                      }
-                      if(this.cars[v].x == c.x && this.cars[v].y < inter.y && this.cars[v].s == 0){
-                        ld++;
-                      }
-                    }
-                    if((ld-1)>lc){
-                      c.x = inter.x + 36;
-                      c.s = 0;
-                    }
-                    else{
-                      c.s = 0;
-                    }
-                    var dc = this.distance_check(c,c2,"y");
-                    if(dc == true){
-                      c.s = 0;
-                    }
-                  }
-                  else{
                     c.s = 0;
-                  }
                 }
               }
             }
@@ -847,41 +793,7 @@ namespace jsLib{
                 var inter = this.intersections_arr[k];
                 //if the car meets the inter
                 if(inter.y + inter.height > c.y && inter.y < c.y){
-                  //for road with 2 lanes on x axis
-                  if(inter.height == 80){
-                    // # cars waiting at top lane when meeting the inter
-                    var lc = 0;
-                    // # cars waiting at bottom lane
-                    var ld = 0;
-                    //for loop to check how many cars waiting at each lane when meeting the inter
-                    for(var v=0;v<this.cars.length;v++){
-                      if(this.cars[v].y == (inter.y + 22) && this.cars[v].x > inter.x && this.cars[v].s == 0){
-                        lc++;
-                      }
-                      if(this.cars[v].y == c.y && this.cars[v].x > inter.x && this.cars[v].s == 0){
-                        ld++;
-                      }
-                    }
-                    // if #cars at bot>2+#cars at top, set driving car's position to top lane
-                    if((ld-2)>lc){
-                      c.y = inter.y + 22;
-                      c.s = 0;
-                    }
-                    //otherwise, stop because collision exits, it will stop behind the car
-                    else{
-                      c.s = 0;
-                    }
-                    //check collision after reseting the car's position or when it stops for waiting
-                    var dc = this.distance_check(c,c2,"-x");
-                    //if it for sure has collision, stop
-                    if(dc == true){
-                      c.s = 0;
-                    }
-                  }
-                  //for road with only 1 lane on x axis, stop the car because of the collision existance
-                  else{
                     c.s = 0;
-                  }
                 }
               }
             }
@@ -945,12 +857,6 @@ namespace jsLib{
               c.x -= c.s;                            
             }
             
-          }
-          else if(c.x - 40 <= this.roads[4].x && c.y == this.roads[4].y+3){
-            c.x = this.roads[4].x + 40;
-            c.y = this.roads[4].y + 23;
-            c.d = "e";
-            c.x += c.s;
           }
           c.x -= c.s;
         }
