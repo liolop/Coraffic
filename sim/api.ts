@@ -119,4 +119,12 @@ namespace pxsim.status{
             return 1;
         }
     }
+
+    /**
+     * Random Intersection Index
+     */
+    //% block="Random Index" blockId=param_random_index weight=15
+    export function randIndex():number{
+        return (Math.floor(Math.random() * (7 - 0 + 1)) + 0);
+    }
 }

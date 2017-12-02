@@ -84,6 +84,13 @@ declare namespace status {
     //% shim=status::locParam
     function locParam(loc: TLDir): number;
 
+    /**
+     * Random Intersection Index
+     */
+    //% block="Random Index" blockId=param_random_index weight=15
+    //% shim=status::randIndex
+    function randIndex(): number;
+
 }
 
 // Auto-generated. Do not edit. Really.

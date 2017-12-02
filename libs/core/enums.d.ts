@@ -34,7 +34,13 @@ declare const enum StopDir{
     AW
 }
 
-declare const enum Events{
-    OnCarInter = 0,
+declare const enum Index{
+    //% block="Odd Index"
+    Odd,
+    //% block="Even Index"
+    Even,
+    //% block="Random Index"
+    Rand
+
 }
 
