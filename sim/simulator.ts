@@ -562,7 +562,7 @@ namespace jsLib{
             else{
               if(inter.roadleft){
                 c.y = inter.y;
-                c.x = inter.x;
+                c.x = inter.x-15;
                 c.d = "w";
               }
             }
@@ -1012,7 +1012,7 @@ namespace jsLib{
               return;
             }
           }
-          else if(c.x - 40 <= this.roads[4].x && c.y == this.roads[4].y+3){
+          else if(c.x - 40 <= this.roads[4].x && (c.y == this.roads[4].y+3 || c.y == this.roads[4].y)){
             c.x = this.roads[4].x + 40;
             c.y = this.roads[4].y + 23;
             c.d = "e";
