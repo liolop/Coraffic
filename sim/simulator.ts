@@ -23,7 +23,7 @@ namespace pxsim {
   * Represents the entire state of the executing program.
   * Do not store state anywhere else!
   */
-  export class Board extends pxsim.BaseBoard {
+  export class Board extends pxsim.CoreBoard {
     public svgDiv: HTMLDivElement;
     public canvas: HTMLCanvasElement;
     public scriptSim: HTMLScriptElement;
@@ -194,6 +194,15 @@ namespace pxsim {
       var diff = (endTime - this.intersections_arr[loc].startTime)/1000;
       console.log("diff: "+diff);
       return diff;
+    }
+
+    checkInterLoc(loc: number): number{
+      if(this.getCarsWait(0,loc)>0 || this.getCarsWait(1,loc)>0){
+        return loc;
+      }
+      else{
+        return null;
+      }
     }
   }  
 }

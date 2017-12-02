@@ -34,3 +34,7 @@ declare const enum StopDir{
     AW
 }
 
+declare const enum Events{
+    OnCarInter = 0,
+}
+

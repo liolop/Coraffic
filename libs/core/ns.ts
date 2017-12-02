@@ -14,3 +14,19 @@ namespace status{
 
 }
 
+/**
+ * Traffic Events
+ */
+//% color=#8440E6 icon="\uf13a" weight=95
+namespace events{
+
+}
+
+/**
+ * Engine Rendering
+ */
+loops.forever(()=>{
+    if(true){
+        events.detectCarInter();
+    }
+});

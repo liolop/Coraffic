@@ -19,6 +19,23 @@ declare namespace loops {
     function pause(ms: number): void;
 
 }
+declare namespace events {
+    /**
+     * @param loc
+     * @param body
+     */
+    //% block="On a car meets intersection %loc" blockId=on_car_inter
+    //% shim=events::onCarInter
+    function onCarInter(loc: number, body: () => void): void;
+
+    /**
+     * Detect car at inter
+     */
+    //%
+    //% shim=events::detectCarInter
+    function detectCarInter(): void;
+
+}
 declare namespace intersections {
     /**
      * @param dir

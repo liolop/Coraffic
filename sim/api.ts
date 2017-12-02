@@ -38,6 +38,28 @@ function logMsg(m:string) { console.log(m) }
 //     }
 // }
 
+namespace pxsim.events{
+    /**
+     * @param loc
+     * @param body
+     */
+    //% block="On a car meets intersection %loc" blockId=on_car_inter
+    export function onCarInter(loc: number, body: RefAction){
+        board().bus.listen("loc",loc,body);
+    }
+
+    /**
+     * Detect car at inter
+     */
+    //%
+    export function detectCarInter(){
+        for(var i = 0; i<board().intersections_arr.length;i++){        
+            var loc: number = board().checkInterLoc(i);
+            board().bus.queue("loc",loc);
+        }
+    }
+}
+
 namespace pxsim.intersections{
 
     /**
