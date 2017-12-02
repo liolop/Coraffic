@@ -1,11 +1,10 @@
-
 # Coraffic - Cornell MPS Program Team
 
-##Traffic Simulator for Microsoft Makecode Editor
+## Traffic Simulator for Microsoft Makecode Editor
 This program allows you to interact with traffic simulation using PXT ([Microsoft Programming Experience Toolkit](https://github.com/Microsoft/pxt))
 
-##Running Locally
-###Set up
+## Running Locally
+### Set up
 - Install [node.js](https://nodejs.org/en/)
 - Install PXT command line
 
@@ -14,15 +13,15 @@ This program allows you to interact with traffic simulation using PXT ([Microsof
 
   `npm install`
 
-###Running the local server
+### Running the local server
 
 - After you're done, simple run this command to open a local web server:
   
  `pxt serve`
 
-###Updating the tools
+### Updating the tools
 
  `pxt update`
 
-##More
+## More
 More instructions at [https://github.com/Microsoft/pxt#running-a-target-from-localhost](https://github.com/Microsoft/pxt#running-a-target-from-localhost) 
