@@ -414,7 +414,7 @@ namespace jsLib{
         var dist: number = c2.x - c1.x;
         var disty: number = c2.y - c1.y;
         if(dist>0 && dist<=(c1.l+15)){
-          if(c2.w > 15 && c1.w > 15 && Math.abs(c1.y - c2.y)>=0 && Math.abs(c1.y - c2.y)<2){ //only check for collison on cars on the same axis
+          if(c2.w > 15 && c1.w > 15 && Math.abs(c1.y - c2.y)>=0 && Math.abs(c1.y - c2.y)<=1){ //only check for collison on cars on the same axis
             return true;
           }
           else{return false;}
@@ -425,7 +425,7 @@ namespace jsLib{
         var dist: number = c1.x - c2.x;
         var disty: number = c1.y - c2.y;
         if(dist>0 && dist<=(c1.l+15)){
-          if(c2.w > 15 && c1.w > 15 && Math.abs(c1.y - c2.y)>=0 && Math.abs(c1.y - c2.y)<2){ //only check for collison on cars on the same axis
+          if(c2.w > 15 && c1.w > 15 && Math.abs(c1.y - c2.y)>=0 && Math.abs(c1.y - c2.y)<=1){ //only check for collison on cars on the same axis
             return true;
           }
           else{return false;}          
@@ -436,7 +436,7 @@ namespace jsLib{
         var dist: number = c1.x - c2.x;
         var disty: number = c1.y - c2.y;
         if(disty>0 && disty<=(c1.l+15)){
-          if(c2.w < 25 && c1.w < 25 && Math.abs(c1.x - c2.x)>=0 && Math.abs(c1.x - c2.x)<2){ //only check for collison on cars on the same axis
+          if(c2.w < 25 && c1.w < 25 && Math.abs(c1.x - c2.x)>=0 && Math.abs(c1.x - c2.x)<=1){ //only check for collison on cars on the same axis
             return true;
           }
           else{return false;}          
@@ -447,7 +447,7 @@ namespace jsLib{
         var dist: number= c2.x - c1.x;
         var disty: number = c2.y - c1.y;
         if(disty>0 && disty<=(c1.l+15)){
-          if(c2.w < 25 && c1.w < 25 && Math.abs(c1.x - c2.x)>=0 && Math.abs(c1.x - c2.x)<2){ //only check for collison on cars on the same axis
+          if(c2.w < 25 && c1.w < 25 && Math.abs(c1.x - c2.x)>=0 && Math.abs(c1.x - c2.x)<=1){ //only check for collison on cars on the same axis
             return true;
           }
           else{return false;}          
@@ -561,8 +561,8 @@ namespace jsLib{
             }  
             else{
               if(inter.roadleft){
-                c.y = inter.y+1;
-                c.x = inter.x
+                c.y = inter.y;
+                c.x = inter.x;
                 c.d = "w";
               }
             }
@@ -620,41 +620,49 @@ namespace jsLib{
               c.x = this.w+25;
               c.y = this.roads[2].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.1 && pos_rand < 0.2){
               c.x = this.roads[1].x+37;
               c.y = this.h+15;
               c.d = "n";
+              return;
             }
             else if(pos_rand > 0.2 && pos_rand < 0.3){
               c.x = this.roads[0].x+37;
               c.y = this.h+15;
               c.d = "n";
+              return;
             }
             else if(pos_rand > 0.3 && pos_rand < 0.4){
               c.x = this.roads[1].x+15;
               c.y = -15;
               c.d = "s";
+              return;
             }
             else if(pos_rand > 0.4 && pos_rand < 0.5){
               c.x = this.roads[0].x+15;
               c.y = -15;
               c.d = "s";
+              return;
             }
             else if(pos_rand > 0.5 && pos_rand < 0.6){
               c.x = this.w+25;
               c.y = this.roads[3].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.6 && pos_rand < 0.7){
               c.x = this.w+25;
               c.y = this.roads[4].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.7 && pos_rand < 0.8){
               c.x = this.w+25;
               c.y = this.roads[5].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.8 && pos_rand < 0.9){
               c.x = -15;
@@ -718,6 +726,7 @@ namespace jsLib{
               c.x = this.w+25;
               c.y = this.roads[2].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.1 && pos_rand < 0.2){
               c.x = this.roads[1].x+37;
@@ -733,41 +742,49 @@ namespace jsLib{
               c.x = this.roads[1].x+15;
               c.y = -15;
               c.d = "s";
+              return;
             }
             else if(pos_rand > 0.4 && pos_rand < 0.5){
               c.x = this.roads[0].x+15;
               c.y = -15;
               c.d = "s";
+              return;
             }
             else if(pos_rand > 0.5 && pos_rand < 0.6){
               c.x = this.w+25;
               c.y = this.roads[3].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.6 && pos_rand < 0.7){
               c.x = this.w+25;
               c.y = this.roads[4].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.7 && pos_rand < 0.8){
               c.x = this.w+25;
               c.y = this.roads[5].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.8 && pos_rand < 0.9){
               c.x = -15;
               c.y = this.roads[3].y+23;
               c.d = "e";
+              return;
             }
             else if(pos_rand > 0.9 && pos_rand < 1){
               c.x = -15;
               c.y = this.roads[2].y+23;
               c.d = "e";
+              return;
             }
             else{
               c.x = -15;
               c.y = this.roads[5].y+23;
               c.d = "e";
+              return;
             }
           }
           c.y -= c.s;
@@ -817,16 +834,19 @@ namespace jsLib{
               c.x = this.w+25;
               c.y = this.roads[2].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.1 && pos_rand < 0.2){
               c.x = this.roads[1].x+37;
               c.y = this.h+15;
               c.d = "n";
+              return;
             }
             else if(pos_rand > 0.2 && pos_rand < 0.3){
               c.x = this.roads[0].x+37;
               c.y = this.h+15;
               c.d = "n";
+              return;
             }
             else if(pos_rand > 0.3 && pos_rand < 0.4){
               c.x = this.roads[1].x+15;
@@ -842,31 +862,37 @@ namespace jsLib{
               c.x = this.w+25;
               c.y = this.roads[3].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.6 && pos_rand < 0.7){
               c.x = this.w+25;
               c.y = this.roads[4].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.7 && pos_rand < 0.8){
               c.x = this.w+25;
               c.y = this.roads[5].y+3;
               c.d = "w";
+              return;
             }
             else if(pos_rand > 0.8 && pos_rand < 0.9){
               c.x = -15;
               c.y = this.roads[3].y+23;
               c.d = "e";
+              return;
             }
             else if(pos_rand > 0.9 && pos_rand < 1){
               c.x = -15;
               c.y = this.roads[2].y+23;
               c.d = "e";
+              return;
             }
             else{
               c.x = -15;
               c.y = this.roads[5].y+23;
               c.d = "e";
+              return;
             }
           }
           c.y += c.s;
@@ -931,22 +957,26 @@ namespace jsLib{
             else if(pos_rand > 0.1 && pos_rand < 0.2){
               c.x = this.roads[1].x+37;
               c.y = this.h+15;
+              return;
               c.d = "n";
             }
             else if(pos_rand > 0.2 && pos_rand < 0.3){
               c.x = this.roads[0].x+37;
               c.y = this.h+15;
               c.d = "n";
+              return;
             }
             else if(pos_rand > 0.3 && pos_rand < 0.4){
               c.x = this.roads[1].x+15;
               c.y = -15;
               c.d = "s";
+              return;
             }
             else if(pos_rand > 0.4 && pos_rand < 0.5){
               c.x = this.roads[0].x+15;
               c.y = -15;
               c.d = "s";
+              return;
             }
             else if(pos_rand > 0.5 && pos_rand < 0.6){
               c.x = this.w+25;
@@ -967,16 +997,19 @@ namespace jsLib{
               c.x = -15;
               c.y = this.roads[3].y+23;
               c.d = "e";
+              return;
             }
             else if(pos_rand > 0.9 && pos_rand < 1){
               c.x = -15;
               c.y = this.roads[2].y+23;
               c.d = "e";
+              return;
             }
             else{
               c.x = -15;
               c.y = this.roads[5].y+23;
               c.d = "e";
+              return;
             }
           }
           else if(c.x - 40 <= this.roads[4].x && c.y == this.roads[4].y+3){
@@ -1560,7 +1593,7 @@ namespace jsLib{
       var interName = <string><any>index;
       this.ctx.fillStyle = "white"
       this.ctx.font = "15px serif"
-      this.ctx.fillText(interName, this.x+this.width/9, this.y+this.height/3);    
+      this.ctx.fillText(interName, this.x+this.width*2/3, this.y+this.height/3);    
       if(this.top == "rgba(0,255,0,0.4)"){
         this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = '#000000';
