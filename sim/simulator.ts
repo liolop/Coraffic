@@ -1021,7 +1021,7 @@ namespace jsLib{
               c.x += c.s;
               return;
             }else{
-              c.x = this.roads[0].x+39;
+              c.x = this.roads[0].x+37;
               c.d = "n";
               return;
             }
