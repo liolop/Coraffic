@@ -1013,10 +1013,18 @@ namespace jsLib{
             }
           }
           else if(c.x - 40 <= this.roads[4].x && (c.y == this.roads[4].y+3 || c.y == this.roads[4].y)){
-            c.x = this.roads[4].x + 40;
-            c.y = this.roads[4].y + 23;
-            c.d = "e";
-            c.x += c.s;
+            var rand = Math.random();
+            if(rand >= 0.5){
+              c.x = this.roads[4].x + 40;
+              c.y = this.roads[4].y + 23;
+              c.d = "e";
+              c.x += c.s;
+              return;
+            }else{
+              c.x = this.roads[0].x+39;
+              c.d = "n";
+              return;
+            }
           }
           c.x -= c.s;
         }
