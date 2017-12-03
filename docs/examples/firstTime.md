@@ -1,8 +1,4 @@
-# Random
-
-This is an example.
-
-This is the code to be loaded:
+# FirstTime
 
 ```blocks
 events.onCarInter(0, function () {

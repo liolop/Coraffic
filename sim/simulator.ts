@@ -97,10 +97,6 @@ namespace pxsim {
     }
 
     getCarsWait(dir: TLDir, loc: number): number{
-      // this.cars.forEach(element => {
-      //   console.log(element.x + " " + element.y);
-      // });
-
       if(dir == 0){
         var fitered_cars: any[] = [];
         for (var i = 0; i < this.cars.length; i++) {
@@ -192,8 +188,7 @@ namespace pxsim {
     getDuration(loc: number): number{
       var endTime = new Date().getTime();
       var diff = (endTime - this.intersections_arr[loc].startTime)/1000;
-      console.log("diff: "+diff);
-      return diff;
+      return Math.round(diff);
     }
 
     checkInterLoc(loc: number): number{
@@ -368,10 +363,8 @@ namespace jsLib{
         else if(color_rand > 0.8 && color_rand < 1){
           var color = "#222";
         }
-        // console.log(color);
         car.color = color;
         this.cars.push(car);	
-        //console.log("car.d: "+car.d);
       }
 
       this.intersections();
@@ -387,8 +380,6 @@ namespace jsLib{
           movingCars++;
         }
       };
-      // console.log(this.slow);
-      //console.log( String(stoppedCars/this.cars.length));
       this.ratio.textContent = String(parseFloat(String((1-stoppedCars/this.cars.length)*100)).toFixed(0) + "%");
     }
 
@@ -401,7 +392,6 @@ namespace jsLib{
       for(var i=0;i<this.roads.length;i++){
         this.roads[i].drawRoad(i);
       }
-      //console.log("inter.length: "+this.intersections_arr.length)
       for(var i=0;i<this.intersections_arr.length;i++){
         this.intersections_arr[i].drawInter(i);
       }
@@ -460,21 +450,17 @@ namespace jsLib{
     }
   
     toSlow(): any{
-      console.log("slow");
       for(var l=0;l<this.cars.length;l++){
         this.cars[l].s = 2;
       }
       this.globalSpeed = 2;
-      console.log(this.cars[0].s);
     }
 
     toFast(): any{
-      console.log("fast");
       for(var l=0;l<this.cars.length;l++){
         this.cars[l].s = 5;
       }
       this.globalSpeed = 5;
-      console.log(this.cars[0].s);
     }
     
     check_inter(c: any, inter: any, axis: string): boolean{
@@ -574,7 +560,6 @@ namespace jsLib{
     drive_cars(): void{
       for(var i=0;i<this.cars.length;i++){
         var c = this.cars[i];
-        // console.log("drive car.s: "+c.s);    
         c.s = this.globalSpeed;
         if(c.d == "e"){
           for(var l=0;l<this.cars.length;l++){
@@ -928,7 +913,6 @@ namespace jsLib{
                     //red
                     c.s = 0;
                     this.intersections_arr[k].countEWCars++;
-                    //console.log("driveCar Count:"+this.intersections_arr[k].countEWCars);                    
                   }
                   //green go
                   else{
@@ -1033,7 +1017,6 @@ namespace jsLib{
     }
     
     intersections(): void{
-      console.log("roads.length: "+this.roads.length);
       for(var i=0;i<this.roads.length;i++){
         var r1 = this.roads[i];
         for(var j=0;j<this.roads.length;j++){
@@ -1042,7 +1025,6 @@ namespace jsLib{
             if(r2.width < r2.height){
               if((r1.x + r1.width) > r2.x && r1.x <= r2.x){
                 if((r2.y + r2.height) >= r1.y && r2.y <= r1.y){
-                  console.log("intersection found at ("+r1.y+","+r2.x+")");
                   var roadtop = true;
                   var roadbottom = true;
                   var roadleft = true;
@@ -1399,7 +1381,6 @@ namespace jsLib{
 
       }
       
-      //console.log(shadow_color);
       this.ctx.fillStyle = shadow_color;
       this.ctx.shadowColor = shadow_color
       this.ctx.shadowOffsetX = -2;
@@ -1477,7 +1458,6 @@ namespace jsLib{
         var shadow_color = 'rgba(255,0,0,1)';
       }
       
-      //console.log();
       this.ctx.fillStyle = shadow_color;
       this.ctx.shadowColor = shadow_color
       this.ctx.shadowOffsetY = -2;
@@ -1546,7 +1526,6 @@ namespace jsLib{
     }
 
     public drawInter(index: number): any{
-      //console.log("["+index+"]: "+this.NS);
       this.ctx.fillStyle = "#605A4C";
       this.ctx.fillRect(this.x,this.y,this.width,this.height);
       //North-South, red - Left+Right, green - Top+Bot

@@ -60,6 +60,10 @@
         },
         "simAnimationEnter": "fly right in",
         "simAnimationExit": "fly right out",
-        "disableBlockIcons": true
+        "disableBlockIcons": true,
+        "galleries": {
+            "Projects": "projects",
+            "Examples": "examples"
+        }
     }
 }
