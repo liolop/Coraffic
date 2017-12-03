@@ -26,6 +26,11 @@
     "appTheme": {
         "logoUrl": "https://github.com/Microsoft/pxt-sample",
         "logo": "./static/MPS_LOGO_Large.png",
+        "docsLogo": "./static/MPS_LOGO_Large.png",
+        "portraitLogo": "./static/MPS_LOGO_Large.png",
+        "appLogo": "./static/MPS_LOGO_Large.png",
+        "cardLogo": "./static/MPS_LOGO_Large.png",
+        "footerLogo": "./static/MPS_LOGO_Large.png",
         "homeUrl": "http://microsoft.github.io/pxt-sample/",
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
         "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
