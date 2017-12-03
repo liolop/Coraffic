@@ -19,58 +19,77 @@ declare namespace loops {
     function pause(ms: number): void;
 
 }
-declare namespace traffics {
+declare namespace events {
+    /**
+     * @param loc
+     * @param body
+     */
+    //% block="On a car meets intersection %loc" blockId=on_car_inter
+    //% shim=events::onCarInter
+    function onCarInter(loc: number, body: () => void): void;
+
+    /**
+     * Detect car at inter
+     */
+    //%
+    //% shim=events::detectCarInter
+    function detectCarInter(): void;
+
+}
+declare namespace intersections {
     /**
      * @param dir
      * @param loc
      */
-    //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
-    //% shim=traffics::setTLAtInter
-    function setTLAtInter(dir: TLDir, loc: number): void;
+    //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter
+    //% shim=intersections::setDirAtInter
+    function setDirAtInter(dir: TLDir, loc: number): void;
 
+    /**
+     * @param dir
+     * @param loc
+     */
+    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
+    //% shim=intersections::stopDirAtInter
+    function stopDirAtInter(dir: StopDir, loc: number): void;
+
+}
+declare namespace status {
     /** 
      * @param loc
      * @param dir
      */
-    //% block="Cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
-    //% shim=traffics::getCarsWait
+    //% block="Cars waiting for %dir|at intersection %loc" blockId=get_cars_waiting weight=50
+    //% shim=status::getCarsWait
     function getCarsWait(dir: TLDir, loc: number): number;
 
-    /** 
-     * @param loc
-     * @param dir
-     */
-    //% block="Current going %dir|duration at intersection %loc" blockId=get_going_duration
-    //% shim=traffics::getGoingDuration
-    function getGoingDuration(dir: TLDir, loc: number): number;
-
-    /** 
-     * @param seconds
-     */
-    //% block="%seconds|(seconds)" blockId=input_seconds
-    //% shim=traffics::inputSeconds
-    function inputSeconds(seconds: number): number;
-
-    /** 
-     * @param carNum
-     */
-    //% block="%carNum|(cars)" blockId=input_carNum
-    //% shim=traffics::inputCarNum
-    function inputCarNum(carNum: number): number;
-
-    /** 
-     * @param dir
-     */
-    //% block="Allow %dir" blockId=set_dir
-    //% shim=traffics::setDir
-    function setDir(dir: TLDir): void;
-
-    /** 
+    /**
      * @param loc
      */
-    //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
-    //% shim=traffics::getDirDuration
-    function getDirDuration(loc: number): number;
+    //% block="Direction at intersection %loc" blockId=get_dir weight=40
+    //% shim=status::getDirection
+    function getDirection(loc: number): number;
+
+    /**
+     * @param loc
+     */
+    //% block="Duration at intersection %loc" blockId=get_duration weight=30
+    //% shim=status::getDuration
+    function getDuration(loc: number): number;
+
+    /**
+     * @param loc
+     */
+    //% block="%loc" blockId=param_loc weight=20
+    //% shim=status::locParam
+    function locParam(loc: TLDir): number;
+
+    /**
+     * Random Intersection Index
+     */
+    //% block="Random Index" blockId=param_random_index weight=15
+    //% shim=status::randIndex
+    function randIndex(): number;
 
 }
 

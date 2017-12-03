@@ -38,67 +38,93 @@ function logMsg(m:string) { console.log(m) }
 //     }
 // }
 
-namespace pxsim.traffics{
+namespace pxsim.events{
+    /**
+     * @param loc
+     * @param body
+     */
+    //% block="On a car meets intersection %loc" blockId=on_car_inter
+    export function onCarInter(loc: number, body: RefAction){
+        board().bus.listen("loc",loc,body);
+    }
+
+    /**
+     * Detect car at inter
+     */
+    //%
+    export function detectCarInter(){
+        for(var i = 0; i<board().intersections_arr.length;i++){        
+            var loc: number = board().checkInterLoc(i);
+            board().bus.queue("loc",loc);
+        }
+    }
+}
+
+namespace pxsim.intersections{
 
     /**
      * @param dir
      * @param loc
      */
-    //% block="Allow going %dir|at intersection %loc" blockId=set_light_at_inter
-    export function setTLAtInter(dir: TLDir, loc: number){
-
+    //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter
+    export function setDirAtInter(dir: TLDir, loc: number){
+        board().setDirAtInter(dir, loc);
     }
 
+    /**
+     * @param dir
+     * @param loc
+     */
+    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
+    export function stopDirAtInter(dir: StopDir, loc: number){
+        return board().StopDirAtInter(dir, loc);
+    }
+}
+
+namespace pxsim.status{
     /** 
      * @param loc
      * @param dir
     */
-    //% block="Cars going %dir|waiting at intersection %loc" blockId=get_cars_waiting
+    //% block="Cars waiting for %dir|at intersection %loc" blockId=get_cars_waiting weight=50
     export function getCarsWait(dir: TLDir,loc: number): number{
-        return 0;
+        return board().getCarsWait(dir, loc);
     }
 
-    /** 
+    /**
      * @param loc
-     * @param dir
-    */
-    //% block="Current going %dir|duration at intersection %loc" blockId=get_going_duration
-    export function getGoingDuration(dir: TLDir, loc: number): number{
-        return 0;
+     */
+    //% block="Direction at intersection %loc" blockId=get_dir weight=40
+    export function getDirection(loc: number): number{
+        return board().getDirection(loc);
     }
 
-    /** 
-     * @param seconds
-    */
-    //% block="%seconds|(seconds)" blockId=input_seconds
-    export function inputSeconds(seconds: number):number{
-        return seconds;
-    }
-
-    /** 
-     * @param carNum
-    */
-    //% block="%carNum|(cars)" blockId=input_carNum
-    export function inputCarNum(carNum: number):number{
-        return carNum;
-    }
-
-    /** 
-     * @param dir
-    */
-    //% block="Allow %dir" blockId=set_dir
-    export function setDir(dir: TLDir){
-
-    }
-
-    /** 
+    /**
      * @param loc
-    */
-    //% block="Current direction duration at intersection %loc" blockId=get_dir_duration
-    export function getDirDuration(loc: number): number{
-        return 0;
+     */
+    //% block="Duration at intersection %loc" blockId=get_duration weight=30
+    export function getDuration(loc: number): number{
+        return board().getDuration(loc);
     }
 
+    /**
+     * @param loc
+     */
+    //% block="%loc" blockId=param_loc weight=20
+    export function locParam(loc: TLDir): number{
+        if(loc == 0){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
 
-
+    /**
+     * Random Intersection Index
+     */
+    //% block="Random Index" blockId=param_random_index weight=15
+    export function randIndex():number{
+        return (Math.floor(Math.random() * (7 - 0 + 1)) + 0);
+    }
 }
