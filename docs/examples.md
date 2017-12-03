@@ -4,9 +4,9 @@
 
 ```codecard
 [{
-  "name": "Random",
-  "description": "A random strategy",
-  "url":"/examples/random",
+  "name": "First Time Play",
+  "description": "A first time play strategy",
+  "url":"/examples/firstTime",
   "cardType": "example"
 }]
 ```
