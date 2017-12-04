@@ -1,7 +1,7 @@
 {
     "id": "Beat The Traffic",
     "name": "Coraffic",
-    "title": "MakeCode Editor MPS-Project",
+    "title": "MakeCode Editor MPS-Project Coraffic Team",
     "corepkg": "core", 
     "cloud": { 
         "workspace": false,
@@ -33,6 +33,10 @@
         "cardLogo": "./static/MPS_LOGO_Large.png",
         "appLogo": "./static/MPS_LOGO_Large.png",
         "boardName": "Beat the Traffic",
+        "organization": "Microsoft MakeCode",
+        "organizationUrl": "https://makecode.com/",
+        "organizationLogo": "./static/Microsoft-logo_rgb_c-gray-square.png",
+        "organizationWideLogo": "./static/Microsoft-logo_rgb_c-white.png",
         "driveDisplayName": "Beat the Traffic",      
         "homeUrl": "http://microsoft.github.io/pxt-sample/",
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",

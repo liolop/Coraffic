@@ -1,17 +1,18 @@
 {
-  "name": "coraffic",
+  "name": "Coraffic",
   "version": "1.0.0",
   "description": "MPS project target for PXT",
   "keywords": [
     "JavaScript",
     "education",
-    "PXT"
+    "PXT",
+    "Taffic Simulator"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/liolop/MPS-Project-Q2"
   },
-  "author": "Yuanmeng Li, Xiaoxi Zhang, Shanshan Du",
+  "author": "Yuanmeng Li, Xiaoxi Zhang",
   "license": "MIT",
   "homepage": "https://github.com/liolop/MPS-Project-Q2",
   "files": [

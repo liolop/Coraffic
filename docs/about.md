@@ -1,5 +1,5 @@
 # About Sample Target
 
-Example of editor target for [Microsoft MakeCode](https://makecode.com/).
+Coraffic Traffic Simulator of editor target for [Microsoft MakeCode](https://makecode.com/).
 
-See [GitHub repo](https://github.com/Microsoft/pxt-sample) for details.
+See [GitHub repo](https://github.com/liolop/MPS-Project-Q2) for details.
