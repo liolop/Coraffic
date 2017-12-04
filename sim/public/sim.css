@@ -30,8 +30,8 @@ canvas{
     padding: 5px;
     left: 116px;
     z-index: 5;
-    font-family: Arial;
-    font-size: 12px;
+    font-family: monospace!important;
+    font-size: 10px;
     color: #333;
     border-radius: 0 0 5px 0;
     border-right: 2px solid #fff;
@@ -50,7 +50,7 @@ canvas{
     padding: 5px;
     left: 116px;
     z-index: 5;
-    font-family: Arial;
+    font-family: monospace!important;
     font-size: 12px;
     color: #333;
     border-radius: 0 0 5px 0;
@@ -62,7 +62,7 @@ canvas{
   
 
 .box a{
-    font-family: Arial;
+    font-family: monospace!important;
     font-size: 13px;
     text-decoration: none;
     color: #4F99F7;

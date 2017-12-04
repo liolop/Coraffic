@@ -24,13 +24,16 @@
         "aspectRatio": 0.5
     },
     "appTheme": {
-        "logoUrl": "https://github.com/Microsoft/pxt-sample",
-        "logo": "./static/MPS_LOGO_Large.png",
+        "logoUrl": "https://github.com/liolop/MPS-Project-Q2",
+        "logo": "./static/roadLogo.png",
         "docsLogo": "./static/MPS_LOGO_Large.png",
         "portraitLogo": "./static/MPS_LOGO_Large.png",
         "footerLogo": "./static/MPS_LOGO_Large.png",
+        "rightLogo": "./static/MPS_LOGO_Large.png",
         "cardLogo": "./static/MPS_LOGO_Large.png",
-        "appLogo": "./static/MPS_LOGO_Large.png",        
+        "appLogo": "./static/MPS_LOGO_Large.png",
+        "boardName": "Beat the Traffic",
+        "driveDisplayName": "Beat the Traffic",      
         "homeUrl": "http://microsoft.github.io/pxt-sample/",
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
         "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
@@ -61,8 +64,8 @@
         "simAnimationEnter": "fly right in",
         "simAnimationExit": "fly right out",
         "disableBlockIcons": true,
+        "downloadIcon": "Download",
         "galleries": {
-            "Projects": "projects",
             "Examples": "examples"
         }
     }
