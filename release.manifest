@@ -1,0 +1,64 @@
+CACHE MANIFEST
+
+CACHE:
+/Coraffic/semantic.js
+/Coraffic/main.js
+/Coraffic/typescript.js
+/Coraffic/marked/marked.min.js
+/Coraffic/highlight.js/highlight.pack.js
+/Coraffic/lzma/lzma_worker-min.js
+/Coraffic/fuse.min.js
+/Coraffic/jquery.js
+/Coraffic/pxtlib.js
+/Coraffic/pxtcompiler.js
+/Coraffic/pxtblocks.js
+/Coraffic/pxtwinrt.js
+/Coraffic/pxteditor.js
+/Coraffic/pxtsim.js
+/Coraffic/blockly.css
+/Coraffic/semantic.css
+/Coraffic/rtlsemantic.css
+/Coraffic/custom.css
+/Coraffic/icons.css
+
+
+
+
+# blockly
+/Coraffic/blockly/blockly_compressed.js
+/Coraffic/blockly/blocks_compressed.js
+/Coraffic/blockly/msg/js/en.js
+/Coraffic/blockly/media/sprites.png
+/Coraffic/blockly/media/click.mp3
+/Coraffic/blockly/media/disconnect.wav
+/Coraffic/blockly/media/delete.mp3
+
+# monaco; keep in sync with webapp/public/index.html
+/Coraffic/vs/loader.js
+/Coraffic/vs/base/worker/workerMain.js
+/Coraffic/vs/basic-languages/src/bat.js
+/Coraffic/vs/basic-languages/src/cpp.js
+/Coraffic/vs/editor/editor.main.css
+/Coraffic/vs/editor/editor.main.js
+/Coraffic/vs/editor/editor.main.nls.js
+/Coraffic/vs/language/json/jsonMode.js
+/Coraffic/vs/language/json/jsonWorker.js
+/Coraffic/vs/language/typescript/lib/typescriptServices.js
+/Coraffic/vs/language/typescript/src/mode.js
+/Coraffic/vs/language/typescript/src/worker.js
+
+# charts
+/Coraffic/smoothie/smoothie_compressed.js
+
+# ai
+https://az416426.vo.msecnd.net/scripts/a/ai.0.js
+
+/Coraffic/worker.js
+/Coraffic/monacoworker.js
+
+# ver Mon Dec 04 2017 22:34:28 GMT-0500 (EST)
+
+/Coraffic/target.js
+  
+NETWORK:
+*
