@@ -76,7 +76,7 @@ var pxsim;
          * @param dir
          * @param loc
          */
-        //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter
+        //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter weight=20
         function setDirAtInter(dir, loc) {
             pxsim.board().setDirAtInter(dir, loc);
         }
@@ -85,7 +85,7 @@ var pxsim;
          * @param dir
          * @param loc
          */
-        //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
+        //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter weight=10
         function stopDirAtInter(dir, loc) {
             return pxsim.board().StopDirAtInter(dir, loc);
         }
