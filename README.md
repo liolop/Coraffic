@@ -3,6 +3,8 @@
 ## Traffic Simulator for Microsoft Makecode Editor
 This program allows you to interact with traffic simulation using PXT ([Microsoft Programming Experience Toolkit](https://github.com/Microsoft/pxt))
 
+### Try it alive: [https://liolop.github.io/Coraffic](https://liolop.github.io/Coraffic)
+
 ## Running Locally
 ### Set up
 - Install [node.js](https://nodejs.org/en/)
