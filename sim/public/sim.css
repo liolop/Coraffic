@@ -71,7 +71,6 @@ canvas{
 input[type="range"]{
     -webkit-appearance:none !important;
     -moz-appearance:none !important;
-    appearance:none !important;
     width: 30px;
     height: 10px;
     border-radius: 2px;
@@ -81,7 +80,6 @@ input[type="range"]{
 input[type="range"]::-webkit-slider-thumb{
     -webkit-appearance:none !important;
     -moz-appearance:none !important;
-    appearance:none !important;
     width: 5px;
     height: 25px;
     background: #00A1F3;
