@@ -41,7 +41,7 @@ declare namespace intersections {
      * @param dir
      * @param loc
      */
-    //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter
+    //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter weight=20
     //% shim=intersections::setDirAtInter
     function setDirAtInter(dir: TLDir, loc: number): void;
 
@@ -49,7 +49,7 @@ declare namespace intersections {
      * @param dir
      * @param loc
      */
-    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
+    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter weight=10
     //% shim=intersections::stopDirAtInter
     function stopDirAtInter(dir: StopDir, loc: number): void;
 

@@ -66,7 +66,7 @@ namespace pxsim.intersections{
      * @param dir
      * @param loc
      */
-    //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter
+    //% block="Allow %dir|at intersection %loc" blockId=set_dir_at_inter weight=20
     export function setDirAtInter(dir: TLDir, loc: number){
         board().setDirAtInter(dir, loc);
     }
@@ -75,7 +75,7 @@ namespace pxsim.intersections{
      * @param dir
      * @param loc
      */
-    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter
+    //% block="Stop %dir|at intersection %loc" blockId=stop_dir_at_inter weight=10
     export function stopDirAtInter(dir: StopDir, loc: number){
         return board().StopDirAtInter(dir, loc);
     }
