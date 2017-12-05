@@ -26,9 +26,9 @@
     "appTheme": {
         "logoUrl": "https://github.com/liolop/MPS-Project-Q2",
         "logo": "./static/roadLogo.png",
-        "docsLogo": "./static/loader.png",
-        "portraitLogo": "./static/loader.png",
-        "footerLogo": "./static/loader.png",
+        "docsLogo": "./static/yellow-logo-ref.png",
+        "portraitLogo": "./static/yellow-logo-ref.png",
+        "footerLogo": "./static/yellow-logo-ref.png",
         "organization": "Microsoft MakeCode",
         "organizationUrl": "https://makecode.com/",
         "organizationLogo": "./static/Microsoft-logo_rgb_c-gray-square.png",
