@@ -5,9 +5,11 @@ This program allows you to interact with traffic simulation using PXT ([Microsof
 - Try it alive: [https://liolop.github.io/Coraffic](https://liolop.github.io/Coraffic)
 
 ## Preview of the Editor
+
 ![](screenshots/editorPreview.png)
 
 ## Editor Example
+
 - Preview of the Example
 ![](screenshots/screenshot.png)
 
